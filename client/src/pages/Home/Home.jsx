@@ -5,7 +5,8 @@ export default function Home(){
     
     return(
         <div>
-            <h1>{data.currentUser}</h1>
+            Name : <h4>{data.currentUser.userName}</h4>
+            Email : <h4>{data.currentUser.email}</h4>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Components from '../Authentication/Component.jsx';
 import axios from "../../api/axiosConfig.js"
-import { loginSuccess } from "../../redux/userSlice.js"
+import { loginSuccess, setLoggedIn, setPremium, setMentor } from "../../redux/userSlice.js"
 
 
 import videoBG from "../../images/incease_stock_2.mov"
@@ -32,12 +32,17 @@ export default function Login_mainPage() {
         event.preventDefault()
         try {
             const res = await axios.post('/user/login', userLoginData);
-            if (res.status == 200) {
+            if (res.status === 200) {
                 console.log(res.status)
-                dispatch(loginSuccess(res.data.user.userName));
+                dispatch(loginSuccess(res.data.user));
+                dispatch(setLoggedIn(true));
+                if(res.data.user.isPremium)
+                    dispatch(setPremium(true));
+                if(res.data.user.isMentor)  
+                    dispatch(setMentor(true));
                 navigate("/")   
             }
-            else if (res.status == 401) {
+            else if (res.status === 401) {
                 console.log("Invalid!!!!!!!!!!!!!!!1")
                 alert("Invalid Credentials!!")
             }
@@ -49,7 +54,7 @@ export default function Login_mainPage() {
     }
 
     return (
-        <div>
+        <div style={{backgroundColor : "black"}}>
             <div className={styles.vid}>
                 <video className={styles.login_video} src={videoBG} autoPlay loop muted />
             </div>

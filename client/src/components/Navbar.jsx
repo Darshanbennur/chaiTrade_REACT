@@ -11,9 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';  
-import{ useState } from "react"
+import AdbIcon from '@mui/icons-material/Adb';
+import { useState } from "react"
 import logo from '../images/logo.png'
+import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 const userNotLoggedIn = ['Charts', 'News', 'Featured🔐', 'Simulator🔐'];
 const userLoggedIn = ['Charts', 'News', 'Blogs', 'Featured🔐', 'Transactions', 'Simulator'];
@@ -23,16 +25,19 @@ const userMentorAccess = ['Charts', 'News', 'Blogs', 'Featured', 'MentorPanel', 
 const settingsNotLoggedIn = ["Authenticate"]
 const settingsLoggedIn = ['Profile', 'Logout'];
 
+//Routes for every set : 
+const routeUserNotLoggedIn = ['/charts', '/news', '/login', '/login'];
+const routeUserLoggedIn = ['/charts', '/news', '/blogs', '/pricing', '/transactions', '/simulator'];
+const routeUserPremiumEnabled = ['/charts', '/news', '/blogs', '/featured', '/transactions', '/simulator'];
+const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/mentorPanel', '/myMentorBlogs', '/transactions', '/simulator'];
+
+// const route
+const routeSettingNotLoggedIn = ['/login'];
+const routeSettingLoggedIn = ['profile', '/logout']
+
 export default function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-    const [activePage, setActivePage] = useState('');
-
-    const handlePageClick = (page) => {
-        setActivePage(page);
-        handleCloseNavMenu();
-    };
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -49,8 +54,50 @@ export default function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
+    //Page dynamic Code : 
+
+    const [activePage, setActivePage] = useState('');
+    const storedData = useSelector((state) => state.userData)
+
+    let mainNavbar = [];
+    let mainSideFunctionBar = [];
+
+    //routing arrays : 
+    let mainRoutes = [];
+    let SettingRoute = []
+
+    if (storedData.isUserloggedIn === true) {
+        mainNavbar = userLoggedIn
+        mainSideFunctionBar = settingsLoggedIn
+        //route
+        mainRoutes = routeUserLoggedIn
+        SettingRoute = routeSettingLoggedIn
+
+        //Further conditions to be checked : 
+        if (storedData.isMentor === true) {
+            mainNavbar = userMentorAccess
+            mainRoutes = routeUserMentorAccess
+        }
+        if (storedData.isPremium === true) {
+            mainNavbar = userPremiumEnabled
+            mainRoutes = routeUserPremiumEnabled
+        }
+    }
+    else {
+        mainNavbar = userNotLoggedIn
+        mainSideFunctionBar = settingsNotLoggedIn
+
+        mainRoutes = routeUserNotLoggedIn
+        SettingRoute = routeSettingNotLoggedIn
+    }
+
+    const handlePageClick = (page) => {
+        setActivePage(page);
+        handleCloseNavMenu();
+    };
+
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#21222A', margin : "0"}}>  
+        <AppBar position="static" sx={{ backgroundColor: '#21222A', margin: "0" }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -102,9 +149,11 @@ export default function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {userNotLoggedIn.map((page) => (
+                            {mainNavbar.map((page, index) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                    <Link to={mainRoutes[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                        <Typography textAlign="center">{page}</Typography>
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -130,26 +179,29 @@ export default function ResponsiveAppBar() {
                         ChaiTrade
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {userNotLoggedIn.map((page, index) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                // onClick={() => handlePageClick(page)}
-                                onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
-                                onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
-                                sx={{
-                                    my: 2,
-                                    color: activePage === page ? 'your-active-color' : 'white',
-                                    display: 'block',
-                                    marginRight: index < userNotLoggedIn.length - 1 ? 2 : 0
-                                }}
-                            >
-                                {page}
-                            </Button>
+                        {mainNavbar.map((page, index) => (
+                            <Link to={mainRoutes[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    // onClick={() => handlePageClick(page)}
+                                    onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
+                                    onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
+                                    sx={{
+                                        my: 2,
+                                        color: activePage === page ? 'your-active-color' : 'white',
+                                        display: 'block',
+                                        marginRight: index < mainNavbar.length - 1 ? 2 : 0
+                                    }}
+                                >
+                                    {page}
+                                </Button>
+                            </Link>
+
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    {storedData.isUserloggedIn && <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -171,13 +223,37 @@ export default function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settingsNotLoggedIn.map((setting) => (
+                            {mainSideFunctionBar.map((setting, index) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                    <Link to={SettingRoute[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box>
+                    </Box>}
+                    {!storedData.isUserloggedIn && <Box sx={{ flexGrow: 1, ml : '50%' ,display: { xs: 'none', md: 'flex' } }}>
+                        {mainSideFunctionBar.map((page, index) => ( 
+                            <Link to={SettingRoute[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    // onClick={() => handlePageClick(page)}
+                                    onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
+                                    onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
+                                    sx={{
+                                        my: 2,
+                                        color: activePage === page ? 'your-active-color' : 'white',
+                                        display: 'block',
+                                        marginRight: index < mainNavbar.length - 1 ? 2 : 0
+                                    }}
+                                >
+                                    {page}
+                                </Button>
+                            </Link>
+
+                        ))}
+                    </Box>}
                 </Toolbar>
             </Container>
         </AppBar>

@@ -7,8 +7,7 @@ import Navbar from "../src/components/Navbar"
 import Login_mainPage from "./pages/Authentication/Login_mainPage";
 import Home from "./pages/Home/Home"
 import axios from "./api/axiosConfig"
-import { loginSuccess } from "./redux/userSlice"
-
+import { loginSuccess, setLoggedIn, setPremium, setMentor  } from "./redux/userSlice"
 
 //All CSS : 
 import "../src/styles/app.css"
@@ -20,30 +19,40 @@ const Container = styled.div`
 `
 
 function App() {
-
   const dispatch = useDispatch();
+
   const handler = async () => {
-    console.log("hello")
     const user = await axios.get('/user/checkCookie');
-    if(user != "NULL"){
-      console.log(user);
-      dispatch(loginSuccess(user.data.userName));
+    console.log("In the App.js")
+    if (user.data.custom === "true") {
+      dispatch(loginSuccess(user.data.userData));
+      dispatch(setLoggedIn(true));
+      if (user.data.userData.isPremium)
+        dispatch(setPremium(true));
+      if (user.data.userData.isMentor)
+        dispatch(setMentor(true));
+    }
+    else{
+      dispatch(setLoggedIn(false));
+      dispatch(setPremium(false));
+      dispatch(setMentor(false));
     }
   }
+
   useEffect(() => {
     handler();
   }, [])
 
-  return (    
+  return (
     <Container>
-      <Navbar/>
       <BrowserRouter>
+        <Navbar />
         <main>
           <Routes>
-              <Route path="/">
-                <Route index element={<Home/>}></Route>
-                <Route path="/login" element={<Login_mainPage/>}></Route>
-              </Route>
+            <Route path="/">
+              <Route index element={<Home />}></Route>
+              <Route path="/login" element={<Login_mainPage />}></Route>
+            </Route>
           </Routes>
         </main>
 

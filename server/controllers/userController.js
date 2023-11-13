@@ -10,15 +10,26 @@ const getUserDetails = async (req, res) => {
 }
 
 const verifyCookie = async (req, res, next) => {
-    console.log(req.cookies)
     const booleanCookie = req.cookies.isLoggedIn;
+    console.log(booleanCookie)
     if(booleanCookie === "true"){
         const users = await User.findById(req.cookies.userID)
-        return res.json(users)
-            .status(200)
-    } else {
-        return res.json("NULL")
+        return res.json({
+            custom : "true",
+            userData : users
+        }).status(200)
+    } 
+    else {
+        return res.json({
+            custom : "false"
+        })
     }
+}
+
+const logoutUser = async (req, res, next) => {
+    console.log("Entered Logout Function!!")
+    res.clearCookie('userID');
+    res.cookie('isLoggedIn',false);
 }
 
 const userRegister = (req, res, next) => {
@@ -151,4 +162,4 @@ const userLogin = (req, res, next) => {
 
 
 
-module.exports = { getUserDetails, userRegister, userLogin, verifyCookie };
+module.exports = { getUserDetails, userRegister, userLogin, verifyCookie, logoutUser };
