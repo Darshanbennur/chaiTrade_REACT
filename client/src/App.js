@@ -7,6 +7,7 @@ import Navbar from "../src/components/Navbar"
 import Login_mainPage from "./pages/Authentication/Login_mainPage";
 import Home from "./pages/Home/Home"
 import axios from "./api/axiosConfig"
+import Footer from "./components/Footer"
 import { loginSuccess, setLoggedIn, setPremium, setMentor  } from "./redux/userSlice"
 
 //All CSS : 
@@ -55,7 +56,7 @@ function App() {
             </Route>
           </Routes>
         </main>
-
+        <Footer/>
       </BrowserRouter>
 
     </Container>

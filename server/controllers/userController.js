@@ -12,16 +12,16 @@ const getUserDetails = async (req, res) => {
 const verifyCookie = async (req, res, next) => {
     const booleanCookie = req.cookies.isLoggedIn;
     console.log(booleanCookie)
-    if(booleanCookie === "true"){
+    if (booleanCookie === "true") {
         const users = await User.findById(req.cookies.userID)
         return res.json({
-            custom : "true",
-            userData : users
+            custom: "true",
+            userData: users
         }).status(200)
-    } 
+    }
     else {
         return res.json({
-            custom : "false"
+            custom: "false"
         })
     }
 }
@@ -29,41 +29,53 @@ const verifyCookie = async (req, res, next) => {
 const logoutUser = async (req, res, next) => {
     console.log("Entered Logout Function!!")
     res.clearCookie('userID');
-    res.cookie('isLoggedIn',false);
+    res.cookie('isLoggedIn', false);
 }
 
 const userRegister = (req, res, next) => {
-    const name = req.body.name;
+    const name = req.body.userName;
     const email = req.body.email;
     const password = req.body.password;
 
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
     var passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
-    if (!name || !email || !password) 
-        res.status(403).json("Empty fields are invalid") // 403 - for FrontEnd Validations
-    else if (!email.match(mailformat)) 
-        res.status(403).json("Email field is invalid")
-    else if (!password.match(passwordFormat))
-        res.status(403).json("Password field is invalid")
+    if (!name || !email || !password) {
+        res.status(403).json({
+            custom: "Empty fields are invalid"
+        }) // 403 - for FrontEnd Validations
+    }
+    else if (!email.match(mailformat)) {
+        res.status(403).json({
+            custom: "Email field is invalid"
+        })
+    }
+    else if (!password.match(passwordFormat)) {
+        res.status(403).json({
+            custom: "Password field is invalid"
+        })
+    }
     else {
         User.find({ email: email })
             .exec()
             .then(user => {
-                if (user.length >= 1)
-                    res.status(405).json("User Not Found") // 405 - for User Not found
+                if (user.length >= 1) {
+                    res.status(405).json({
+                        custom: "User already Exists"
+                    }) // 405 - User already Exists
+                }
                 else {
                     bcrypt.hash(req.body.password, 10, (err, hash) => {
                         if (err) {
                             res.status(505).json({
-                                custom : "Database Error Occured", // 505 - Encrypting Error
-                                error : err
+                                custom: "Database Error Occured", // 505 - Encrypting Error
+                                error: err
                             })
                         } else {
                             const user = new User({
                                 _id: new mongoose.Types.ObjectId(),
-                                email: req.body.email,
-                                userName: req.body.name,
+                                email: email,
+                                userName: name,
                                 password: hash,
                                 isMentor: false,
                                 isAdmin: false,
@@ -72,42 +84,45 @@ const userRegister = (req, res, next) => {
                                 costInvested: 0,
                                 wallet: 5000
                             });
-                            user.save().then(async result => {
+                            user.save()
+                                .then(async result => {
                                     const arrayUser = new ArrayUSer({
-                                        _id : new mongoose.Types.ObjectId(),
-                                        userID : result._id,
+                                        _id: new mongoose.Types.ObjectId(),
+                                        userID: result._id,
                                     })
                                     await arrayUser.save()
                                         .then(resultOFArray => {
                                             console.log("User Array Created : " + resultOFArray);
                                             const userUpdate = new User({
-                                                arrayID : resultOFArray._id
+                                                arrayID: resultOFArray._id
                                             })
-                                            User.updateOne({ _id: new mongoose.Types.ObjectId(result._id)}, userUpdate)
+                                            User.updateOne({ _id: new mongoose.Types.ObjectId(result._id) }, userUpdate)
                                                 .then(finalUserDetails => {
-                                                    console.log("Final Details : " + finalUserDetails)
+                                                    console.log("Final Details : ")
+                                                    console.log(finalUserDetails)
                                                     res.status(200).json({
-                                                        custom : "User Registered Successfully", // 200 - Successfully Registered
+                                                        custom: "User Registered Successfully", // 200 - Successfully Registered
                                                         userDetails : finalUserDetails
-                                                    }) 
+                                                    })
+                                                    
                                                 })
                                                 .catch(arrayIDError => {
                                                     console.log("Array ID Error : " + arrayIDError)
                                                 })
                                         })
                                         .catch(someError => {
-                                            console.log("Error in Array User Creation : "  + someError);
+                                            console.log("Error in Array User Creation : " + someError);
                                             res.status(500).json({
-                                                custom : "Error in Registration of User", // 501 - Error storing of user in Database.
-                                                error : someError
+                                                custom: "Error in Registration of User", // 501 - Error storing of user in Database.
+                                                error: someError
                                             })
                                         })
                                 })
                                 .catch(err => {
                                     console.log(err)
                                     res.status(500).json({
-                                        custom : "Database Error Occured", // 500 - Error in registration of User
-                                        error : err 
+                                        custom: "Database Error Occured", // 500 - Error in registration of User
+                                        error: err
                                     })
                                 })
                         }
@@ -136,16 +151,16 @@ const userLogin = (req, res, next) => {
                 bcrypt.compare(req.body.password, result[0].password, (err, done) => {
                     if (err)
                         console.log("Error");
-                    if(!done){
+                    if (!done) {
                         res.status(401).json("Database Error") // 505 - Encrypting Error
                         console.log("Invalid Syntax!!!!!!!!!");
                     }
-                    else{
-                        res.cookie('isLoggedIn',"true", { maxAge: 900000, httpOnly: true });
-                        res.cookie('userID',result[0]._id, { maxAge: 900000, httpOnly: true });
+                    else {
+                        res.cookie('isLoggedIn', "true", { maxAge: 900000, httpOnly: true });
+                        res.cookie('userID', result[0]._id, { maxAge: 900000, httpOnly: true });
                         res.status(200).json({
-                            user : result[0],
-                            custom : "User Logged in Successfully"
+                            user: result[0],
+                            custom: "User Logged in Successfully"
                         }) // 200 - User Logged In
                     }
                 })
@@ -153,8 +168,8 @@ const userLogin = (req, res, next) => {
             .catch(err => {
                 console.log(err)
                 res.status(500).json({
-                    custom : "User invalid credentials",
-                    error : err
+                    custom: "User invalid credentials",
+                    error: err
                 })
             })
     }

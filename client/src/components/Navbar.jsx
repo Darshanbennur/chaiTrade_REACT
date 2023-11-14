@@ -33,7 +33,7 @@ const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/ment
 
 // const route
 const routeSettingNotLoggedIn = ['/login'];
-const routeSettingLoggedIn = ['profile', '/logout']
+const routeSettingLoggedIn = ['/profile', '/logout']
 
 export default function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);

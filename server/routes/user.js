@@ -8,6 +8,7 @@ router.get('/checkCookie', verifyCookie);
 router.post('/registerUser', userRegister)
 router.post('/login', userLogin)
 
+
 router.get('/:id', getUserDetails);
 
 
