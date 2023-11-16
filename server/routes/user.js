@@ -1,14 +1,18 @@
 const express = require('express')
-const {getUserDetails, userRegister, userLogin, verifyCookie} =  require('../controllers/userController.js');
+const {userRegister, userLogin, verifyCookie, logoutUser, makeChanges, getUserDetails} =  require('../controllers/userController.js');
 
 const router = express.Router();
 
+//GET Routes : 
 router.get('/checkCookie', verifyCookie);
+router.get('/logout', logoutUser);
 
-router.post('/registerUser', userRegister)
-router.post('/login', userLogin)
+//POST Routes : 
+router.post('/registerUser', userRegister);
+router.post('/login', userLogin);
+router.post('/makeChanges', makeChanges)
 
-
+//GET id Routes : 
 router.get('/:id', getUserDetails);
 
 

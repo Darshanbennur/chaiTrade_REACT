@@ -4,6 +4,14 @@
     font-family: Roboto;
 }
 
+footer { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 10;
+    margin-top: 10px;
+}
+
 .footer-distributed {
     background-color: #21222A;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -11,8 +19,7 @@
     width: 100%;
     text-align: left;
     font: normal 16px sans-serif;
-    padding: 25px 50px;
-    margin-top: auto;
+    padding: 22px 50px;
 }
 
 .footer_route{

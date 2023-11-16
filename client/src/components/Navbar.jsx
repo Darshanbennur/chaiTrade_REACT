@@ -16,6 +16,9 @@ import { useState } from "react"
 import logo from '../images/logo.png'
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import axios from "../api/axiosConfig";
+import { useDispatch } from "react-redux";
+import { loginSuccess, setLoggedIn, setPremium, setMentor } from "../redux/userSlice.js"
 
 const userNotLoggedIn = ['Charts', 'News', 'Featured🔐', 'Simulator🔐'];
 const userLoggedIn = ['Charts', 'News', 'Blogs', 'Featured🔐', 'Transactions', 'Simulator'];
@@ -23,7 +26,7 @@ const userPremiumEnabled = ['Charts', 'News', 'Blogs', 'Featured', 'Transactions
 const userMentorAccess = ['Charts', 'News', 'Blogs', 'Featured', 'MentorPanel', 'MyBlogs', 'Transactions', 'Simulator'];
 
 const settingsNotLoggedIn = ["Authenticate"]
-const settingsLoggedIn = ['Profile', 'Logout'];
+const settingsLoggedIn = ['Profile'];
 
 //Routes for every set : 
 const routeUserNotLoggedIn = ['/charts', '/news', '/login', '/login'];
@@ -31,13 +34,18 @@ const routeUserLoggedIn = ['/charts', '/news', '/blogs', '/pricing', '/transacti
 const routeUserPremiumEnabled = ['/charts', '/news', '/blogs', '/featured', '/transactions', '/simulator'];
 const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/mentorPanel', '/myMentorBlogs', '/transactions', '/simulator'];
 
+//Route when User is a Mentor but not a Premium User
+const userMentorAccessNotPremium = ['Charts', 'News', 'Blogs', 'Featured🔐', 'MentorPanel', 'MyBlogs', 'Transactions', 'Simulator'];
+const routeUserMentorAccessNotPremium = ['/charts', '/news', '/blogs', '/pricing', '/mentorPanel', '/myMentorBlogs', '/transactions', '/simulator'];
+
 // const route
 const routeSettingNotLoggedIn = ['/login'];
-const routeSettingLoggedIn = ['/profile', '/logout']
+const routeSettingLoggedIn = ['/profile']
 
 export default function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const dispatch = useDispatch();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -54,10 +62,28 @@ export default function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
+    async function userLogoutHandle(event){
+        const result = await axios.get('/user/logout')
+        if(result.status === 200){
+            dispatch(loginSuccess("userData"));
+            dispatch(setLoggedIn(false));
+            dispatch(setPremium(false));
+            dispatch(setMentor(false));
+        }
+        window.location.href = "/"
+    }
+
     //Page dynamic Code : 
 
     const [activePage, setActivePage] = useState('');
     const storedData = useSelector((state) => state.userData)
+    
+    let userProfileImage;
+    if(!storedData.currentUser.profileImage)
+        userProfileImage = "/static/images/avatar/1.jpg"
+    else
+        userProfileImage = storedData.currentUser.profileImage
+
 
     let mainNavbar = [];
     let mainSideFunctionBar = [];
@@ -74,13 +100,17 @@ export default function ResponsiveAppBar() {
         SettingRoute = routeSettingLoggedIn
 
         //Further conditions to be checked : 
-        if (storedData.isMentor === true) {
-            mainNavbar = userMentorAccess
-            mainRoutes = routeUserMentorAccess
-        }
-        if (storedData.isPremium === true) {
+        if (storedData.isMentor === false && storedData.isPremium === true) {
             mainNavbar = userPremiumEnabled
             mainRoutes = routeUserPremiumEnabled
+        }
+        else if(storedData.isMentor === true && storedData.isPremium === false){
+            mainNavbar = userMentorAccessNotPremium
+            mainRoutes = routeUserMentorAccessNotPremium
+        }
+        else if (storedData.isMentor === true && storedData.isPremium === true) {
+            mainNavbar = userMentorAccess
+            mainRoutes = routeUserMentorAccess
         }
     }
     else {
@@ -204,7 +234,8 @@ export default function ResponsiveAppBar() {
                     {storedData.isUserloggedIn && <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                                <Avatar alt="Remy Sharp" src={userProfileImage} />
+                                {/* put image here */}
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -230,6 +261,11 @@ export default function ResponsiveAppBar() {
                                     </Link>
                                 </MenuItem>
                             ))}
+                                <MenuItem key={"Logout"} onClick={handleCloseUserMenu}>
+                                    <Link onClick={userLogoutHandle} style={{ textDecoration: 'none', color: '#000' }}>
+                                        <Typography textAlign="center">{"Logout"}</Typography>
+                                    </Link>
+                                </MenuItem>
                         </Menu>
                     </Box>}
                     {!storedData.isUserloggedIn && <Box sx={{ flexGrow: 1, ml : '50%' ,display: { xs: 'none', md: 'flex' } }}>

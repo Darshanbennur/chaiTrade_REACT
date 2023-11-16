@@ -1,0 +1,306 @@
+.backgroundpic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+.mainBody {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-distributed {
+    background-color: #292c2f;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: normal 16px sans-serif;
+    padding: 45px 50px;
+    margin-top: 700px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.card {
+    width: 350px;
+    margin-bottom: 5px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.left-card {
+    background-color: #85cab2;
+    height: 270px;
+    width: 300px;
+    border-radius: 25px;
+    position: absolute;
+    left: 90px;
+    top: 220px;
+    cursor: pointer;
+    border: #292c2f 5px solid;
+}
+
+.phonefield{
+    margin: 10px 0px;
+}
+
+.left-card:hover {
+    opacity: 1;
+}
+
+.profile-pic-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.oldinfo {
+    text-align: center;
+}
+
+.names {
+    font-size: 20px;
+    margin-top: -10px;
+}
+
+.email {
+    font-size: 15px;
+    margin-top: -10px;
+    color: black;
+}
+
+.oldinfo:hover {
+    color: white;
+}
+
+
+.camera-icon {
+    position: absolute;
+    top: 60px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.profile-pic-container:hover .camera-icon {
+    visibility: visible;
+}
+
+.camera-icon i {
+    font-size: 30px;
+    color: #fff;
+}
+
+.profile-pic-container:hover .profile-pic {
+    opacity: 0.8;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px;
+    display: block;
+}
+
+.right-card {
+    background-color: rgba(128, 128, 128, 0.4);
+    border-radius: 15px;
+    position: absolute;
+    left: 350px;
+    top: 110px;
+    width: 60%;
+    height: 65%;
+    cursor: pointer;
+}
+
+.part1 {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.part2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+
+#firstname {
+    width: 60%;
+}
+
+#lastname {
+    position: absolute;
+    top: 40px;
+    left: 500px;
+    width: 20%;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+}
+
+.field label {
+    width: 120px;
+    color: white;
+    line-height: 30px;
+}
+
+.field2 label {
+    width: 100px;
+    font-weight: bold;
+    position: absolute;
+    left: 400px;
+}
+
+.field input[type="text"] {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+.incomefield label {
+    transform: translateY(-20px);
+}
+
+
+.upload-field {
+    margin-top: 20px;
+}
+
+.upload-field label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.upload-field input[type="file"] {
+    margin-top: 10px;
+}
+
+.save-button {
+    padding: 10px 32px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-right: 300px;
+    align-self: flex-end;
+    position: absolute;
+    top: 380px;
+}
+
+.mentorButton {
+    padding: 10px 32px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 50px;
+    width: 250px;
+}
+
+.save-button:hover {
+    background-color: #3e8e41;
+}
+
+.select_field {
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.input_field {
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.input_field1 {
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 2px;
+}
+
+#education {
+    margin-top: 10px;
+}
+
+#other-education {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#email {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px 2px;
+    border-radius: 5px;
+}
+
+#income {
+    margin-bottom: 20px;
+    padding: 10px 2px;
+    border-radius: 5px;
+}
+
+.upload-field {
+    margin-bottom: 30px;
+}
+
+.phone-input {
+    display: flex;
+    align-items: center;
+}
+
+.phone-input select,
+.phone-input input {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    margin-right: 5px;
+}
+
+.phone-input select {
+    color: #555;
+}

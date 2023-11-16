@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 //All Pages : 
 import Navbar from "../src/components/Navbar"
 import Login_mainPage from "./pages/Authentication/Login_mainPage";
+import ProfileComponent from "./pages/ProfilePage/ProfileComponent";
 import Home from "./pages/Home/Home"
 import axios from "./api/axiosConfig"
 import Footer from "./components/Footer"
@@ -24,8 +25,9 @@ function App() {
 
   const handler = async () => {
     const user = await axios.get('/user/checkCookie');
-    console.log("In the App.js")
     if (user.data.custom === "true") {
+      console.log("In the App.js")
+      console.log(user.data.userData)
       dispatch(loginSuccess(user.data.userData));
       dispatch(setLoggedIn(true));
       if (user.data.userData.isPremium)
@@ -53,6 +55,7 @@ function App() {
             <Route path="/">
               <Route index element={<Home />}></Route>
               <Route path="/login" element={<Login_mainPage />}></Route>
+              <Route path="/profile" element={<ProfileComponent />}></Route>
             </Route>
           </Routes>
         </main>

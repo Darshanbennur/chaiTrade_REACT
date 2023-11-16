@@ -7,7 +7,7 @@ const User = new mongoose.Schema({
     password: { type: String, required: true },
     profileImage: { type: String, required: false },
     education: { type: String, required: false },
-    countryCode: { type: Number, required: false },
+    countryCode: { type: String, required: false },
     phoneNumber: { type: Number, required: false },
     income: { type: Number, required: false },
     incomeType: { type: String, required: false },

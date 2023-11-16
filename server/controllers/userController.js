@@ -27,9 +27,20 @@ const verifyCookie = async (req, res, next) => {
 }
 
 const logoutUser = async (req, res, next) => {
-    console.log("Entered Logout Function!!")
-    res.clearCookie('userID');
-    res.cookie('isLoggedIn', false);
+    try {
+        console.log("Entered Logout Function!!")
+        res.clearCookie('userID');
+        res.cookie('isLoggedIn', false);
+        res.status(200).json({
+            custom : "User Logged Out!!"
+        })
+    } catch(e){
+        console.log("Error faced");
+        console.log(e);
+        res.status(403).json({
+            custom : "Error in Logging Out"
+        })
+    }
 }
 
 const userRegister = (req, res, next) => {
@@ -72,11 +83,19 @@ const userRegister = (req, res, next) => {
                                 error: err
                             })
                         } else {
+                            const x = Math.floor((Math.random() * 10) % 8 + 1);
+                            const avatar = "https://bootdey.com/img/Content/avatar/avatar" + x + ".png";
                             const user = new User({
                                 _id: new mongoose.Types.ObjectId(),
                                 email: email,
                                 userName: name,
                                 password: hash,
+                                profileImage : avatar,
+                                education : "",
+                                countryCode : "",
+                                phoneNumber : 0,
+                                income : 0,
+                                incomeType : "",
                                 isMentor: false,
                                 isAdmin: false,
                                 isPremium: false,
@@ -102,9 +121,9 @@ const userRegister = (req, res, next) => {
                                                     console.log(finalUserDetails)
                                                     res.status(200).json({
                                                         custom: "User Registered Successfully", // 200 - Successfully Registered
-                                                        userDetails : finalUserDetails
+                                                        userDetails: finalUserDetails
                                                     })
-                                                    
+
                                                 })
                                                 .catch(arrayIDError => {
                                                     console.log("Array ID Error : " + arrayIDError)
@@ -175,6 +194,31 @@ const userLogin = (req, res, next) => {
     }
 }
 
+const makeChanges = (req, res, next) => {
+    const user = new User({
+        userName: req.body.userName,
+        education: req.body.education,
+        countryCode: req.body.countryCode,
+        phoneNumber: req.body.phoneNumber,
+        profileImage: req.body.profileImage,
+        income: req.body.income,
+        incomeType: req.body.incomeType,
+    });
+    User.findOneAndUpdate({ email: req.body.email }, user)
+        .then(result => {
+            console.log("User Updated : " + result.userName);
+            res.status(200).json({
+                custom : "User Profile Updated Successfully"
+            })
+        })
+        .catch(err => {
+            console.log("Error Updating the User : " + err)
+            res.status(403).json({
+                custom : "Error in updating the values in Profile"
+            })
+        })
+}
 
 
-module.exports = { getUserDetails, userRegister, userLogin, verifyCookie, logoutUser };
+
+module.exports = { getUserDetails, userRegister, userLogin, verifyCookie, logoutUser, makeChanges };

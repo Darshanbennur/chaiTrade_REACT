@@ -9,6 +9,7 @@ import styles from "../Authentication/login_mainPage.module.css"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Login_mainPage() {
     const [signIn, toggle] = React.useState(true);
     const dispatch = useDispatch();
@@ -103,7 +104,7 @@ export default function Login_mainPage() {
             <div className={styles.vid}>
                 <video className={styles.login_video} src={videoBG} autoPlay loop muted />
             </div>
-            <Components.Container style={{ top: "25%", left: "25%", position: "absolute", opacity: "0.9" }}>
+            <Components.Container style={{ top: "18%", left: "25%", position: "absolute", opacity: "0.9" }}>
                 <Components.SignUpContainer signinIn={signIn}>
 
                     <Components.Form onSubmit={onRegisterSubmit}>
