@@ -40,13 +40,13 @@ export default function ProfileComponent() {
         console.log("Submitted!!")
     }
 
-    useEffect(() => {
-        console.log("Rendered!!")
-        setUserData(reduxUserData.currentUser);
-        if (!reduxUserData.isUserloggedIn) {
-            navigate('/login');
-        }
-    }, [reduxUserData.currentUser, reduxUserData.isUserloggedIn, navigate]);
+    // useEffect(() => {
+    //     console.log("Rendered!!")
+    //     setUserData(reduxUserData.currentUser);
+    //     if (reduxUserData.isUserloggedIn === false) {
+    //         navigate('/login');
+    //     }
+    // }, [reduxUserData.currentUser, reduxUserData.isUserloggedIn, navigate]);
 
     return (
         <div className={styles.main_body}>

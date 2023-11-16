@@ -10,10 +10,10 @@ export default function () {
     return (
         <footer className={styles['footer-distributed']}>
             <div className={styles['footer-right']}>
-                <a href="#"><EmailIcon/></a>
-                <a href="#"><LinkedInIcon/></a>
-                <a href="#"><GitHubIcon/></a>
-                <a href="#"><InstagramIcon/></a>
+                <a href="#"><EmailIcon /></a>
+                <a href="#"><LinkedInIcon /></a>
+                <a href="#"><GitHubIcon /></a>
+                <a href="#"><InstagramIcon /></a>
             </div>
             <div className={styles['footer-left']}>
                 <p className={styles['footer-links']}>

@@ -1,15 +1,16 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
-
-//All Pages : 
-import Navbar from "../src/components/Navbar"
-import Login_mainPage from "./pages/Authentication/Login_mainPage";
-import ProfileComponent from "./pages/ProfilePage/ProfileComponent";
-import Home from "./pages/Home/Home"
 import axios from "./api/axiosConfig"
 import Footer from "./components/Footer"
 import { loginSuccess, setLoggedIn, setPremium, setMentor  } from "./redux/userSlice"
+
+//All Pages : 
+import Navbar from "../src/components/Navbar"
+import Home from "./pages/Home/Home"
+import Login_mainPage from "./pages/Authentication/Login_mainPage";
+import ProfileComponent from "./pages/ProfilePage/ProfileComponent";
+import BlogPage from "./pages/Blogs/BlogPage_main";
 
 //All CSS : 
 import "../src/styles/app.css"
@@ -55,6 +56,7 @@ function App() {
             <Route path="/">
               <Route index element={<Home />}></Route>
               <Route path="/login" element={<Login_mainPage />}></Route>
+              <Route path="/blogs" element={<BlogPage />}></Route>
               <Route path="/profile" element={<ProfileComponent />}></Route>
             </Route>
           </Routes>

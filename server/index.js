@@ -8,7 +8,7 @@ const userRoutes = require("./routes/user")
 // const marketTermRoute = require("./routes/marketTerm")
 // const mentorRoute = require("./routes/mentor")
 // const newsRoute = require("./routes/news")
-// const blogRoute = require("./routes/blog")
+const blogRoute = require("./routes/blog")
 // const chartRoute = require("./routes/chart")
 
 const mongoose = require('mongoose');
@@ -39,7 +39,7 @@ app.use('/api/user', userRoutes);
 // app.use('/api/marketTerm', marketTermRoute);
 // app.use('/api/news', newsRoute);
 // app.use('/api/mentor', mentorRoute);
-// app.use('/api/blog', blogRoute);
+app.use('/api/blog', blogRoute);
 // app.use('/api/chart', chartRoute);
 
 app.listen(PORT, err => {
