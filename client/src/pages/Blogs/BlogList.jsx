@@ -4,9 +4,10 @@ import axios from "../../api/axiosConfig.js"
 const BlogList = () => {
 
   const [blogs, setBlogs] = useState([]);
+
   useEffect(() => {
     axios.get('/blog/allBlogs').then((res) => setBlogs(res.data.data))
-  }, [])
+  }, [blogs])
 
   const MyBlog_blogContainerStyle = {
     maxWidth: '690px',

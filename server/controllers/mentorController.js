@@ -10,6 +10,7 @@ const postFeaturedSectionBlog = (req, res, next) => {
     const contentTitle = req.body.title;
     const content = req.body.content;
     const mentorArrayID = req.body.arrayID;
+
     const datetime = new Date().toDateString();
 
     let submittedBlogId = "";

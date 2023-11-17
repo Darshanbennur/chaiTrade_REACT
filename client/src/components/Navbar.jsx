@@ -20,6 +20,9 @@ import axios from "../api/axiosConfig";
 import { useDispatch } from "react-redux";
 import { loginSuccess, setLoggedIn, setPremium, setMentor } from "../redux/userSlice.js"
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const userNotLoggedIn = ['Charts', 'News', 'Featured🔐', 'Simulator🔐'];
 const userLoggedIn = ['Charts', 'News', 'Blogs', 'Featured🔐', 'Transactions', 'Simulator'];
 const userPremiumEnabled = ['Charts', 'News', 'Blogs', 'Featured', 'Transactions', 'Simulator'];
@@ -62,24 +65,34 @@ export default function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
-    async function userLogoutHandle(event){
+    async function userLogoutHandle(event) {
         const result = await axios.get('/user/logout')
-        if(result.status === 200){
+        if (result.status === 200) {
             dispatch(loginSuccess("userData"));
             dispatch(setLoggedIn(false));
             dispatch(setPremium(false));
             dispatch(setMentor(false));
         }
-        window.location.href = "/"
+        window.location.href = "/login"
+        toast.success('🦄 User Logged Out!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
 
     //Page dynamic Code : 
 
     const [activePage, setActivePage] = useState('');
     const storedData = useSelector((state) => state.userData)
-    
+
     let userProfileImage;
-    if(!storedData.currentUser.profileImage)
+    if (!storedData.currentUser.profileImage)
         userProfileImage = "/static/images/avatar/1.jpg"
     else
         userProfileImage = storedData.currentUser.profileImage
@@ -104,7 +117,7 @@ export default function ResponsiveAppBar() {
             mainNavbar = userPremiumEnabled
             mainRoutes = routeUserPremiumEnabled
         }
-        else if(storedData.isMentor === true && storedData.isPremium === false){
+        else if (storedData.isMentor === true && storedData.isPremium === false) {
             mainNavbar = userMentorAccessNotPremium
             mainRoutes = routeUserMentorAccessNotPremium
         }
@@ -127,171 +140,185 @@ export default function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#21222A', margin: "0" }}>
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                    {/* <img src={logo} style={{width : "80px", height : "80px", marginRight : "15px"}}></img> */}
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.15rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        ChaiTrade
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+        <>
+            <AppBar position="static" sx={{ backgroundColor: '#21222A', margin: "0" }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        {/* <img src={logo} style={{width : "80px", height : "80px", marginRight : "15px"}}></img> */}
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/"
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.15rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
                             }}
                         >
-                            {mainNavbar.map((page, index) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Link to={mainRoutes[index]} style={{ textDecoration: 'none', color: '#000' }}>
-                                        <Typography textAlign="center">{page}</Typography>
-                                    </Link>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
+                            ChaiTrade
+                        </Typography>
 
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        ChaiTrade
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {mainNavbar.map((page, index) => (
-                            <Link to={mainRoutes[index]} style={{ textDecoration: 'none', color: '#000' }}>
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    // onClick={() => handlePageClick(page)}
-                                    onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
-                                    onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
-                                    sx={{
-                                        my: 2,
-                                        color: activePage === page ? 'your-active-color' : 'white',
-                                        display: 'block',
-                                        marginRight: index < mainNavbar.length - 1 ? 2 : 0
-                                    }}
-                                >
-                                    {page}
-                                </Button>
-                            </Link>
-
-                        ))}
-                    </Box>
-
-                    {storedData.isUserloggedIn && <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src={userProfileImage} />
-                                {/* put image here */}
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
                             </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {mainNavbar.map((page, index) => (
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Link to={mainRoutes[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                            <Typography textAlign="center">{page}</Typography>
+                                        </Link>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+
+                        <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
                             }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
                         >
-                            {mainSideFunctionBar.map((setting, index) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Link to={SettingRoute[index]} style={{ textDecoration: 'none', color: '#000' }}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </Link>
-                                </MenuItem>
+                            ChaiTrade
+                        </Typography>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            {mainNavbar.map((page, index) => (
+                                <Link to={mainRoutes[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                    <Button
+                                        key={page}
+                                        onClick={handleCloseNavMenu}
+                                        // onClick={() => handlePageClick(page)}
+                                        onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
+                                        onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
+                                        sx={{
+                                            my: 2,
+                                            color: activePage === page ? 'your-active-color' : 'white',
+                                            display: 'block',
+                                            marginRight: index < mainNavbar.length - 1 ? 2 : 0
+                                        }}
+                                    >
+                                        {page}
+                                    </Button>
+                                </Link>
+
                             ))}
+                        </Box>
+
+                        {storedData.isUserloggedIn && <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" src={userProfileImage} />
+                                    {/* put image here */}
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {mainSideFunctionBar.map((setting, index) => (
+                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Link to={SettingRoute[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </Link>
+                                    </MenuItem>
+                                ))}
                                 <MenuItem key={"Logout"} onClick={handleCloseUserMenu}>
                                     <Link onClick={userLogoutHandle} style={{ textDecoration: 'none', color: '#000' }}>
                                         <Typography textAlign="center">{"Logout"}</Typography>
                                     </Link>
                                 </MenuItem>
-                        </Menu>
-                    </Box>}
-                    {!storedData.isUserloggedIn && <Box sx={{ flexGrow: 1, ml : '50%' ,display: { xs: 'none', md: 'flex' } }}>
-                        {mainSideFunctionBar.map((page, index) => ( 
-                            <Link to={SettingRoute[index]} style={{ textDecoration: 'none', color: '#000' }}>
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    // onClick={() => handlePageClick(page)}
-                                    onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
-                                    onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
-                                    sx={{
-                                        my: 2,
-                                        color: activePage === page ? 'your-active-color' : 'white',
-                                        display: 'block',
-                                        marginRight: index < mainNavbar.length - 1 ? 2 : 0
-                                    }}
-                                >
-                                    {page}
-                                </Button>
-                            </Link>
+                            </Menu>
+                        </Box>}
+                        {!storedData.isUserloggedIn && <Box sx={{ flexGrow: 1, ml: '50%', display: { xs: 'none', md: 'flex' } }}>
+                            {mainSideFunctionBar.map((page, index) => (
+                                <Link to={SettingRoute[index]} style={{ textDecoration: 'none', color: '#000' }}>
+                                    <Button
+                                        key={page}
+                                        onClick={handleCloseNavMenu}
+                                        // onClick={() => handlePageClick(page)}
+                                        onMouseEnter={(e) => e.currentTarget.style.color = 'yellow'}
+                                        onMouseLeave={(e) => e.currentTarget.style.color = activePage === page ? 'yellow' : 'white'}
+                                        sx={{
+                                            my: 2,
+                                            color: activePage === page ? 'your-active-color' : 'white',
+                                            display: 'block',
+                                            marginRight: index < mainNavbar.length - 1 ? 2 : 0
+                                        }}
+                                    >
+                                        {page}
+                                    </Button>
+                                </Link>
 
-                        ))}
-                    </Box>}
-                </Toolbar>
-            </Container>
-        </AppBar>
+                            ))}
+                        </Box>}
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+        </>
     );
 }

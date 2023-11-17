@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import FeaturedBlogs from './FeaturedBlogs';
+import MentorBlogs from './MentorBlogs';
 import image from "../../images/charts.jpg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function Featured_main() {
+export default function MentorBlog_main() {
   const navigate = useNavigate();
   const reduxUserData = useSelector((state) => state.userData)
   const [isHovered, setIsHovered] = useState(false);
@@ -57,11 +57,10 @@ export default function Featured_main() {
       <div style={backpicStyle} className="backpic row">
         <img src={image} style={backgroundPicStyle} alt="background" />
         <div className="content">
-          <h1 onMouseOver={handleHover} onMouseOut={handleMouseOut} style={contentH1Style}>Welcome to Featured Blogs</h1>
+          <h1 onMouseOver={handleHover} onMouseOut={handleMouseOut} style={contentH1Style}>My Blogs</h1>
         </div>
       </div>
-      <FeaturedBlogs />
+      <MentorBlogs />
     </div>
   );
 }
-

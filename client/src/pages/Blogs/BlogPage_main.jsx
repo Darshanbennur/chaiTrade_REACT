@@ -5,6 +5,9 @@ import axios from "../../api/axiosConfig.js"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const MyBlog_appContainerStyle = {
   backgroundSize: 'cover',
   backgroundAttachment: 'fixed',
@@ -84,11 +87,15 @@ const MyBlog_focusStyle = {
 
 export default function BlogPage() {
   const navigate = useNavigate();
-
   const reduxUserData = useSelector((state) => state.userData)
-  const user = reduxUserData.currentUser;
+  const [userData, setUserData] = useState(reduxUserData.currentUser)
 
-  const [userData, setUserData] = useState(user)
+  useEffect(() => {
+    if(reduxUserData.isUserloggedIn === false)
+      navigate('/login')
+    else
+      setUserData(reduxUserData.currentUser);
+  }, []);
 
   const [formData, setFormData] = useState({
     authorName: userData.userName,
@@ -97,13 +104,7 @@ export default function BlogPage() {
     authorAvatar: userData.profileImage
   });
 
-  useEffect(() => {
-    console.log("Rendered!!")
-    setUserData(reduxUserData.currentUser);
-  }, [reduxUserData.currentUser, reduxUserData.isUserloggedIn]);
-
   const handleInputChange = (event) => {
-    console.log(formData)
     setFormData({
       ...formData,
       [event.target.name]: event.target.value
@@ -112,65 +113,107 @@ export default function BlogPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (!formData.title || !formData.content){
-      alert("Field Can't be Empty")
+    if (!formData.title || !formData.content) {
+      toast.error("🔐 Field can't be empty", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
     else {
       try {
         const postedResult = axios.post('/blog/postBlog', formData)
-        console.log("Blog Posted")
-        alert("Blog Posted!!")
-        window.location.href = "/blogs"
+        toast.success('📜 Blog Posted!!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setFormData({
+          authorName: userData.userName,
+          title: '',
+          content: '',
+          authorAvatar: userData.profileImage
+        })
       }
       catch (err) {
-        console.log("Error in posting the blog");
-        alert("Error in posting the blog!!")
+        toast.error("🔐 Error in posting the blog", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     }
   }
 
   return (
-    <div style={MyBlog_appContainerStyle}>
+    <>
+      <div style={MyBlog_appContainerStyle}>
+        <img src={image} style={MyBlog_backgroundPicStyle} alt="background" />
+        <div style={MyBlog_containerStyle}>
+          <form id="comment_upload" onSubmit={handleSubmit} style={MyBlog_uploadStyle}>
+            <div className="icons">
+              <h3>Post Something</h3>
+            </div>
 
-      <img src={image} style={MyBlog_backgroundPicStyle} alt="background" />
+            <input
+              name="title"
+              id="MyBlog_title"
+              placeholder="Title"
+              type="text"
+              value={formData.title}
+              onChange={handleInputChange}
+              style={MyBlog_inputTextStyle}
+            />
 
-      <div style={MyBlog_containerStyle}>
-        <form id="comment_upload" onSubmit={handleSubmit} style={MyBlog_uploadStyle}>
-          <div className="icons">
-            <h3>Post Something</h3>
-          </div>
+            <textarea
+              name="content"
+              id="content"
+              placeholder="Type your message here...."
+              value={formData.content}
+              onChange={handleInputChange}
+              style={MyBlog_textareaStyle}
+            />
 
-          <input
-            name="title"
-            id="MyBlog_title"
-            placeholder="Title"
-            type="text"
-            value={formData.title}
-            onChange={handleInputChange}
-            style={MyBlog_inputTextStyle}
-          />
+            <button
+              name="submit"
+              type="submit"
+              id="contact-submit"
+              style={{ ...MyBlog_submitButtonStyle, ...MyBlog_focusStyle }}>Submit</button>
 
-          <textarea
-            name="content"
-            id="content"
-            placeholder="Type your message here...."
-            value={formData.content}
-            onChange={handleInputChange}
-            style={MyBlog_textareaStyle}
-          />
-
-          <button
-            name="submit"
-            type="submit"
-            id="contact-submit"
-            style={{ ...MyBlog_submitButtonStyle, ...MyBlog_focusStyle }}>Submit</button>
-
-        </form>
+          </form>
+        </div>
+        <BlogList />
       </div>
 
-      <BlogList />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
 
-    </div>
+    </>
   );
 
 };
