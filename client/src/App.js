@@ -15,6 +15,7 @@ import BlogPage from "./pages/Blogs/BlogPage_main";
 //All CSS : 
 import "../src/styles/app.css"
 import { useEffect } from "react";
+import Featured_main from "./pages/Featured/Featured_main";
 
 const Container = styled.div`
   padding: 0;
@@ -27,8 +28,6 @@ function App() {
   const handler = async () => {
     const user = await axios.get('/user/checkCookie');
     if (user.data.custom === "true") {
-      console.log("In the App.js")
-      console.log(user.data.userData)
       dispatch(loginSuccess(user.data.userData));
       dispatch(setLoggedIn(true));
       if (user.data.userData.isPremium)
@@ -57,6 +56,7 @@ function App() {
               <Route index element={<Home />}></Route>
               <Route path="/login" element={<Login_mainPage />}></Route>
               <Route path="/blogs" element={<BlogPage />}></Route>
+              <Route path="/featured" element={<Featured_main />}></Route>
               <Route path="/profile" element={<ProfileComponent />}></Route>
             </Route>
           </Routes>

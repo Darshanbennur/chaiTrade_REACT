@@ -6,7 +6,7 @@ const userRoutes = require("./routes/user")
 // const simulatorRoute = require("./routes/simulator")
 // const utilRoutes = require("./routes/util")
 // const marketTermRoute = require("./routes/marketTerm")
-// const mentorRoute = require("./routes/mentor")
+const mentorRoute = require("./routes/mentor")
 // const newsRoute = require("./routes/news")
 const blogRoute = require("./routes/blog")
 // const chartRoute = require("./routes/chart")
@@ -38,7 +38,7 @@ app.use('/api/user', userRoutes);
 // app.use('/api/util', utilRoutes);
 // app.use('/api/marketTerm', marketTermRoute);
 // app.use('/api/news', newsRoute);
-// app.use('/api/mentor', mentorRoute);
+app.use('/api/mentor', mentorRoute);
 app.use('/api/blog', blogRoute);
 // app.use('/api/chart', chartRoute);
 

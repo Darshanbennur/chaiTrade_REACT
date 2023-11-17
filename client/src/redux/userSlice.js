@@ -13,8 +13,6 @@ export const userSlice = createSlice({
     reducers: {
         loginSuccess: (state, action) => {
             state.currentUser = action.payload;
-            console.log("State in Login Success : ")
-            console.log(state.currentUser)
         },
         setUserDetails: (state, action) => {
             state.currentUser = action.payload;
