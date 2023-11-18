@@ -1,0 +1,122 @@
+.backgroundpic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+.premium-text {
+    margin-left: 10px;
+}
+
+.yourapplications_container {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.card{
+    margin-bottom: 100px;
+}
+
+.applications_cards-heading {
+    font-size: 20px;
+    text-align: center;
+    color: #72AC99;
+}
+
+.appliation_card {
+    cursor: pointer;
+    font-family: 'Sacramento', cursive;
+    font-size: 5.625rem;
+}
+
+.appliation_card:hover {
+    -webkit-text-stroke: 2px #72AC99;
+    color: transparent;
+}
+
+.Applications_card,
+.payment_history-card {
+    width: 80%;
+    height: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 120px;
+    margin-bottom: 20px;
+    border: 5px solid #72AC99;
+    border-radius: 10px;
+}
+
+.applications_user-info,
+.paymenthistory_card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.application-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.application_date,
+.date,
+.amount {
+    font-weight: 500;
+}
+
+.application_country {
+    font-style: italic;
+}
+
+.application_status {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.pending {
+    color: orange;
+}
+
+.approved {
+    color: green;
+}
+
+.receipt_download-btn {
+    background-color: #72AC99;
+    color: white;
+    padding: 10px;
+    border-radius: 30px;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    top: -40px;
+}
+
+.appliation_card-mainheading {
+    margin: 50px 0px;
+    font-size: 4rem;
+}
+
+.application_sub_heading_p {
+    margin: 30px 0px;
+    font-size: 18px;
+}
+
+.footer-distributed {
+    background-color: #292c2f;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    margin-top: 700px;
+    width: 100%;
+    text-align: left;
+    font: normal 16px sans-serif;
+    padding: 45px 50px;
+}

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '../../components/Footer.jsx';
 
 const MyBlog_appContainerStyle = {
   backgroundSize: 'cover',
@@ -199,6 +200,8 @@ export default function BlogPage() {
         </div>
         <BlogList />
       </div>
+
+      <Footer/>
 
       <ToastContainer
         position="top-right"

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "../../components/Footer.jsx";
 
 const Panel_appContainerStyle = {
     backgroundSize: 'cover',
@@ -32,7 +33,6 @@ const Panel_containerStyle = {
     maxWidth: '700px',
     width: '100%',
     padding: '1rem',
-    margin: '0 auto',
     flexDirection: 'column',
     alignItems: 'center',
     fontFamily: 'sans-serif',
@@ -87,6 +87,27 @@ const Panel_focusStyle = {
 export default function MentorPanel() {
     const reduxUserData = useSelector((state) => state.userData)
     const initialUserData = reduxUserData.currentUser;
+
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleHover = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseOut = () => {
+        setIsHovered(false);
+    };
+
+    const chartsHeadingStyle = {
+        cursor: "pointer",
+        fontFamily: "Sacramento, cursive",
+        fontSize: "90px",
+        color: isHovered ? "transparent" : "#65a893",
+        textAlign: "center",
+        WebkitTextStroke: isHovered ? "2px #88b9a9" : "none",
+        fontWeight: "normal",
+        margin : "40px 0px",
+    };
 
     const navigate = useNavigate();
 
@@ -165,10 +186,17 @@ export default function MentorPanel() {
         <>
             <div style={Panel_appContainerStyle}>
                 <img src={image} style={Panel_backgroundPicStyle} alt="background" />
+                <h2
+                    className="charts-heading"
+                    onMouseOver={handleHover}
+                    onMouseOut={handleMouseOut}
+                    style={chartsHeadingStyle}>
+                    Mentor Panel
+                </h2>
                 <div style={Panel_containerStyle}>
                     <form id="comment_upload" onSubmit={handleSubmit} style={Panel_uploadStyle}>
                         <div className="icons">
-                            <h3>Mentor Panel Blog Section</h3>
+                            <h3>Start Blogging...</h3>
                         </div>
 
                         <input
@@ -199,7 +227,7 @@ export default function MentorPanel() {
                     </form>
                 </div>
             </div>
-
+            <Footer />
             <ToastContainer
                 position="top-right"
                 autoClose={3000}

@@ -5,7 +5,7 @@
 }
 
 footer { 
-    position: fixed; 
+    position: relative; 
     bottom: 0; 
     left: 0; 
     margin-bottom: 0px;
@@ -81,7 +81,7 @@ footer {
 
 .footer-distributed .footer-right {
     float: right;
-    margin-top: 6px;
+    margin-top: 10px;
     max-width: 180px;
     list-style-type: none;
     text-decoration: none;

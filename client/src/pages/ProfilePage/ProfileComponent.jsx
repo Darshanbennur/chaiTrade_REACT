@@ -9,6 +9,7 @@ import { setUserDetails } from "../../redux/userSlice.js"
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "../../components/Footer.jsx";
 
 export default function ProfileComponent() {
     const navigate = useNavigate();
@@ -213,6 +214,7 @@ export default function ProfileComponent() {
                     </div>
                 </div>
             </div>
+
             <ToastContainer
                 position="top-right"
                 autoClose={3000}

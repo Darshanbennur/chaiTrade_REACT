@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "../../components/Footer.jsx";
 
 
 export default function Login_mainPage() {
@@ -175,7 +176,7 @@ export default function Login_mainPage() {
 
     return (
         <>
-            <div style={{ backgroundColor: "black" }}>
+            <div style={{ backgroundColor: "black", marginBottom : "-104px" }}>
                 <div className={styles.vid}>
                     <video className={styles.login_video} src={videoBG} autoPlay loop muted />
                 </div>
@@ -268,6 +269,7 @@ export default function Login_mainPage() {
 
                 </Components.Container>
             </div>
+            <Footer/>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}

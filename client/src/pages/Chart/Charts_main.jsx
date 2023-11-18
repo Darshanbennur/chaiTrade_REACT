@@ -4,6 +4,7 @@ import SideScrollWidget from "./SideScrollWidget.jsx";
 import FullChart from "./FullChartWidget.jsx";
 import image from "../../images/charts.jpg";
 import axios from "../../api/axiosConfig.js"
+import Footer from "../../components/Footer.jsx";
 
 export default function Charts_main() {
   const [isHovered, setIsHovered] = useState(false);
@@ -53,32 +54,35 @@ export default function Charts_main() {
   }, [])
 
   return (
-    <div>
-      <SideScrollWidget />
+    <>
+      <div>
+        <SideScrollWidget />
 
-      <div className="backpic row">
-        <img src={image} style={backgroundPicStyle} alt="background" />
+        <div className="backpic row">
+          <img src={image} style={backgroundPicStyle} alt="background" />
+        </div>
+
+        <h2
+          className="charts-heading"
+          onMouseOver={handleHover}
+          onMouseOut={handleMouseOut}
+          style={chartsHeadingStyle}
+        >
+          Charts
+        </h2>
+
+        <Charts
+          companyStock={companyStock}
+          commodityStock={commodityStock}
+          forexStock={forexStock}
+          cryptoStock={cryptoStock}
+        />
+
+        <FullChart />
+
       </div>
-
-      <h2
-        className="charts-heading"
-        onMouseOver={handleHover}
-        onMouseOut={handleMouseOut}
-        style={chartsHeadingStyle}
-      >
-        Charts
-      </h2>
-
-      <Charts
-        companyStock={companyStock}
-        commodityStock={commodityStock}
-        forexStock={forexStock}
-        cryptoStock={cryptoStock}
-      />
-
-      <FullChart />
-
-    </div>
+      <Footer/>
+    </>
   );
 };
 

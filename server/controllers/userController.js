@@ -175,8 +175,8 @@ const userLogin = (req, res, next) => {
                         console.log("Invalid Syntax!!!!!!!!!");
                     }
                     else {
-                        res.cookie('isLoggedIn', "true", { maxAge: 900000, httpOnly: true });
-                        res.cookie('userID', result[0]._id, { maxAge: 900000, httpOnly: true });
+                        res.cookie('isLoggedIn', "true", {httpOnly: true });
+                        res.cookie('userID', result[0]._id, {httpOnly: true });
                         res.status(200).json({
                             user: result[0],
                             custom: "User Logged in Successfully"

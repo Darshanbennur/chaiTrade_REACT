@@ -17,7 +17,7 @@ const BlogList = () => {
     maxWidth: '690px',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: '10rem',
+    marginBottom: '5rem',
   };
 
   const MyBlog_commentStyle = {

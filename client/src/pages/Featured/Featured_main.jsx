@@ -3,6 +3,7 @@ import FeaturedBlogs from './FeaturedBlogs';
 import image from "../../images/charts.jpg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Footer from '../../components/Footer';
 
 export default function Featured_main() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function Featured_main() {
   };
 
   useEffect(() => {
-    if(reduxUserData.isUserloggedIn === false)
+    if (reduxUserData.isUserloggedIn === false)
       navigate('/login')
   }, [])
 
@@ -53,15 +54,18 @@ export default function Featured_main() {
   };
 
   return (
-    <div className="App">
-      <div style={backpicStyle} className="backpic row">
-        <img src={image} style={backgroundPicStyle} alt="background" />
-        <div className="content">
-          <h1 onMouseOver={handleHover} onMouseOut={handleMouseOut} style={contentH1Style}>Welcome to Featured Blogs</h1>
+    <>
+      <div className="App">
+        <div style={backpicStyle} className="backpic row">
+          <img src={image} style={backgroundPicStyle} alt="background" />
+          <div className="content">
+            <h1 onMouseOver={handleHover} onMouseOut={handleMouseOut} style={contentH1Style}>Welcome to Featured Blogs</h1>
+          </div>
         </div>
+        <FeaturedBlogs />
       </div>
-      <FeaturedBlogs />
-    </div>
+      <Footer />
+    </>
   );
 }
 
