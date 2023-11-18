@@ -19,6 +19,8 @@ import { Link } from 'react-router-dom';
 import axios from "../api/axiosConfig";
 import { useDispatch } from "react-redux";
 import { loginSuccess, setLoggedIn, setPremium, setMentor } from "../redux/userSlice.js"
+import { persistStore } from 'redux-persist';
+import store from "../redux/store.js"
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -72,6 +74,7 @@ export default function ResponsiveAppBar() {
             dispatch(setLoggedIn(false));
             dispatch(setPremium(false));
             dispatch(setMentor(false));
+            persistStore(store).purge();
         }
         window.location.href = "/login"
         toast.success('🦄 User Logged Out!', {

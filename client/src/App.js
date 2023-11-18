@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import axios from "./api/axiosConfig.js";
 import { setUserDetails, setLoggedIn, setPremium, setMentor } from "./redux/userSlice.js";
 import { useDispatch } from "react-redux";
+import store from "./redux/store.js"
+import { persistStore } from 'redux-persist';
 
 //All Pages : 
 import Navbar from "../src/components/Navbar"
@@ -10,9 +12,11 @@ import Home from "./pages/Home/Home"
 import Login_mainPage from "./pages/Authentication/Login_mainPage";
 import ProfileComponent from "./pages/ProfilePage/ProfileComponent";
 import BlogPage from "./pages/Blogs/BlogPage_main";
+import Charts_main from "./pages/Chart/Charts_main.jsx"
 import Featured_main from "./pages/Featured/Featured_main";
 import MentorPanel from "./pages/MentorPanel/MentorPanel";
 import MentorBlogMain from "./pages/MentorBlogs/MentorBlogs_main"
+import NewsSection from "./pages/News/NewsSection.js";
 import Footer from "./components/Footer"
 
 //All CSS : 
@@ -41,7 +45,7 @@ function App() {
       }
     }
     else {
-      console.log("Logged OUt!!")
+      console.log("Logged OUt!!");
     }
   }
 
@@ -58,10 +62,12 @@ function App() {
             <Route path="/">
               <Route path="" element={<Home />}></Route>
               <Route path="/login" element={<Login_mainPage />}></Route>
+              <Route path="/charts" element={<Charts_main />}></Route>
               <Route path="/blogs" element={<BlogPage />}></Route>
               <Route path="/mentorPanel" element={<MentorPanel />}></Route>
               <Route path="/featured" element={<Featured_main />}></Route>
               <Route path="/myMentorBlogs" element={<MentorBlogMain />}></Route>
+              <Route path="/news" element={<NewsSection />}></Route>
               <Route path="/profile" element={<ProfileComponent />}></Route>
             </Route>
           </Routes>

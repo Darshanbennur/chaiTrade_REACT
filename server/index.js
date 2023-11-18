@@ -7,9 +7,9 @@ const userRoutes = require("./routes/user")
 // const utilRoutes = require("./routes/util")
 // const marketTermRoute = require("./routes/marketTerm")
 const mentorRoute = require("./routes/mentor")
-// const newsRoute = require("./routes/news")
+const newsRoute = require("./routes/news")
 const blogRoute = require("./routes/blog")
-// const chartRoute = require("./routes/chart")
+const chartRoute = require("./routes/chart")
 
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
@@ -37,10 +37,10 @@ app.use('/api/user', userRoutes);
 // app.use('/api/simulator', simulatorRoute);
 // app.use('/api/util', utilRoutes);
 // app.use('/api/marketTerm', marketTermRoute);
-// app.use('/api/news', newsRoute);
+app.use('/api/news', newsRoute);
 app.use('/api/mentor', mentorRoute);
 app.use('/api/blog', blogRoute);
-// app.use('/api/chart', chartRoute);
+app.use('/api/chart', chartRoute);
 
 app.listen(PORT, err => {
     if (err) {

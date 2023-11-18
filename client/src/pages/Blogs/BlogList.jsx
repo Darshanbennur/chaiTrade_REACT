@@ -4,10 +4,14 @@ import axios from "../../api/axiosConfig.js"
 const BlogList = () => {
 
   const [blogs, setBlogs] = useState([]);
+  console.log("Ijdiwcjsnn")
 
   useEffect(() => {
+    console.log("Inside Blogs!!")
     axios.get('/blog/allBlogs').then((res) => setBlogs(res.data.data))
-  }, [blogs])
+  }, []) 
+  // add blogs here for immidiate changes in the component
+  // Flaw : Infinite Loop for the component re-render
 
   const MyBlog_blogContainerStyle = {
     maxWidth: '690px',
