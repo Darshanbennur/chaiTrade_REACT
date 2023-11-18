@@ -1,6 +1,8 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import styled from 'styled-components';
-import Footer from "./components/Footer"
+import axios from "./api/axiosConfig.js";
+import { setUserDetails, setLoggedIn, setPremium, setMentor } from "./redux/userSlice.js";
+import { useDispatch } from "react-redux";
 
 //All Pages : 
 import Navbar from "../src/components/Navbar"
@@ -11,9 +13,11 @@ import BlogPage from "./pages/Blogs/BlogPage_main";
 import Featured_main from "./pages/Featured/Featured_main";
 import MentorPanel from "./pages/MentorPanel/MentorPanel";
 import MentorBlogMain from "./pages/MentorBlogs/MentorBlogs_main"
+import Footer from "./components/Footer"
 
 //All CSS : 
 import "../src/styles/app.css"
+import { useEffect } from "react";
 
 const Container = styled.div`
   padding: 0;
@@ -21,6 +25,30 @@ const Container = styled.div`
 `
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  async function getUser() {
+    const user = await axios.get('/user/checkCookie');
+    if (user.data.custom === "true") {
+      dispatch(setUserDetails(user.data.userData));
+      dispatch(setLoggedIn(true))
+      if (user.data.userData.isMentor === true) {
+        dispatch(setMentor(true))
+      }
+      if (user.data.userData.isPremium === true) {
+        dispatch(setPremium(true))
+      }
+    }
+    else {
+      console.log("Logged OUt!!")
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
   return (
     <Container>
       <BrowserRouter>
