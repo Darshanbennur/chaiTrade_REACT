@@ -1,5 +1,7 @@
+const User = require('../models/User');
 const Transaction = require('../models/Transaction.js');
 const ArrayUSer = require('../models/UserArrays');
+const mongoose = require('mongoose');
 
 const getAllTransaction = (req, res, next) => {
     let allTransArray = []
@@ -22,8 +24,8 @@ const getAllTransaction = (req, res, next) => {
             }
             if (counter == size) {
                 res.json({
-                    data : allTransArray,
-                    custom : "Fetched all transaction Successfully"
+                    data: allTransArray,
+                    custom: "Fetched all transaction Successfully"
                 })
                 counter = 0;
                 allTransArray = [];
@@ -34,4 +36,163 @@ const getAllTransaction = (req, res, next) => {
         })
 }
 
-module.exports = { getAllTransaction }
+const increase20K = (req, res, next) => {
+    const userID = req.body._id;
+    const arrayID = req.body.arrayID;
+    const costInHand = req.body.costInHand;
+    const wall = req.body.wallet;
+
+    const trans = new Transaction({
+        _id: new mongoose.Types.ObjectId(),
+        userID: userID,
+        amount: 50,
+        Date: new Date().toDateString(),
+        typeOfTransaction: "Simulator Pro"
+    })
+    trans
+        .save()
+        .then(savedToTransaction => {
+            console.log("Saved in Transaction : " + savedToTransaction);
+            ArrayUSer.findByIdAndUpdate(arrayID, {
+                $push: {
+                    transactionID: savedToTransaction._id
+                }
+            })
+                .then(savedtoArray => {
+                    console.log("Saved to Transaction Array : " + savedtoArray);
+                    const user = new User({
+                        costInHand: 20000 + costInHand,
+                        wallet: 20000 + wall
+                    })
+                    User.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userID) }, user)
+                        .then(result => {
+                            res.status(200).json({
+                                custom: "User data Updated!!"
+                            })
+                        })
+                        .catch(err => {
+                            res.status(403).json({
+                                custom: "Error Increasing 20,000 Credits" + err
+                            })
+                        })
+                })
+                .catch(errinArray => {
+                    res.status(403).json({
+                        custom: "Error in Storing in Array : " + errinArray
+                    })
+                })
+        })
+        .catch(errInTransaction => {
+            res.status(403).json({
+                custom: "Error in Saving Transactions : " + errInTransaction
+            })
+        })
+}
+
+const increase40K = (req, res, next) => {
+
+    const userID = req.body._id;
+    const arrayID = req.body.arrayID;
+    const costInHand = req.body.costInHand;
+    const wall = req.body.wallet;
+
+    const trans = new Transaction({
+        _id: new mongoose.Types.ObjectId(),
+        userID: userID,
+        amount: 100,
+        Date: new Date().toDateString(),
+        typeOfTransaction: "Simulator Premium"
+    })
+    trans
+        .save()
+        .then(savedToTransaction => {
+            console.log("Saved in Transaction : " + savedToTransaction);
+            ArrayUSer.findByIdAndUpdate(arrayID, {
+                $push: {
+                    transactionID: savedToTransaction._id
+                }
+            })
+                .then(savedtoArray => {
+                    console.log("Saved to Transaction Array : " + savedtoArray);
+                    const user = new User({
+                        costInHand: 40000 + costInHand,
+                        wallet: 40000 + wall
+                    })
+                    User.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userID) }, user)
+                        .then(result => {
+                            res.status(200).json({
+                                custom : "User data Updated!!"
+                            })
+                        })
+                        .catch(err => {
+                            res.status(403).json({
+                                custom : "Error Increasing 40,000 Credits"
+                            })
+                        })
+                })
+                .catch(errinArray => {
+                    res.status(403).json({
+                        custom : "Error in Storing in Array : " + errinArray
+                    })
+                })
+        })
+        .catch(errInTransaction => {
+            res.status(403).json({
+                custom : "Error in Saving Transactions : " + errInTransaction
+            })
+        })
+}
+
+const makeUserPremium = (req, res, next) => {
+    const userID = req.body._id;
+    const arrayID = req.body.arrayID;
+
+    const trans = new Transaction({
+        _id: new mongoose.Types.ObjectId(),
+        userID: userID,
+        amount: 30,
+        Date: new Date().toDateString(),
+        typeOfTransaction: "Premium Purchase"
+    })
+    trans
+        .save()
+        .then(savedToTransaction => {
+            console.log("Saved in Transaction : " + savedToTransaction);
+            ArrayUSer.findByIdAndUpdate(arrayID, {
+                $push: {
+                    transactionID: savedToTransaction._id
+                }
+            })
+                .then(savedtoArray => {
+                    console.log("Saved to Transaction Array : " + savedtoArray);
+                    const user = new User({
+                        isPremium: true
+                    })
+                    User.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userID) }, user)
+                        .then(result => {
+                            res.status(200).json({
+                                custom : "User Premium Enabled!!"
+                            })
+                        })
+                        .catch(err => {
+                            res.status(403).json({
+                                custom : "Error making user Premium"
+                            })
+                        })
+                })
+                .catch(errinArray => {
+                    res.status(403).json({
+                        custom : "Error in Storing in Array : " + errinArray
+                    })
+                })
+        })
+        .catch(errInTransaction => {
+            res.status(403).json({
+                custom : "Error in Saving Transactions : " + errInTransaction
+            })
+        })
+}
+
+
+
+module.exports = { getAllTransaction, increase20K, increase40K, makeUserPremium }

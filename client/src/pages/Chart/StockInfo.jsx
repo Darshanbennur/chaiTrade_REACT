@@ -7,19 +7,23 @@ const chartsCardStyle = {
   backgroundColor: '#f1f1f1',
   borderRadius: '0.5rem',
   opacity: '0.8',
-  marginBottom: '30px',
+  marginBottom: '70px',
+  width: '70%',
+  margin: '0 auto',
 };
+
 
 const chartsSubStyle = {
   fontSize: '30px',
 };
+
 
 const chartsInfo1Style = {
   color: 'rgb(189, 49, 192)',
   fontSize: '20px',
   display: 'grid',
   gridTemplateColumns: 'auto auto auto auto',
-  gridColumnGap: '10px',
+  gridColumnGap: '5px',
   marginLeft: '80px',
 };
 
@@ -32,20 +36,26 @@ const chartsInfoStyle = {
   fontSize: '20px',
   display: 'grid',
   gridTemplateColumns: 'auto auto auto auto',
+
 };
+
+const Namestyle = {
+  marginLeft: '-50px'
+}
+
+const LTPstyle = {
+  marginLeft: '30px'
+}
 
 const StockInfo = ({ stocks, subtitle, cardClass }) => (
   <div className={`charts-card ${cardClass}`} style={chartsCardStyle}>
-
     <div className="charts-sub" style={chartsSubStyle}>{subtitle}</div>
-    
     <div className="charts-info-1" style={chartsInfo1Style}>
-      <div className="charts-info-name">Name</div>
-      <div className="charts-info1">LTP</div>
+      <div className="charts-info-name" style={Namestyle}>Name</div>
+      <div className="charts-info1" style={LTPstyle}>LTP</div>
       <div className="charts-info2">Change</div>
       <div className="charts-info3">%Change</div>
     </div>
-    
     {stocks.map((stock, index) => (
       <div className="charts-info" key={index} style={chartsInfoStyle}>
         <div className="charts-info-name">{stock.chart_name}</div>
@@ -54,7 +64,6 @@ const StockInfo = ({ stocks, subtitle, cardClass }) => (
         <div className="charts-info3">{stock.chart_percentage}</div>
       </div>
     ))}
-    
   </div>
 );
 

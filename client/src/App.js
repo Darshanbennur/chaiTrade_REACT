@@ -22,6 +22,9 @@ import MentorPanel from "./pages/MentorPanel/MentorPanel";
 import Featured_main from "./pages/Featured/Featured_main";
 import MentorBlogMain from "./pages/MentorBlogs/MentorBlogs_main"
 import TransactionPage from "./pages/Transaction/TransactionPage.js";
+import AboutUs from "./pages/AboutUS/about.jsx";
+import FAQPage from "./pages/FAQ/MarketTerm.jsx";
+import PricingPage from "./pages/Pricing/pricing.jsx";
 import Footer from "./components/Footer"
 
 const Container = styled.div`
@@ -72,6 +75,9 @@ function App() {
               <Route path="/myMentorBlogs" element={<MentorBlogMain />}></Route>
               <Route path="/transactions" element={<TransactionPage />}></Route>
               <Route path="/profile" element={<ProfileComponent />}></Route>
+              <Route path="/faq" element={<FAQPage />}></Route>
+              <Route path="/pricing" element={<PricingPage />}></Route>
+              <Route path="/aboutUs" element={<AboutUs />}></Route>
             </Route>
           </Routes>
         </main>
