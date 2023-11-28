@@ -26,6 +26,7 @@ import AboutUs from "./pages/AboutUS/about.jsx";
 import FAQPage from "./pages/FAQ/MarketTerm.jsx";
 import PricingPage from "./pages/Pricing/pricing.jsx";
 import Footer from "./components/Footer"
+import MentorApplicationMain from "./pages/MentorApplication/MentorApplication_main.jsx";
 
 const Container = styled.div`
   padding: 0;
@@ -70,6 +71,7 @@ function App() {
               <Route path="/charts" element={<Charts_main />}></Route>
               <Route path="/news" element={<NewsSection />}></Route>
               <Route path="/blogs" element={<BlogPage />}></Route>
+              <Route path="/mentorApplication" element={<MentorApplicationMain />}></Route>
               <Route path="/mentorPanel" element={<MentorPanel />}></Route>
               <Route path="/featured" element={<Featured_main />}></Route>
               <Route path="/myMentorBlogs" element={<MentorBlogMain />}></Route>

@@ -1,5 +1,6 @@
 const Mentor = require('../models/mentor');
 const ArrayUSer = require('../models/UserArrays');
+const MentorApplication = require('../models/MentorApplication.js');
 const mongoose = require('mongoose');
 
 const postFeaturedSectionBlog = (req, res, next) => {
@@ -152,5 +153,35 @@ const LikeThisPost = (req, res, next) => {
         })
 }
 
+const postMentorApplication = (req, res, next) => {
+    
+    const application = new MentorApplication({
+        _id : new mongoose.Types.ObjectId(),
+        userID : req.body.userID,
+        userName : req.body.userName,
+        userEmail : req.body.email,
+        country : req.body.country,
+        tradingExperience : req.body.tradingExperience,
+        tradingStrategy : req.body.tradingStrategy,
+        reasonMentor : req.body.reasonMentor,
+        certificationPath : req.body.certificationPath
+    })
+    application
+        .save()
+        .then(result => {
+            res.status(200).json({
+                custom : "The Mentor Application was submitted Successfully"
+            })
+            console.log("The Mentor Application was submitted Successfully")
+        })
+        .catch(err => {
+            res.status(403).json({
+                custom : "Mentor Application Process Denied"
+            })
+            console.log("Mentor Application Process Denied")
+        })
+}
 
-module.exports = { postFeaturedSectionBlog, getAllFeaturedBlogs, getAllMentorBlogs, LikeThisPost };
+
+
+module.exports = { postFeaturedSectionBlog, getAllFeaturedBlogs, getAllMentorBlogs, LikeThisPost, postMentorApplication };
