@@ -23,10 +23,11 @@ const NewsCard = ({ data }) => {
   const cardStyle = {
     width: '300px',
     margin: '25px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
+    // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    color : "white",
+    borderRadius: '2px',
     overflow: 'hidden',
+    backgroundColor: 'rgba(33, 34, 42, 0.8)',
   };
 
   const imageStyle = {
@@ -54,8 +55,11 @@ const NewsCard = ({ data }) => {
   };
 
   const textStyle = {
-    marginBottom: '20px',
-    textAlign: 'center',
+    marginTop : "10px",
+    marginBottom: '30px',
+    fontSize : "15px",
+    marginLeft : "20px",
+    lineHeight : "25px",
   };
 
   return (

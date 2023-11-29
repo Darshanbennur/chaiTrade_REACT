@@ -25,8 +25,8 @@ import TransactionPage from "./pages/Transaction/TransactionPage.js";
 import AboutUs from "./pages/AboutUS/about.jsx";
 import FAQPage from "./pages/FAQ/MarketTerm.jsx";
 import PricingPage from "./pages/Pricing/pricing.jsx";
-import Footer from "./components/Footer"
 import MentorApplicationMain from "./pages/MentorApplication/MentorApplication_main.jsx";
+import ContactUs from "./pages/ContactUs/ContactUs.js";
 
 const Container = styled.div`
   padding: 0;
@@ -80,6 +80,7 @@ function App() {
               <Route path="/faq" element={<FAQPage />}></Route>
               <Route path="/pricing" element={<PricingPage />}></Route>
               <Route path="/aboutUs" element={<AboutUs />}></Route>
+              <Route path="/contactUs" element={<ContactUs />}></Route>
             </Route>
           </Routes>
         </main>

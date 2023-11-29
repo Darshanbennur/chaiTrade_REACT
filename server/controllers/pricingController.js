@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Transaction = require('../models/Transaction.js');
 const ArrayUSer = require('../models/UserArrays');
+const ContactUs = require('../models/ContactUs.js');
 const mongoose = require('mongoose');
 
 const getAllTransaction = (req, res, next) => {
@@ -193,6 +194,35 @@ const makeUserPremium = (req, res, next) => {
         })
 }
 
+const postContactUs = (req, res, next) => {
+    const name= req.body.authorName;
+    const email = req.body.email;
+    const title = req.body.title;
+    const content = req.body.content;
+
+    const contactUs = new ContactUs({
+        _id: new mongoose.Types.ObjectId(),
+        authorName : name,
+        email : email,
+        title : title,
+        content : content
+    })
+    contactUs
+        .save()
+        .then(result => {
+            console.log("The Feedback was Sent : " + result);
+            res.status(200).json({
+                custom : "The Feedback was Sent"
+            })
+        })
+        .catch(err => {
+            console.log("Error occured while Sending Feedback : " + err)
+            res.status(403).json({
+                custom : "Error occured while Sending Feedback "
+            })
+        })
+}
 
 
-module.exports = { getAllTransaction, increase20K, increase40K, makeUserPremium }
+
+module.exports = { getAllTransaction, increase20K, increase40K, makeUserPremium, postContactUs }

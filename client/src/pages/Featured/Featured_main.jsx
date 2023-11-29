@@ -45,8 +45,9 @@ export default function Featured_main() {
 
   const contentH1Style = {
     cursor: 'pointer',
+    marginLeft : "12rem",
     fontFamily: 'Sacramento, cursive',
-    fontSize: '90px',
+    fontSize: '75px',
     color: isHovered ? 'transparent' : '#65a893',
     textAlign: 'center',
     WebkitTextStroke: isHovered ? '2px #88b9a9' : 'none',

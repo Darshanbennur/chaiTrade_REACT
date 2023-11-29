@@ -46,7 +46,8 @@ export default function MentorBlog_main() {
   const contentH1Style = {
     cursor: 'pointer',
     fontFamily: 'Sacramento, cursive',
-    fontSize: '90px',
+    marginLeft : "10rem",
+    fontSize: '80px',
     color: isHovered ? 'transparent' : '#65a893',
     textAlign: 'center',
     WebkitTextStroke: isHovered ? '2px #88b9a9' : 'none',

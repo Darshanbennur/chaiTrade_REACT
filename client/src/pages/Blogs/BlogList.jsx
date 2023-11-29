@@ -23,7 +23,7 @@ const BlogList = () => {
   const MyBlog_commentStyle = {
     width: '100%',
     lineHeight: '1.4',
-    borderRadius: '15px',
+    borderRadius: '5px',
     margin: '1rem 0',
     padding: '1.0rem 1rem',
     backgroundColor: '#f9f9f9',
@@ -46,9 +46,9 @@ const BlogList = () => {
   };
 
   const MyBlog_commentContentH2Style = {
-    fontSize: '1.4rem',
+    fontSize: '1.3rem',
     color: '#3a3a3a',
-    marginBottom: '0.2rem',
+    marginBottom: '0.4rem',
   };
 
   const MyBlog_commentContentPStyle = {
@@ -75,7 +75,7 @@ const BlogList = () => {
 
             <div style={MyBlog_commentContentStyle} className="MyBlog_comment_content">
               <h3 style={MyBlog_commentContentNameStyle} className="MyBlog_username">{blog.authorName}</h3>
-              <h2 style={MyBlog_commentContentH2Style}>{blog.title}</h2>
+              <h3 style={MyBlog_commentContentH2Style}>{blog.title}</h3>
               <p style={MyBlog_commentContentPStyle}>{blog.content}</p>
             </div>
 

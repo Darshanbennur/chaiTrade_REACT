@@ -5,18 +5,16 @@ import axios from '../../api/axiosConfig.js';
 const Featured_BlogCard = ({ blog }) => {
 
   const reduxUserData = useSelector((state) => state.userData)
-
-  const [isHovered, setIsHovered] = useState(false);
   const [isImageHovered, setIsImageHovered] = useState(false);
 
   const [likedFormData, setLikedFormData] = useState({
-    blogID : blog._id,
-    userID : reduxUserData.currentUser._id
+    blogID: blog._id,
+    userID: reduxUserData.currentUser._id
   })
 
   const [likedByArray, setLikedByArray] = useState(blog.likedBy.length);
 
-  async function handleLikedSubmit(event){
+  async function handleLikedSubmit(event) {
     event.preventDefault()
     const result = await axios.post('/mentor/likePost', likedFormData)
     setLikedByArray(result.data.data)
@@ -26,20 +24,21 @@ const Featured_BlogCard = ({ blog }) => {
     console.log("UseEffect triggered!!")
   }, [likedByArray, setLikedByArray])
 
-  function defaultOnChange(){
+  function defaultOnChange() {
     console.log(likedFormData)
   }
 
   const userStyle = {
     cursor: 'pointer',
-    borderRadius: '5px',
-    background: '#bdcfc9',
+    borderRadius: '3px',
+    color: "white",
+    backgroundColor: 'rgba(33, 34, 42, 0.9)',
+    border: "0.5px solid white",
     padding: '15px',
     width: '95%',
     margin: '15px',
     fontFamily: 'Montserrat-light',
     position: 'relative',
-    opacity: isHovered ? '1' : '0.8',
   };
 
   const user1picStyle = {
@@ -59,7 +58,7 @@ const Featured_BlogCard = ({ blog }) => {
     left: '100px',
     fontWeight: '400',
     color: 'crimson',
-    marginTop : "15px",
+    marginTop: "15px",
   };
 
   const likeButtonContainerStyle = {
@@ -73,11 +72,27 @@ const Featured_BlogCard = ({ blog }) => {
   const heartButtonStyle = {
     background: 'none',
     border: 'none',
-    cursor : 'pointer',
+    cursor: 'pointer',
+  };
+
+  const hrStyle = {
+    width: '560px',
+    border: 'none',
+    height: '1px', // Decreased thickness (adjust this value as needed)
+    backgroundColor: 'white',
+    margin: '10px 0',
+    marginLeft: '60px',
+  };
+
+  const titleStyle = {
+    marginLeft: '75px',
+    fontWeight: '400',
+    borderBottom: '1px solid transparent', // Create a line using border-bottom
+    paddingBottom: '3px', // Adjust padding to create space between text and line
   };
 
   return (
-    <div className="user" style={userStyle} onMouseOver={() => setIsHovered(true)} onMouseOut={() => setIsHovered(false)}>
+    <div className="user" style={userStyle}>
       <div className="P">
 
         <img
@@ -89,7 +104,7 @@ const Featured_BlogCard = ({ blog }) => {
           style={user1picStyle}
         />
 
-        <p style={postedByStyle}><span style={{color : "black"}}>Posted By:</span> {blog.mentorName}</p>
+        <p style={postedByStyle}><span style={{ color: "white" }}>Posted By:</span> {blog.mentorName}</p>
 
         <form className="heart_button" onSubmit={handleLikedSubmit} style={likeButtonContainerStyle}>
           <span className="likes">{likedByArray}</span>
@@ -102,15 +117,15 @@ const Featured_BlogCard = ({ blog }) => {
 
       </div>
 
-      <p className="titleContent" style={{ marginLeft: '75px', fontWeight: '900' }}>
+      <p className="titleContent" style={titleStyle}>
         {blog.title} :
       </p>
 
-      <hr className="horizontal" style={{ width: "560px", border: 'none', height: '3px', background: 'rgb(22, 72, 43)', margin : "10px 0", marginLeft: '60px' }} />
-      
+      <hr className="horizontal" style={hrStyle} />
+
       <div id="timediv" style={{ paddingLeft: '75px' }}>
         <div dangerouslySetInnerHTML={{ __html: blog.content }} />
-        
+
         <p className="timeoncards" style={{ color: 'crimson', marginTop: '20px', textAlign: 'right' }}>
           Posted on: {blog.time}
         </p>
