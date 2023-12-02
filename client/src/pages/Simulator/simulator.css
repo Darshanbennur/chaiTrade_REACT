@@ -1,0 +1,269 @@
+* {
+    box-sizing: border-box;
+}
+
+/* .charts-body {
+    margin-top: 20rem;
+} */
+
+.charts-column {
+    float: left;
+    width: 50%;
+    padding: 20px 20px;
+}
+
+.charts-container {
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+
+.charts-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@media screen and (max-width: 600px) {
+    .charts-column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+.charts-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+    border-radius: 0.5rem;
+    opacity: 0.9;
+}
+
+.totalCostContainer {
+    display: flex;
+    margin-left: 32rem;
+    margin-top: 3rem;
+}
+
+.totalCost {
+    display: flex;
+    border-radius: 3px;
+    align-items: center;
+    color: rgb(87, 147, 22);
+    margin-right: 60px;
+    padding: 10px;
+    height: 50px;
+    background-color: #21222A;
+    border: #f1f1f1 1px solid;
+    opacity: 0.8;
+}
+
+.amount {
+    margin-left: 10px;
+    color: white;
+}
+
+.charts-card:hover {
+    opacity: 1;
+}
+
+.charts-card1 {
+    margin-top: 5rem;
+    /* margin-left: 10rem; */
+    margin-bottom: 2rem;
+}
+
+.charts-card2 {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+    margin-right: 10rem;
+}
+
+.charts-card3,
+.charts-card5 {
+    margin-bottom: 2rem;
+    margin-left: 10rem;
+}
+
+.charts-card4,
+.charts-card6 {
+    margin-bottom: 2rem;
+    margin-right: 10rem;
+}
+
+.justcharts-heading {
+    cursor: pointer;
+    font-family: 'Sacramento', cursive;
+    font-size: 5.625rem;
+    color: #72AC99;
+    text-align: center;
+    /* margin-top: 2rem;
+    margin-bottom: 2rem; */
+}
+
+.justcharts-heading:hover {
+    -webkit-text-stroke: 2px #72AC99;
+    color: transparent;
+}
+
+.charts-info {
+    border: 1px solid black;
+    margin: 5px;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.buyingButton {
+    color: white;
+    background: #72AC99;
+    border-radius: 5px;
+    width: 4rem;
+    font-size: 1rem;
+}
+
+#charts-sub {
+    font-size: 30px;
+}
+
+.charts-sub-head {
+    margin-bottom: 20px;
+}
+
+.footer-distributed {
+    background-color: #292c2f;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    margin-top: 200px;
+    width: 100%;
+    text-align: left;
+    font: normal 16px sans-serif;
+    padding: 45px 50px;
+}
+
+.simulator_stockcard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 70%;
+    margin: 40px auto;
+    color: #666;
+}
+
+.simulator_cardheading {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.simulator_cardheading h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.simulator_cardheading p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.simulator_cardcontents {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.charts-info-1 {
+    margin: 10px 0 !important;
+    color: rgb(189, 49, 192);
+    font-size: 15px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.charts-info-nameheading{
+    margin-left: 1.2rem;
+}
+
+.changes {
+    margin-left: 6.5rem;
+}
+
+.simulator_cardprice,
+.simulator_cardvalue,
+.simulator_cardprofit {
+    flex: 1;
+    margin-right: 430px;
+}
+
+.simulator_allsameclass {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.simulator_cardcontentheadings {
+    font-weight: bold;
+    margin: 10px 0px;
+}
+
+.triangle {
+    font-size: 16px;
+    color: blue;
+    margin: 5px 0px;
+}
+
+.simulator_cardprice .simulator_allsameclass {
+    margin-bottom: 5px;
+}
+
+.card_date {
+    margin-top: 40px;
+    color: black;
+}
+
+.Sell-Button {
+    padding: 5px 10px;
+    margin-top: 5px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+}
+
+.simulator_cardvalue .simulator_allsameclass {
+    margin-bottom: 5px;
+}
+
+.simulator_cardprofit .simulator_allsameclass {
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: 90%;
+    }
+
+    .simulator_cardcontents {
+        flex-direction: column;
+    }
+
+    .simulator_cardprice,
+    .simulator_cardvalue,
+    .simulator_cardprofit {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}

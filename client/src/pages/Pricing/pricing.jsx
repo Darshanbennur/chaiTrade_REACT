@@ -5,11 +5,9 @@ import Footer from "../../components/Footer.jsx";
 import charts from "../../images/charts.jpg"
 import axios from "../../api/axiosConfig.js"
 import { useDispatch } from "react-redux";
-import { setPremium } from "../../redux/userSlice.js"
+import { setPremium, setCostInCreditsWallet, setUserCostInHand } from "../../redux/userSlice.js"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-//Too many changes to be done in this page yet!!
 
 export default function PricingPage() {
 
@@ -85,7 +83,7 @@ export default function PricingPage() {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
+      });
     }
   }
 
@@ -98,7 +96,13 @@ export default function PricingPage() {
       wallet: reduxUserData.currentUser.wallet
     }
     try {
-      axios.post("/util/purchase20k", user)
+      axios.post("/util/purchase20k", user).then(() => {
+        let userInHandCost = +(reduxUserData.currentUser.costInHand) + 20000
+        let userWallet = +(reduxUserData.currentUser.wallet) + 20000
+        dispatch(setUserCostInHand(userInHandCost));
+        dispatch(setCostInCreditsWallet(userWallet));
+      })
+
       window.location.href = "/transactions"
     }
     catch (e) {
@@ -124,7 +128,12 @@ export default function PricingPage() {
       wallet: reduxUserData.currentUser.wallet
     }
     try {
-      axios.post("/util/purchase40k", user)
+      axios.post("/util/purchase40k", user).then(() => {
+        let userInHandCost = +(reduxUserData.currentUser.costInHand) + 40000
+        let userWallet = +(reduxUserData.currentUser.wallet) + 40000
+        dispatch(setUserCostInHand(userInHandCost));
+        dispatch(setCostInCreditsWallet(userWallet));
+      })
       window.location.href = "/transactions"
     }
     catch (e) {
