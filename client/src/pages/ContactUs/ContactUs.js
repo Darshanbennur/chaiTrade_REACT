@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from "react-redux";
 
-import './contactUs.css';
+import styles from './contactUs.module.css';
 import charts from "../../images/charts.jpg"
 import axios from "../../api/axiosConfig.js"
 import Footer from '../../components/Footer.jsx';
@@ -92,10 +92,9 @@ export default function ContactUs() {
   return (
     <>
       <div>
-        <img src={charts} alt="background" className="backgroundpic" />
-        <div className="container">
-
-          <div className="contact-info">
+        <img src={charts} alt="background" className={styles.backgroundpic} />
+        <div className={styles.container}>
+          <div className={styles['contact-info']}>
             <h3>Contact Us</h3>
             <h4>We are open to suggestions:</h4>
             <p>☎️  : +91-7907314057</p>
@@ -103,58 +102,68 @@ export default function ContactUs() {
             <p>📬: admin@chaitrade.com</p>
           </div>
 
-          <div className="contact-form">
+          <div className={styles['contact-form']}>
             <h2>Get in touch</h2>
             <form id="contact-form" style={{ marginTop: "-40px" }} onSubmit={handleFormSubmit}>
-              <div className="form-group-inline">
-                <label htmlFor="name">Name:</label>
+              <div className={styles['form-group-inline']}>
+                <label className={styles.forLabel} htmlFor="name">Name:</label>
                 <input
+                  className={styles['custom-input']}
                   type="text"
                   id="name"
                   name="authorName"
                   value={contactData.authorName}
                   onChange={handleContactFormChanges}
-                  required />
+                  required
+                />
               </div>
 
-              <div className="form-group-inline">
-                <label htmlFor="email">Email:</label>
+              <div className={styles['form-group-inline']}>
+                <label className={styles.forLabel} htmlFor="email">Email:</label>
                 <input
+                  className={styles['custom-input']}
                   type="email"
                   id="email"
                   name="email"
                   value={contactData.email}
                   onChange={handleContactFormChanges}
-                  required />
+                  required
+                />
               </div>
 
-              <div className="form-group-full">
-                <label htmlFor="title">Title:</label>
+              <div className={styles['form-group-full']}>
+                <label className={styles.forLabel} htmlFor="title">Title:</label>
                 <input
+                  className={styles['custom-input']}
                   type="text"
                   id="title"
                   name="title"
                   value={contactData.title}
                   onChange={handleContactFormChanges}
-                  required />
+                  required
+                />
               </div>
 
-              <div className="form-group-full">
-                <label htmlFor="content">Message:</label>
+              <div className={styles['form-group-full']}>
+                <label className={styles.forLabel} htmlFor="content">Message:</label>
                 <textarea
+                  className={styles['custom-input']}
                   id="content"
                   name="content"
                   value={contactData.content}
                   onChange={handleContactFormChanges}
-                  required></textarea>
+                  required
+                ></textarea>
               </div>
 
-              <input type="submit" />
-            </form>
+              <input
+                type="submit"
+                className={`${styles['custom-input']} ${styles['submit-button']}`}
+              />
 
+            </form>
           </div>
         </div>
-
       </div>
       <ToastContainer
         position="top-right"

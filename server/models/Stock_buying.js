@@ -7,7 +7,9 @@ const StockBuying = new mongoose.Schema({
     stockName: {type : String, required : true},
     purchasePrice: {type : Number, required : true},
     purchaseDate: {type : String, required : true},
-    inPossesion: {type : Boolean, required : false},
+    inPossesion: {type : Boolean, required : true},
+    sellingPrice: {type : String, required : false}, //New One
+    sellingDate: {type : String, required : false}, //New One
 });
 
 module.exports = mongoose.model('StockBuying',StockBuying);

@@ -56,7 +56,7 @@ const MyBlog_inputTextStyle = {
   border: '1px solid #ccc',
   background: '#fff',
   padding: '12px',
-  margin : "15px"
+  margin : "15px 0px"
 };
 
 const MyBlog_textareaStyle = {

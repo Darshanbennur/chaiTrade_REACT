@@ -3,7 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
 const userRoutes = require("./routes/user")
-// const simulatorRoute = require("./routes/simulator")
+const simulatorRoute = require("./routes/simulator")
 const utilRoutes = require("./routes/util")
 const marketTermRoute = require("./routes/marketTerm")
 const mentorRoute = require("./routes/mentor")
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/user', userRoutes);
-// app.use('/api/simulator', simulatorRoute);
+app.use('/api/simulator', simulatorRoute);
 app.use('/api/util', utilRoutes);
 app.use('/api/marketTerm', marketTermRoute);
 app.use('/api/news', newsRoute);
