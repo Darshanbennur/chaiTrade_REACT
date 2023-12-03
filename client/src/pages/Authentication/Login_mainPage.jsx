@@ -232,7 +232,7 @@ export default function Login_mainPage() {
                                 placeholder='Password'
                                 name="password" />
 
-                            <Components.Anchor href='#'>Forgot password? <span style={{ color: "purple" }}>Contact US</span></Components.Anchor>
+                            <Components.Anchor href='/contactUs'>Forgot password? <span style={{ color: "purple" }}>Contact US</span></Components.Anchor>
 
                             <Components.Button type="submit" >Sigin In</Components.Button>
 

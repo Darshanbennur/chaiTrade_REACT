@@ -8,6 +8,7 @@ import SimulatorCharts from "./SimulatorCharts";
 import SimulatorTransactions from "./SimulatorTransactions";
 import charts from "../../images/charts.jpg"
 import "./simulator.css"
+import Footer from "../../components/Footer";
 
 const MyBlog_backgroundPicStyle = {
     position: 'fixed',
@@ -60,6 +61,7 @@ export default function SimulatorMain() {
             </div>
             <SimulatorCharts />
             <SimulatorTransactions />
+            <Footer/>
         </>
     );
 }

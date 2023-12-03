@@ -28,6 +28,7 @@ import PricingPage from "./pages/Pricing/pricing.jsx";
 import MentorApplicationMain from "./pages/MentorApplication/MentorApplication_main.jsx";
 import ContactUs from "./pages/ContactUs/ContactUs.js";
 import SimulatorMain from "./pages/Simulator/SimulatorMain.jsx";
+import Error from "./pages/ErrorPage/Error.jsx";
 
 const Container = styled.div`
   padding: 0;
@@ -83,6 +84,7 @@ function App() {
               <Route path="/pricing" element={<PricingPage />}></Route>
               <Route path="/aboutUs" element={<AboutUs />}></Route>
               <Route path="/contactUs" element={<ContactUs />}></Route>
+              <Route path="*" element={<Error/>}></Route>
             </Route>
           </Routes>
         </main>

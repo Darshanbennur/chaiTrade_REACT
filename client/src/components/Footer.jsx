@@ -6,7 +6,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 import styles from "../components/ui_footer.module.css"
 
-export default function () {
+export default function Footer() {
     return (
         <footer className={styles['footer-distributed']}>
             <div className={styles['footer-right']}>
