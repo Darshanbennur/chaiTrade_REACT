@@ -8,7 +8,7 @@ const StockBuying = new mongoose.Schema({
     purchasePrice: {type : Number, required : true},
     purchaseDate: {type : String, required : true},
     inPossesion: {type : Boolean, required : true},
-    sellingPrice: {type : String, required : false}, //New One
+    sellingPrice: {type : Number, required : false}, //New One
     sellingDate: {type : String, required : false}, //New One
 });
 

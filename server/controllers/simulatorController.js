@@ -98,7 +98,7 @@ const BuyTheStock = (req, res, next) => {
 
 const SellTheStock = async (req, res, next) => {
     const userID = req.body._id;
-    const StockID = req.body.sellButton;
+    
     const transactionID = req.body.transactionID; // To be fetched from all the transaction in Stock Buying
     // Will be used to make the inPosession as False when needed!!
 
@@ -109,13 +109,14 @@ const SellTheStock = async (req, res, next) => {
     const userCostInHand = req.body.costInHand;
     const userCostInvested = req.body.costInvested;
     const wallet = req.body.wallet;
-
+    console.log("Request Body")
+    console.log(req.body)
     let tempCostInHand = parseFloat(userCostInHand);
     let tempCostInvested = parseFloat(userCostInvested);
     let tempwallet = parseFloat(wallet);
 
     tempCostInHand += +(currentValue)
-    tempCostInvested -= purchaseValue
+    tempCostInvested -= +(purchaseValue)
     tempwallet = tempCostInHand + tempCostInvested;
 
     const userCostUpdate = new User({
@@ -132,11 +133,16 @@ const SellTheStock = async (req, res, next) => {
             console.log("Error in Updating Cost after Selling : " + costUpdateError)
         })
     const stockSell = new StockBuy({
-        inPossesion: false
+        inPossesion: false,
+        sellingPrice : +(currentValue),
+        sellingDate : new Date().toDateString()
     })
+    console.log("transactionID")
+    console.log(transactionID)
     await StockBuy.updateOne({ _id: new mongoose.Types.ObjectId(transactionID) }, stockSell)
         .then(afterSelling => {
-            console.log("The Stock is Sold : " + afterSelling)
+            console.log("The Stock is Sold : ")
+            console.log(afterSelling);
             res.status(200).json({
                 custom: "The Stock is Sold : " + afterSelling
             })
@@ -152,18 +158,12 @@ const SellTheStock = async (req, res, next) => {
 const getAlltheBoughtStocks = async (req, res, next) => {
     const userArrayID = req.body.arrayID;
 
-    let allCompany = []
-    let allCommodity = []
-    let allForex = []
-    let allCrypto = []
-    let counterForAll = 0;
-    let totalSizeofCharts = 0;
-
     let counterForGettingStockId = 0;
     let counterForGettingStockDetails = 0;
     let stockIds = []
     let transactionStockDetails = []
     let stockDetails = []
+
     await ArrayUser.findOne({ _id: new mongoose.Types.ObjectId(userArrayID) })
         .then(async result => { // These are Transaction Id's
             const allTransactionId = result.ShareHoldingID;
@@ -188,44 +188,19 @@ const getAlltheBoughtStocks = async (req, res, next) => {
                 }
                 if (counterForGettingStockDetails == sizeAllTransaction) {
                     counterForGettingStockDetails = 0
-                    await Chart.find()
-                        .then(allCharts => {
-                            const allChart = allCharts;
-                            totalSizeofCharts = allChart.length
-                            for (let index = 0; index < totalSizeofCharts; index++) {
-                                if (allChart[index].type == "Company")
-                                    allCompany.push(allChart[index]);
-                                else if (allChart[index].type == "Commodity")
-                                    allCommodity.push(allChart[index])
-                                else if (allChart[index].type == "Forex")
-                                    allForex.push(allChart[index])
-                                else if (allChart[index].type == "Crypto")
-                                    allCrypto.push(allChart[index])
-                                counterForAll++;
-                            }
-                        })
-                        .catch(errCharts => {
-                            console.log("Error in fetching Charts : " + errCharts)
-                        })
-                    if (counterForAll == totalSizeofCharts) {
-                        counterForAll = 0;
-                        console.log("Fetched Eveything Successfully!!")
-                        res.status(200).json({
-                            data: {
-                                stockTransactionDetails: transactionStockDetails, // Stock Buying everything
-                                stockDetails: stockDetails, //Charts Page
-                                companyStock: allCompany,
-                                commodityStock: allCommodity,
-                                forexStock: allForex,
-                                cryptoStock: allCrypto
-                            },
-                            custom: "All bought stocks are Fetched Successfully!!"
-                        })
-                        allCompany = [];
-                        allCommodity = [];
-                        allForex = [];
-                        allCrypto = [];
-                    }
+                    console.log("Fetched Eveything Successfully!!")
+                    res.status(200).json({
+                        data: {
+                            stockTransactionDetails: transactionStockDetails, // Stock Buying everything
+                            stockDetails: stockDetails //Charts Page
+                        },
+                        custom: "All bought stocks are Fetched Successfully!!"
+                    })
+                    counterForGettingStockId = 0;
+                    counterForGettingStockDetails = 0;
+                    stockIds = []
+                    transactionStockDetails = []
+                    stockDetails = []
                 }
             }
         })
