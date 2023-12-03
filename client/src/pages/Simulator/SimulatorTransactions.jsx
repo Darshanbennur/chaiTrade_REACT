@@ -4,6 +4,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
 //User made refs:
 import axios from "../../api/axiosConfig.js"
 import image from "../../images/newwordCoin4.png"
@@ -90,7 +97,40 @@ const containerCardStyle = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "10rem",
+    marginTop: "2rem",
+}
+
+function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
 }
 
 export default function SimulatorTransactions() {
@@ -193,64 +233,204 @@ export default function SimulatorTransactions() {
         })
     }, [])
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
         <>
-            <div style={containerCardStyle}>
-                {userTransactions.map((item, index) => (
-                    <div style={cardStyle}>
-                        <div style={{ ...overlayStyle }}></div>
+            <Box sx={{ width: '100%', marginTop: '40px' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value}
+                        onChange={handleChange}
+                        centered
+                        textColor="secondary"
+                        indicatorColor="secondary"
+                        aria-label="secondary tabs example"
+                    >
 
-                        <div style={firstdiv}>
-                            {item.inPossesion && <div style={headingStyle}>BOUGHT</div>}
-                            {!item.inPossesion && <div style={headingStyle}>SOLD</div>}
-                        </div>
+                        <Tab sx={{ color: 'white' }} label="All" {...a11yProps(0)} />
+                        <Tab sx={{ color: 'white' }} label="Holdings" {...a11yProps(1)} />
+                        <Tab sx={{ color: 'white' }} label="Sold" {...a11yProps(2)} />
+                    </Tabs>
+                </Box>
+                <CustomTabPanel value={value} index={0}>
+                    <div style={containerCardStyle}>
+                        {userTransactions.map((item, index) => (
+                            <div style={cardStyle}>
+                                <div style={{ ...overlayStyle }}></div>
 
-                        <div style={secondDiv}>
-                            <div style={subHeadingStyle}>Chai Trade Exchange</div>
-                            <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
-                                    <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
-                                    <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                <div style={firstdiv}>
+                                    {item.inPossesion && <div style={headingStyle}>BOUGHT</div>}
+                                    {!item.inPossesion && <div style={headingStyle}>SOLD</div>}
                                 </div>
-                                <hr style={hrStyle} />
-                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
-                                    <div style={{ flexDirection: 'column' }}>
-                                        <div style={{ marginBottom: '5px' }}>Purchased Date:</div>
-                                        <div style={{ marginTop: '5px', fontWeight: "bold" }}>{item.purchaseDate}</div>
+
+                                <div style={secondDiv}>
+                                    <div style={subHeadingStyle}>Chai Trade Exchange</div>
+                                    <div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+                                            <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
+                                            <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                        </div>
+                                        <hr style={hrStyle} />
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                            <div style={{ flexDirection: 'column' }}>
+                                                <div style={{ marginBottom: '5px' }}>Purchased Date:</div>
+                                                <div style={{ marginTop: '5px', fontWeight: "bold" }}>{item.purchaseDate}</div>
+                                            </div>
+                                            <div style={{ flexDirection: 'column' }}>
+                                                <div style={{ marginBottom: '5px' }}>Purchased Price:</div>
+                                                <div style={{ marginTop: '5px', fontWeight: "bold" }}>${item.purchasePrice}</div>
+                                            </div>
+                                            {item.inPossesion && <form onSubmit={handleSellingStock}>
+                                                <input style={{ display: "none" }} name='transactionID' value={item._id} />
+                                                <input style={{ display: "none" }} name='purchaseValue' value={item.purchasePrice} />
+                                                <input style={{ display: "none" }} name='currentValue' value={stockDetails[index].chart_ltp} />
+                                                <button type='submit' style={buttonStyle}>Sell</button>
+                                            </form>}
+                                        </div>
                                     </div>
-                                    <div style={{ flexDirection: 'column' }}>
-                                        <div style={{ marginBottom: '5px' }}>Purchased Price:</div>
-                                        <div style={{ marginTop: '5px', fontWeight: "bold" }}>${item.purchasePrice}</div>
-                                    </div>
-                                    {item.inPossesion && <form onSubmit={handleSellingStock}>
-                                        <input style={{ display: "none" }} name='transactionID' value={item._id} />
-                                        <input style={{ display: "none" }} name='purchaseValue' value={item.purchasePrice} />
-                                        <input style={{ display: "none" }} name='currentValue' value={stockDetails[index].chart_ltp} />
-                                        <button type='submit' style={buttonStyle}>Sell</button>
-                                    </form>}
                                 </div>
-                            </div>
-                        </div>
 
-                        <div style={{ ...partStyle, borderRight: '1px solid #ccc' }}>
-                            <div style={thirddiv}>
-                                <div style={subHeadingStyle}>Chai Trade Exchange</div>
-                                {!item.inPossesion && <div>
-                                    <div style={{marginBottom : "5px"}}>Sold Price: $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice).toFixed(3)}</span></div>
-                                    <div style={{marginBottom : "5px"}}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice - item.purchasePrice).toFixed(3)}</span></div>
-                                    <div style={{marginBottom : "5px"}}>P & L% : <span style={{ fontWeight: "bold" }}>{(((item.sellingPrice - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}</span>%</div>
-                                    <div style={{marginBottom : "5px"}}>Sold Date: <span style={{ fontWeight: "bold" }}>{item.sellingDate}</span></div>
-                                </div>}
-                                {item.inPossesion && <div>
-                                    <div style={{ margin: "1rem 0rem" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(stockDetails[index].chart_ltp - item.purchasePrice).toFixed(3)}</span></div>
-                                    <div>P & L% : <span style={{ fontWeight: "bold" }}>{(((stockDetails[index].chart_ltp - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}%</span></div>
-                                </div>}
-                            </div>
-                        </div>
+                                <div style={{ ...partStyle, borderRight: '1px solid #ccc' }}>
+                                    <div style={thirddiv}>
+                                        <div style={subHeadingStyle}>Chai Trade Exchange</div>
+                                        {!item.inPossesion && <div>
+                                            <div style={{ marginBottom: "5px" }}>Sold Price: $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice).toFixed(3)}</span></div>
+                                            <div style={{ marginBottom: "5px" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice - item.purchasePrice).toFixed(3)}</span></div>
+                                            <div style={{ marginBottom: "5px" }}>P & L% : <span style={{ fontWeight: "bold" }}>{(((item.sellingPrice - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}</span>%</div>
+                                            <div style={{ marginBottom: "5px" }}>Sold Date: <span style={{ fontWeight: "bold" }}>{item.sellingDate}</span></div>
+                                        </div>}
+                                        {item.inPossesion && <div>
+                                            <div style={{ margin: "1rem 0rem" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(stockDetails[index].chart_ltp - item.purchasePrice).toFixed(3)}</span></div>
+                                            <div>P & L% : <span style={{ fontWeight: "bold" }}>{(((stockDetails[index].chart_ltp - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}%</span></div>
+                                        </div>}
+                                    </div>
+                                </div>
 
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <div style={containerCardStyle}>
+                        {userTransactions.map((item, index) => (
+                            <div style={cardStyle}>
+                                {item.inPossesion && <div style={{ ...overlayStyle }}></div>}
+
+                                {item.inPossesion && <div style={firstdiv}>
+                                    {item.inPossesion && <div style={headingStyle}>BOUGHT</div>}
+                                    {!item.inPossesion && <div style={headingStyle}>SOLD</div>}
+                                </div>}
+
+                                {item.inPossesion && <div style={secondDiv}>
+                                    <div style={subHeadingStyle}>Chai Trade Exchange</div>
+                                    <div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+                                            <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
+                                            <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                        </div>
+                                        <hr style={hrStyle} />
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                            <div style={{ flexDirection: 'column' }}>
+                                                <div style={{ marginBottom: '5px' }}>Purchased Date:</div>
+                                                <div style={{ marginTop: '5px', fontWeight: "bold" }}>{item.purchaseDate}</div>
+                                            </div>
+                                            <div style={{ flexDirection: 'column' }}>
+                                                <div style={{ marginBottom: '5px' }}>Purchased Price:</div>
+                                                <div style={{ marginTop: '5px', fontWeight: "bold" }}>${item.purchasePrice}</div>
+                                            </div>
+                                            {item.inPossesion && <form onSubmit={handleSellingStock}>
+                                                <input style={{ display: "none" }} name='transactionID' value={item._id} />
+                                                <input style={{ display: "none" }} name='purchaseValue' value={item.purchasePrice} />
+                                                <input style={{ display: "none" }} name='currentValue' value={stockDetails[index].chart_ltp} />
+                                                <button type='submit' style={buttonStyle}>Sell</button>
+                                            </form>}
+                                        </div>
+                                    </div>
+                                </div>}
+
+                                {item.inPossesion && <div style={{ ...partStyle, borderRight: '1px solid #ccc' }}>
+                                    <div style={thirddiv}>
+                                        <div style={subHeadingStyle}>Chai Trade Exchange</div>
+                                        {!item.inPossesion && <div>
+                                            <div style={{ marginBottom: "5px" }}>Sold Price: $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice).toFixed(3)}</span></div>
+                                            <div style={{ marginBottom: "5px" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice - item.purchasePrice).toFixed(3)}</span></div>
+                                            <div style={{ marginBottom: "5px" }}>P & L% : <span style={{ fontWeight: "bold" }}>{(((item.sellingPrice - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}</span>%</div>
+                                            <div style={{ marginBottom: "5px" }}>Sold Date: <span style={{ fontWeight: "bold" }}>{item.sellingDate}</span></div>
+                                        </div>}
+                                        {item.inPossesion && <div>
+                                            <div style={{ margin: "1rem 0rem" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(stockDetails[index].chart_ltp - item.purchasePrice).toFixed(3)}</span></div>
+                                            <div>P & L% : <span style={{ fontWeight: "bold" }}>{(((stockDetails[index].chart_ltp - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}%</span></div>
+                                        </div>}
+                                    </div>
+                                </div>}
+
+                            </div>
+                        ))}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                    <div style={containerCardStyle}>
+                        {userTransactions.map((item, index) => (
+                            <div style={cardStyle}>
+                                {!item.inPossesion && <div style={{ ...overlayStyle }}></div>}
+
+                                {!item.inPossesion && <div style={firstdiv}>
+                                    {item.inPossesion && <div style={headingStyle}>BOUGHT</div>}
+                                    {!item.inPossesion && <div style={headingStyle}>SOLD</div>}
+                                </div>}
+
+                                {!item.inPossesion && <div style={secondDiv}>
+                                    <div style={subHeadingStyle}>Chai Trade Exchange</div>
+                                    <div>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+                                            <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
+                                            <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                        </div>
+                                        <hr style={hrStyle} />
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                            <div style={{ flexDirection: 'column' }}>
+                                                <div style={{ marginBottom: '5px' }}>Purchased Date:</div>
+                                                <div style={{ marginTop: '5px', fontWeight: "bold" }}>{item.purchaseDate}</div>
+                                            </div>
+                                            <div style={{ flexDirection: 'column' }}>
+                                                <div style={{ marginBottom: '5px' }}>Purchased Price:</div>
+                                                <div style={{ marginTop: '5px', fontWeight: "bold" }}>${item.purchasePrice}</div>
+                                            </div>
+                                            {item.inPossesion && <form onSubmit={handleSellingStock}>
+                                                <input style={{ display: "none" }} name='transactionID' value={item._id} />
+                                                <input style={{ display: "none" }} name='purchaseValue' value={item.purchasePrice} />
+                                                <input style={{ display: "none" }} name='currentValue' value={stockDetails[index].chart_ltp} />
+                                                <button type='submit' style={buttonStyle}>Sell</button>
+                                            </form>}
+                                        </div>
+                                    </div>
+                                </div>}
+
+                                {!item.inPossesion && <div style={{ ...partStyle, borderRight: '1px solid #ccc' }}>
+                                    <div style={thirddiv}>
+                                        <div style={subHeadingStyle}>Chai Trade Exchange</div>
+                                        {!item.inPossesion && <div>
+                                            <div style={{ marginBottom: "5px" }}>Sold Price: $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice).toFixed(3)}</span></div>
+                                            <div style={{ marginBottom: "5px" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(item.sellingPrice - item.purchasePrice).toFixed(3)}</span></div>
+                                            <div style={{ marginBottom: "5px" }}>P & L% : <span style={{ fontWeight: "bold" }}>{(((item.sellingPrice - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}</span>%</div>
+                                            <div style={{ marginBottom: "5px" }}>Sold Date: <span style={{ fontWeight: "bold" }}>{item.sellingDate}</span></div>
+                                        </div>}
+                                        {item.inPossesion && <div>
+                                            <div style={{ margin: "1rem 0rem" }}>P & L Price : $<span style={{ fontWeight: "bold" }}>{(stockDetails[index].chart_ltp - item.purchasePrice).toFixed(3)}</span></div>
+                                            <div>P & L% : <span style={{ fontWeight: "bold" }}>{(((stockDetails[index].chart_ltp - item.purchasePrice) / item.purchasePrice) * 100).toFixed(3)}%</span></div>
+                                        </div>}
+                                    </div>
+                                </div>}
+
+                            </div>
+                        ))}
+                    </div>
+                </CustomTabPanel>
+            </Box>
 
             <ToastContainer
                 position="top-right"
