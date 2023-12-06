@@ -97,6 +97,11 @@ export default function Login_mainPage() {
                         progress: undefined,
                         theme: "light",
                     });
+                    setUserRegisterData({
+                        userName: "",
+                        email: "",
+                        password: ""
+                    })
                 }
                 else {
                     toast.error("🔐 Error in registration1!", {
@@ -146,6 +151,10 @@ export default function Login_mainPage() {
                 if (res.data.user.isMentor)
                     dispatch(setMentor(true));
                 navigate("/profile")
+                setUserLoginData({
+                    email: "",
+                    password: ""
+                })
             }
             else if (res.status === 401) {
                 toast.error("🔐 Invalid Credentials!!", {
@@ -176,7 +185,7 @@ export default function Login_mainPage() {
 
     return (
         <>
-            <div style={{ backgroundColor: "black", marginBottom : "-104px" }}>
+            <div style={{ backgroundColor: "black", marginBottom: "-104px" }}>
                 <div className={styles.vid}>
                     <video className={styles.login_video} src={videoBG} autoPlay loop muted />
                 </div>
@@ -269,7 +278,7 @@ export default function Login_mainPage() {
 
                 </Components.Container>
             </div>
-            <Footer/>
+            <Footer />
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
