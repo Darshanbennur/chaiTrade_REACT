@@ -1,6 +1,6 @@
 const express = require('express')
-const {userRegister, userLogin, verifyCookie, logoutUser, makeChanges, getUserDetails} =  require('../controllers/userController.js');
-
+const { userRegister, userLogin, verifyCookie, logoutUser,
+    makeChanges, getUserDetails } = require('../controllers/userController.js');
 const router = express.Router();
 
 //GET Routes : 

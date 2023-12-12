@@ -1,47 +1,56 @@
 const Chart = require('../models/Chart.js');
 
 const getAllCharts = async (req, res, next) => {
-    let allCompany = []
-    let allCommodity = []
-    let allForex = []
-    let allCrypto = []
-    let counterForAll = 0;
-    let totalSizeofCharts = 0;
-
-    await Chart.find()
-        .then(allCharts => {
-            const allChart = allCharts;
-            totalSizeofCharts = allChart.length
-
-            for (let index = 0; index < totalSizeofCharts; index++) {
-                if (allChart[index].type == "Company")
-                    allCompany.push(allChart[index]);
-                else if (allChart[index].type == "Commodity")
-                    allCommodity.push(allChart[index])
-                else if (allChart[index].type == "Forex")
-                    allForex.push(allChart[index])
-                else if (allChart[index].type == "Crypto")
-                    allCrypto.push(allChart[index])
-                counterForAll++;
+    try {
+        const allCharts = await Chart.aggregate([
+            {
+                $group: {
+                    _id: '$type',
+                    charts: { $push: '$$ROOT' }
+                }
             }
-        })
-        .catch(errCharts => {
-            console.log("Error in fetching Charts : " + errCharts)
-        })
-    if (counterForAll == totalSizeofCharts) {
-        counterForAll = 0;
-        res.status(200).json({
-            companyStock: allCompany,
-            commodityStock: allCommodity,
-            forexStock: allForex,
-            cryptoStock: allCrypto,
-            custom : "Successfully fetched all the chart data"
-        })
-        allCompany = [];
-        allCommodity = [];
-        allForex = [];
-        allCrypto = [];
+        ]);
+
+        const categorizedCharts = {
+            companyStock: [],
+            commodityStock: [],
+            forexStock: [],
+            cryptoStock: []
+        };
+
+        allCharts.forEach(chartGroup => {
+            switch (chartGroup._id) {
+                case 'Company':
+                    categorizedCharts.companyStock = chartGroup.charts;
+                    break;
+                case 'Commodity':
+                    categorizedCharts.commodityStock = chartGroup.charts;
+                    break;
+                case 'Forex':
+                    categorizedCharts.forexStock = chartGroup.charts;
+                    break;
+                case 'Crypto':
+                    categorizedCharts.cryptoStock = chartGroup.charts;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        res.status(200).
+            json({
+                ...categorizedCharts,
+                custom: 'Successfully fetched all the chart data'
+            });
     }
-}
+    catch (err) {
+        console.log('Error in fetching Charts:', err);
+        res.status(500)
+            .json({
+                error: 'Failed to fetch chart data'
+            });
+    }
+};
+
 
 module.exports = { getAllCharts }

@@ -4,38 +4,45 @@ const ArrayUSer = require('../models/UserArrays');
 const ContactUs = require('../models/ContactUs.js');
 const mongoose = require('mongoose');
 
-const getAllTransaction = (req, res, next) => {
-    let allTransArray = []
-    let counter = 0;
-    const arrayID = req.body.arrayID;
-    console.log(arrayID);
-    ArrayUSer.findById(arrayID)
-        .then(async gotArray => {
-            console.log("Fetched the Array : " + gotArray)
-            const transID = gotArray.transactionID;
-            const size = transID.length
+const getAllTransaction = async (req, res, next) => {
+    try {
+        const arrayID = req.body.arrayID;
+        const userArray = await ArrayUSer.findById(arrayID);
 
-            for (let index = 0; index < size; index++) {
-                const tran123 = await Transaction.findById(transID[index])
-                if (tran123) {
-                    console.log("Transaction : " + tran123)
-                    allTransArray.push(tran123)
-                    counter++;
-                }
+        if (!userArray) {
+            return res.status(404)
+                .json({
+                    custom: 'Array user not found'
+                });
+        }
+
+        const transactionIDs = userArray.transactionID || [];
+        const allTransactions = [];
+
+        for (const transId of transactionIDs) {
+            const transaction = await Transaction.findById(transId);
+
+            if (transaction) {
+                console.log("Transaction : ", transaction);
+                allTransactions.push(transaction);
             }
-            if (counter == size) {
-                res.json({
-                    data: allTransArray,
-                    custom: "Fetched all transaction Successfully"
-                })
-                counter = 0;
-                allTransArray = [];
-            }
-        })
-        .catch(err => {
-            console.log("Error in Fetching the Array : " + err)
-        })
-}
+        }
+
+        res.json({
+            data: allTransactions,
+            custom: "Fetched all transactions successfully"
+        });
+
+    }
+    catch (err) {
+        console.log("Error in fetching the array:", err);
+        res.status(500)
+            .json({
+                custom: "Error in fetching all transactions"
+            });
+    }
+};
+
 
 const increase20K = (req, res, next) => {
     const userID = req.body._id;
@@ -122,24 +129,24 @@ const increase40K = (req, res, next) => {
                     User.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userID) }, user)
                         .then(result => {
                             res.status(200).json({
-                                custom : "User data Updated!!"
+                                custom: "User data Updated!!"
                             })
                         })
                         .catch(err => {
                             res.status(403).json({
-                                custom : "Error Increasing 40,000 Credits"
+                                custom: "Error Increasing 40,000 Credits"
                             })
                         })
                 })
                 .catch(errinArray => {
                     res.status(403).json({
-                        custom : "Error in Storing in Array : " + errinArray
+                        custom: "Error in Storing in Array : " + errinArray
                     })
                 })
         })
         .catch(errInTransaction => {
             res.status(403).json({
-                custom : "Error in Saving Transactions : " + errInTransaction
+                custom: "Error in Saving Transactions : " + errInTransaction
             })
         })
 }
@@ -172,53 +179,53 @@ const makeUserPremium = (req, res, next) => {
                     User.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(userID) }, user)
                         .then(result => {
                             res.status(200).json({
-                                custom : "User Premium Enabled!!"
+                                custom: "User Premium Enabled!!"
                             })
                         })
                         .catch(err => {
                             res.status(403).json({
-                                custom : "Error making user Premium"
+                                custom: "Error making user Premium"
                             })
                         })
                 })
                 .catch(errinArray => {
                     res.status(403).json({
-                        custom : "Error in Storing in Array : " + errinArray
+                        custom: "Error in Storing in Array : " + errinArray
                     })
                 })
         })
         .catch(errInTransaction => {
             res.status(403).json({
-                custom : "Error in Saving Transactions : " + errInTransaction
+                custom: "Error in Saving Transactions : " + errInTransaction
             })
         })
 }
 
 const postContactUs = (req, res, next) => {
-    const name= req.body.authorName;
+    const name = req.body.authorName;
     const email = req.body.email;
     const title = req.body.title;
     const content = req.body.content;
 
     const contactUs = new ContactUs({
         _id: new mongoose.Types.ObjectId(),
-        authorName : name,
-        email : email,
-        title : title,
-        content : content
+        authorName: name,
+        email: email,
+        title: title,
+        content: content
     })
     contactUs
         .save()
         .then(result => {
             console.log("The Feedback was Sent : " + result);
             res.status(200).json({
-                custom : "The Feedback was Sent"
+                custom: "The Feedback was Sent"
             })
         })
         .catch(err => {
             console.log("Error occured while Sending Feedback : " + err)
             res.status(403).json({
-                custom : "Error occured while Sending Feedback "
+                custom: "Error occured while Sending Feedback "
             })
         })
 }

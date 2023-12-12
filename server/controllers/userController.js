@@ -32,13 +32,13 @@ const logoutUser = async (req, res, next) => {
         res.clearCookie('userID');
         res.cookie('isLoggedIn', false);
         res.status(200).json({
-            custom : "User Logged Out!!"
+            custom: "User Logged Out!!"
         })
-    } catch(e){
+    } catch (e) {
         console.log("Error faced");
         console.log(e);
         res.status(403).json({
-            custom : "Error in Logging Out"
+            custom: "Error in Logging Out"
         })
     }
 }
@@ -90,12 +90,12 @@ const userRegister = (req, res, next) => {
                                 email: email,
                                 userName: name,
                                 password: hash,
-                                profileImage : avatar,
-                                education : "",
-                                countryCode : "",
-                                phoneNumber : 0,
-                                income : 0,
-                                incomeType : "",
+                                profileImage: avatar,
+                                education: "",
+                                countryCode: "",
+                                phoneNumber: 0,
+                                income: 0,
+                                incomeType: "",
                                 isMentor: false,
                                 isAdmin: false,
                                 isPremium: false,
@@ -157,9 +157,15 @@ const userLogin = (req, res, next) => {
     emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
     if (!email || !password)
-        res.status(403).json("Empty values are Invalid")
+        res.status(403)
+            .json({
+                custom: "Empty values are Invalid"
+            })
     else if (!email.match(emailFormat))
-        res.status(403).json("Empty Email values are Invalid")
+        res.status(403)
+            .json({
+                custom: "Empty Email values are Invalid"
+            })
     else {
         User.find({ email: req.body.email })
             .exec()
@@ -175,8 +181,8 @@ const userLogin = (req, res, next) => {
                         console.log("Invalid Syntax!!!!!!!!!");
                     }
                     else {
-                        res.cookie('isLoggedIn', "true", {httpOnly: true });
-                        res.cookie('userID', result[0]._id, {httpOnly: true });
+                        res.cookie('isLoggedIn', "true", { httpOnly: true });
+                        res.cookie('userID', result[0]._id, { httpOnly: true });
                         res.status(200).json({
                             user: result[0],
                             custom: "User Logged in Successfully"
@@ -208,13 +214,13 @@ const makeChanges = (req, res, next) => {
         .then(result => {
             console.log("User Updated : " + result.userName);
             res.status(200).json({
-                custom : "User Profile Updated Successfully"
+                custom: "User Profile Updated Successfully"
             })
         })
         .catch(err => {
             console.log("Error Updating the User : " + err)
             res.status(403).json({
-                custom : "Error in updating the values in Profile"
+                custom: "Error in updating the values in Profile"
             })
         })
 }

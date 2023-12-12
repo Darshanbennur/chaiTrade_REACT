@@ -106,7 +106,7 @@ export default function HomePage() {
                                     <span className="price">Go</span>
                                     <span className="shopping-cart">&#8594;</span>
                                     <span className="buy">
-                                        <a style={{ textDecoration: "none", color: "#21222A" }} href="/blog">Visit Page</a>
+                                        <a style={{ textDecoration: "none", color: "#21222A" }} href="/blogs">Visit Page</a>
                                     </span>
                                 </button>
                             </div>

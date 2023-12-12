@@ -76,37 +76,42 @@ const getAllFeaturedBlogs = (req, res, next) => {
 }
 
 const getAllMentorBlogs = async (req, res, next) => {
-    let counter = 0;
-    const allBlogs = [];
-    const arrayID = req.body.arrayID
+    try {
+        const arrayID = req.body.arrayID;
+        const user = await ArrayUSer.findOne({ _id: new mongoose.Types.ObjectId(arrayID) });
 
-    await ArrayUSer.findOne({ _id: new mongoose.Types.ObjectId(arrayID) })
-        .then(async result => {
-            const arrayOfBlogs = result.MentorBlogID;
-            const size = arrayOfBlogs.length;
-            for (let index = 0; index < size; index++) {
-                const mentorr = await Mentor.findOne({ _id: new mongoose.Types.ObjectId(arrayOfBlogs[index]) })
-                if (mentorr) {
-                    allBlogs.push(mentorr)
-                    counter++;
-                }
+        if (!user) {
+            return res.status(404)
+                .json({
+                    custom: 'User not found'
+                });
+        }
+
+        const arrayOfBlogs = user.MentorBlogID || [];
+        const allBlogs = [];
+
+        for (const blogId of arrayOfBlogs) {
+            const mentor = await Mentor.findOne({ _id: new mongoose.Types.ObjectId(blogId) });
+
+            if (mentor) {
+                allBlogs.push(mentor);
             }
-            if (size == counter) {
-                await res.status(200)
-                    .json({
-                        data: allBlogs,
-                        custom: "All mentor blogs are fetched successfully!!"
-                    })
-                counter = 0;
-            }
-        })
-        .catch(err => {
-            console.log("getAllMentorBlogs error : " + err)
-            res.status(403).json({
-                custom: "Error in fetching all mentor blogs"
-            })
-        })
-}
+        }
+
+        res.status(200)
+            .json({
+                data: allBlogs,
+                custom: 'All mentor blogs are fetched successfully!!'
+            });
+    } 
+    catch (err) {
+        console.log('getAllMentorBlogs error:', err);
+        res.status(500)
+            .json({
+                custom: 'Error in fetching all mentor blogs'
+            });
+    }
+};
 
 const LikeThisPost = (req, res, next) => {
     const blogID = req.body.blogID;
@@ -134,7 +139,7 @@ const LikeThisPost = (req, res, next) => {
                 .then(async resultOFArray => {
                     console.log("Updated the Array when exists : " + resultOFArray)
                     await res.status(200).json({
-                        data : allLiked.length,
+                        data: allLiked.length,
                         custom: "Updated the Array when exists"
                     })
                 })
@@ -154,29 +159,29 @@ const LikeThisPost = (req, res, next) => {
 }
 
 const postMentorApplication = (req, res, next) => {
-    
+
     const application = new MentorApplication({
-        _id : new mongoose.Types.ObjectId(),
-        userID : req.body.userID,
-        userName : req.body.userName,
-        userEmail : req.body.email,
-        country : req.body.country,
-        tradingExperience : req.body.tradingExperience,
-        tradingStrategy : req.body.tradingStrategy,
-        reasonMentor : req.body.reasonMentor,
-        certificationPath : req.body.certificationPath
+        _id: new mongoose.Types.ObjectId(),
+        userID: req.body.userID,
+        userName: req.body.userName,
+        userEmail: req.body.email,
+        country: req.body.country,
+        tradingExperience: req.body.tradingExperience,
+        tradingStrategy: req.body.tradingStrategy,
+        reasonMentor: req.body.reasonMentor,
+        certificationPath: req.body.certificationPath
     })
     application
         .save()
         .then(result => {
             res.status(200).json({
-                custom : "The Mentor Application was submitted Successfully"
+                custom: "The Mentor Application was submitted Successfully"
             })
             console.log("The Mentor Application was submitted Successfully")
         })
         .catch(err => {
             res.status(403).json({
-                custom : "Mentor Application Process Denied"
+                custom: "Mentor Application Process Denied"
             })
             console.log("Mentor Application Process Denied")
         })
