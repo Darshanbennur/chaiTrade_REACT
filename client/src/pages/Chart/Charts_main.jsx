@@ -43,15 +43,37 @@ export default function Charts_main() {
   const [cryptoStock, setCryptoStock] = useState([]);
   console.log("Inside Charts!!");
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
-    console.log("Inside UseEffect!!")
-    axios.get('/chart/getChartData').then((res) => {
-      setCompanyStock(res.data.companyStock);
-      setCommodityStock(res.data.commodityStock);
-      setForexStock(res.data.forexStock);
-      setCryptoStock(res.data.cryptoStock);
-    })
-  }, [])
+    const fetchData = async () => {
+      setLoading(true);
+      setError(false);
+
+      try {
+        const response = await axios.get('/chart/getChartData');
+        setCompanyStock(response.data.companyStock);
+        setCommodityStock(response.data.commodityStock);
+        setForexStock(response.data.forexStock);
+        setCryptoStock(response.data.cryptoStock);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (error) {
+    return (
+      <>
+        <h3>Error Occured...</h3>
+      </>
+    )
+  }
 
   return (
     <>
@@ -81,7 +103,7 @@ export default function Charts_main() {
         <FullChart />
 
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };

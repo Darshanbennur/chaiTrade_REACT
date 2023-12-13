@@ -13,6 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../../components/Footer.jsx";
 
+import { trefoil } from 'ldrs'
+trefoil.register()
 
 export default function Login_mainPage() {
     const [signIn, toggle] = React.useState(true);
@@ -38,6 +40,9 @@ export default function Login_mainPage() {
             }
         })
     }
+
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     async function onRegisterSubmit(event) {
         event.preventDefault()
@@ -83,6 +88,8 @@ export default function Login_mainPage() {
         }
         else {
             try {
+                setLoading(true);
+                setError(false);
                 const result = await axios.post('/user/registerUser', userRegisterData)
                 console.log(result.status)
                 console.log(result.custom)
@@ -116,6 +123,7 @@ export default function Login_mainPage() {
                     });
                 }
             } catch (e) {
+                setError(true);
                 toast.error("🔐 Error in registration2!", {
                     position: "top-right",
                     autoClose: 3000,
@@ -126,6 +134,8 @@ export default function Login_mainPage() {
                     progress: undefined,
                     theme: "light",
                 });
+            } finally {
+                setLoading(false);
             }
         }
     }
@@ -142,6 +152,8 @@ export default function Login_mainPage() {
     async function onLoginHandle(event) {
         event.preventDefault()
         try {
+            setLoading(true);
+            setError(false);
             const res = await axios.post('/user/login', userLoginData);
             if (res.status === 200) {
                 dispatch(loginSuccess(res.data.user));
@@ -169,6 +181,7 @@ export default function Login_mainPage() {
                 });
             }
         } catch (e) {
+            setError(true);
             console.error("Error during login:", e);
             toast.error("🔐 Invalid Credentials!!", {
                 position: "top-right",
@@ -180,7 +193,17 @@ export default function Login_mainPage() {
                 progress: undefined,
                 theme: "light",
             });
+        } finally {
+            setLoading(false)
         }
+    }
+
+    if(error){
+        return(
+            <>
+                <h3>Error occured</h3>
+            </>
+        )
     }
 
     return (
@@ -217,7 +240,15 @@ export default function Login_mainPage() {
                                 type='password'
                                 placeholder='Password' />
 
-                            <Components.Button>Sign Up</Components.Button>
+                            {!loading && <Components.Button>Sign Up</Components.Button>}
+                            {loading && <l-reuleaux
+                                size="37"
+                                stroke="5"
+                                stroke-length="0.15"
+                                bg-opacity="0.1"
+                                speed="1.2"
+                                color="black"
+                            ></l-reuleaux>}
                         </Components.Form>
 
                     </Components.SignUpContainer>
@@ -243,7 +274,15 @@ export default function Login_mainPage() {
 
                             <Components.Anchor href='/contactUs'>Forgot password? <span style={{ color: "purple" }}>Contact US</span></Components.Anchor>
 
-                            <Components.Button type="submit" >Sigin In</Components.Button>
+                            {!loading && <Components.Button type="submit" >Sigin In</Components.Button>}
+                            {loading && <l-reuleaux
+                                size="37"
+                                stroke="5"
+                                stroke-length="0.15"
+                                bg-opacity="0.1"
+                                speed="1.2"
+                                color="black"
+                            ></l-reuleaux>}
 
                         </Components.Form>
                     </Components.SignInContainer>

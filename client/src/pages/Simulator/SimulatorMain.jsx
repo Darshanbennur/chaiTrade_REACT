@@ -25,9 +25,9 @@ export default function SimulatorMain() {
     const reduxUserData = useSelector((state) => state.userData)
     const navigate = useNavigate();
 
-    const userWallet = reduxUserData.currentUser.wallet
-    const usercostInHand = reduxUserData.currentUser.costInHand
-    const userCostInvested = reduxUserData.currentUser.costInvested
+    const userWallet = +(reduxUserData.currentUser.wallet)
+    const usercostInHand = +(reduxUserData.currentUser.costInHand)
+    const userCostInvested = +(reduxUserData.currentUser.costInvested)
 
     function handleSubmitofPricingButton() {
         navigate('/pricing')
@@ -39,17 +39,17 @@ export default function SimulatorMain() {
             <div className="totalCostContainer">
                 <div className="totalCost">
                     Cash In Hand (INR) : <span className="amount" id="costUser">
-                        {usercostInHand}
+                        {usercostInHand.toFixed(2)}
                     </span>
                 </div>
                 <div className="totalCost">
                     Amount Invested (INR) : <span className="amount" id="costInvested">
-                        {userCostInvested}
+                        {userCostInvested.toFixed(2)}
                     </span>
                 </div>
                 <div className="totalCost">
                     Wallet (INR) : <span className="amount" id="wallet">
-                        {userWallet}
+                        {userWallet.toFixed(2)}
                     </span>
                     <button
                         onClick={handleSubmitofPricingButton}

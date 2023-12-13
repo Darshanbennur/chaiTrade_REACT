@@ -15,6 +15,8 @@ import Box from '@mui/material/Box';
 import axios from "../../api/axiosConfig.js"
 import image from "../../images/newwordCoin4.png"
 import { setUserCostInHand, setUserCostInvested, setCostInCreditsWallet } from "../../redux/userSlice.js"
+import { trefoil } from 'ldrs'
+trefoil.register()
 
 const cardStyle = {
     display: 'flex',
@@ -223,21 +225,59 @@ export default function SimulatorTransactions() {
 
     }
 
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
-        const userArrayID = {
-            arrayID: reduxUserData.currentUser.arrayID
-        }
-        axios.post('/simulator/getAllBoughtStocks', userArrayID).then((res) => {
-            setUserTransactions(res.data.data.stockTransactionDetails);
-            setStockDetails(res.data.data.stockDetails);
-        })
-    }, [])
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(false);
+                const userArrayID = {
+                    arrayID: reduxUserData.currentUser.arrayID
+                };
+                const response = await axios.post('/simulator/getAllBoughtStocks', userArrayID);
+                setUserTransactions(response.data.data.stockTransactionDetails);
+                setStockDetails(response.data.data.stockDetails);
+            } catch (err) {
+                setError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    if (loading) {
+        return (
+            <div style={{display: "flex" , justifyContent: "center", margin : "5rem 0rem"}}>
+                <l-trefoil
+                    size="40"
+                    stroke="4"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4"
+                    color="white"
+                ></l-trefoil>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <>
+                {/* Error Page will be rendered here */}
+                <h3>Error in Fetching</h3>
+            </>
+        )
+    }
 
     return (
         <>

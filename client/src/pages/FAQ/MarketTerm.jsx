@@ -17,10 +17,35 @@ export default function FAQPage() {
     });
   };
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
-    axios.get('/marketTerm/getAllFAQ').then((res) => setFaqData(res.data.data))
-    console.log(faqData)
+    const fetchData = async () => {
+      setLoading(true);
+      setError(false);
+
+      try {
+        const response = await axios.get('/marketTerm/getAllFAQ');
+        setFaqData(response.data.data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  if (error) {
+    return (
+      <>
+        <h3>Error Occured...</h3>
+      </>
+    )
+  }
+
 
   return (
     <>
@@ -28,18 +53,28 @@ export default function FAQPage() {
         <img src={charts} alt="background" className="backgroundpic" />
         <div className="faq-container">
           <h1 className="faq-heading">Market Terminology</h1>
-          <div id="faq-list">
+          {!loading && <div id="faq-list">
             {faqData.map((item, index) => (
               <div key={index}>
-                <button style={{width : "700px"}} className={`faq-page ${item.expanded ? 'active' : ''}`} onClick={() => expand(index)}>
+                <button style={{ width: "700px" }} className={`faq-page ${item.expanded ? 'active' : ''}`} onClick={() => expand(index)}>
                   {item.question}
                 </button>
-                <div className="faq-body" style={{ display: item.expanded ? 'block' : 'none', width : "700px", fontSize : "18px", fontWeight : "500" }}>
+                <div className="faq-body" style={{ display: item.expanded ? 'block' : 'none', width: "700px", fontSize: "18px", fontWeight: "500" }}>
                   <p>{item.answer}</p>
                 </div>
               </div>
             ))}
-          </div>
+            {loading && <div style={{ display: "flex", justifyContent: "center", margin: "5rem 0rem" }}>
+              <l-trefoil
+                size="40"
+                stroke="4"
+                stroke-length="0.15"
+                bg-opacity="0.1"
+                speed="1.4"
+                color="white"
+              ></l-trefoil>
+            </div>}
+          </div>}
         </div>
       </div>
       <Footer />

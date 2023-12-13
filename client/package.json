@@ -18,6 +18,8 @@
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.1",
     "flowbite-react": "^0.6.4",
+    "framer-motion": "^10.16.16",
+    "ldrs": "^1.0.1",
     "mdb-react-ui-kit": "^7.0.0",
     "postcss": "^8.4.31",
     "react": "^18.2.0",

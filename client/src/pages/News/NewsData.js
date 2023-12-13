@@ -5,10 +5,49 @@ import axios from "../../api/axiosConfig.js"
 
 export default function NewsData() {
   const [news, getNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    axios.get('/news/getAllNews').then((res) => getNews(res.data.data))
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+
+        const response = await axios.get('/news/getAllNews');
+        getNews(response.data.data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", margin: "5rem 0rem" }}>
+        <l-trefoil
+          size="40"
+          stroke="4"
+          stroke-length="0.15"
+          bg-opacity="0.1"
+          speed="1.4"
+          color="white"
+        ></l-trefoil>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <>
+        <h3>Error Occured...</h3>
+      </>
+    )
+  }
 
   return (
     <div className={styles.main}>

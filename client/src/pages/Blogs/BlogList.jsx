@@ -1,17 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import axios from "../../api/axiosConfig.js"
 
+import { trefoil } from 'ldrs'
+trefoil.register()
+
 const BlogList = () => {
 
   const [blogs, setBlogs] = useState([]);
   console.log("Ijdiwcjsnn")
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
-    console.log("Inside Blogs!!")
-    axios.get('/blog/allBlogs').then((res) => setBlogs(res.data.data))
-  }, []) 
-  // add blogs here for immidiate changes in the component
-  // Flaw : Infinite Loop for the component re-render
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+
+        const response = await axios.get('/blog/allBlogs');
+        setBlogs(response.data.data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   const MyBlog_blogContainerStyle = {
     maxWidth: '690px',
@@ -61,6 +79,29 @@ const BlogList = () => {
     color: '#228B22',
     marginBottom: '0.2rem',
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", margin: "5rem 0rem" }}>
+        <l-trefoil
+          size="40"
+          stroke="4"
+          stroke-length="0.15"
+          bg-opacity="0.1"
+          speed="1.4"
+          color="white"
+        ></l-trefoil>
+      </div>
+    )
+  }
+
+  if(error){
+    return(
+      <>
+        <h3>Error Occured...</h3>
+      </>
+    )
+  }
 
   return (
     <div style={MyBlog_blogContainerStyle}>

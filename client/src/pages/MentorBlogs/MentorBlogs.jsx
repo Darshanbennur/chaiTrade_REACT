@@ -12,21 +12,28 @@ export default function MentorBlogs() {
     arrayID: reduxUserData.currentUser.arrayID
   })
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    if (reduxUserData.isUserloggedIn === false) {
-      navigate('/login');
-    }
-    else {
-      setUserID({
-        arrayID: reduxUserData.currentUser.arrayID
-      });
-      axios.post('/mentor/getMentorBlogs', userID).then((res) => {
-        setBlogs(res.data.data)
-      })
-    }
+    const fetchData = async () => {
+      setLoading(true);
+      setError(false);
+
+      try {
+        const response = await axios.post('/mentor/getMentorBlogs', userID);
+        setBlogs(response.data.data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
 
   const containerStyle = {
     display: 'grid',
@@ -35,6 +42,29 @@ export default function MentorBlogs() {
     padding: '30px',
     marginBottom: "100px"
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", margin: "5rem 0rem" }}>
+        <l-trefoil
+          size="40"
+          stroke="4"
+          stroke-length="0.15"
+          bg-opacity="0.1"
+          speed="1.4"
+          color="white"
+        ></l-trefoil>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <>
+        <h3>Error Occured...</h3>
+      </>
+    )
+  }
 
   return (
     <div>
