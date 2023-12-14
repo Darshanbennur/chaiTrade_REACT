@@ -29,6 +29,7 @@ import MentorApplicationMain from "./pages/MentorApplication/MentorApplication_m
 import ContactUs from "./pages/ContactUs/ContactUs.js";
 import SimulatorMain from "./pages/Simulator/SimulatorMain.jsx";
 import Error from "./pages/ErrorPage/Error.jsx";
+import NetworkError from "./pages/Network Error Page/NetworkError.jsx";
 
 const Container = styled.div`
   padding: 0;
@@ -38,28 +39,33 @@ const Container = styled.div`
 function App() {
 
   const dispatch = useDispatch();
-
+  
   async function getUser() {
-    const user = await axios.get('/user/checkCookie');
-    if (user.data.custom === "true") {
-      dispatch(setUserDetails(user.data.userData));
-      dispatch(setLoggedIn(true))
-      if (user.data.userData.isMentor === true) {
-        dispatch(setMentor(true))
+    try {
+      const user = await axios.get('/user/checkCookie');
+      if (user.data.custom === "true") {
+        dispatch(setUserDetails(user.data.userData));
+        dispatch(setLoggedIn(true));
+        if (user.data.userData.isMentor === true) {
+          dispatch(setMentor(true));
+        }
+        if (user.data.userData.isPremium === true) {
+          dispatch(setPremium(true));
+        }
+      } else {
+        console.log("Logged Out!!");
+        persistStore(store).purge();
       }
-      if (user.data.userData.isPremium === true) {
-        dispatch(setPremium(true))
-      }
-    }
-    else {
-      console.log("Logged OUt!!");
-      persistStore(store).purge();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      window.location.href = "/networkError"
     }
   }
 
   useEffect(() => {
     getUser();
-  }, [])
+  }, []);
+
 
   return (
     <Container>
@@ -84,7 +90,8 @@ function App() {
               <Route path="/pricing" element={<PricingPage />}></Route>
               <Route path="/aboutUs" element={<AboutUs />}></Route>
               <Route path="/contactUs" element={<ContactUs />}></Route>
-              <Route path="*" element={<Error/>}></Route>
+              <Route path="/networkError" element={<NetworkError />}></Route>
+              <Route path="*" element={<Error />}></Route>
             </Route>
           </Routes>
         </main>

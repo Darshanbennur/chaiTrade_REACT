@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "../../api/axiosConfig.js"
 
 import { trefoil } from 'ldrs'
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 trefoil.register()
 
 const BlogList = () => {
@@ -98,7 +99,7 @@ const BlogList = () => {
   if(error){
     return(
       <>
-        <h3>Error Occured...</h3>
+        <NetworkError/>
       </>
     )
   }

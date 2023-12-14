@@ -3,6 +3,7 @@ import MentorBlogCard from './Mentor_BlogCard';
 import axios from "../../api/axiosConfig.js"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 
 export default function MentorBlogs() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export default function MentorBlogs() {
   if (error) {
     return (
       <>
-        <h3>Error Occured...</h3>
+        <NetworkError/>
       </>
     )
   }

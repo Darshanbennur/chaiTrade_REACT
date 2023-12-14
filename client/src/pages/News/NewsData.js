@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NewsCard from './NewsCard';
 import styles from './News.module.css';
 import axios from "../../api/axiosConfig.js"
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 
 export default function NewsData() {
   const [news, getNews] = useState([]);
@@ -44,7 +45,7 @@ export default function NewsData() {
   if (error) {
     return (
       <>
-        <h3>Error Occured...</h3>
+        <NetworkError/>
       </>
     )
   }

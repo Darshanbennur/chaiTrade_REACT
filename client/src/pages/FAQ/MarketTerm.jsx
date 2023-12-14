@@ -3,6 +3,7 @@ import './MarketTerm.css';
 import charts from "../../images/charts.jpg"
 import axios from "../../api/axiosConfig.js"
 import Footer from '../../components/Footer.jsx';
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 
 export default function FAQPage() {
 
@@ -41,7 +42,7 @@ export default function FAQPage() {
   if (error) {
     return (
       <>
-        <h3>Error Occured...</h3>
+        <NetworkError/>
       </>
     )
   }

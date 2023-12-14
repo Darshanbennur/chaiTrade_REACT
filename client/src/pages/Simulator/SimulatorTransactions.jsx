@@ -16,6 +16,7 @@ import axios from "../../api/axiosConfig.js"
 import image from "../../images/newwordCoin4.png"
 import { setUserCostInHand, setUserCostInvested, setCostInCreditsWallet } from "../../redux/userSlice.js"
 import { trefoil } from 'ldrs'
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 trefoil.register()
 
 const cardStyle = {
@@ -227,7 +228,7 @@ export default function SimulatorTransactions() {
 
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -273,8 +274,7 @@ export default function SimulatorTransactions() {
     if (error) {
         return (
             <>
-                {/* Error Page will be rendered here */}
-                <h3>Error in Fetching</h3>
+                <NetworkError/>
             </>
         )
     }

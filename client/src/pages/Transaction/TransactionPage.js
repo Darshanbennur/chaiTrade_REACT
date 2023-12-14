@@ -4,6 +4,7 @@ import chartsBackground from '../../images/charts.jpg';
 import axios from "../../api/axiosConfig.js"
 import { useSelector } from "react-redux";
 import Footer from '../../components/Footer.jsx';
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 
 const MyBlog_backgroundPicStyle = {
   position: 'fixed',
@@ -47,7 +48,7 @@ export default function TransactionPage() {
   if (error) {
     return (
       <>
-        <h3>Error Occured...</h3>
+        <NetworkError/>
       </>
     )
   }

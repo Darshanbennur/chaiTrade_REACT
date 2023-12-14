@@ -1,0 +1,39 @@
+.error-container {
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Catamaran', sans-serif;
+  margin: 50px 15px;
+}
+
+.error-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-symbol .line {
+  width: 50px;
+  height: 5px;
+  background: linear-gradient(to right, #d89ca4, #e27b7e);
+  margin: 0 10px;
+}
+
+.error-symbol .circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e27b7e;
+}
+
+.error-container h3 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.error-container p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}

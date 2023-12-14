@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FeaturedBlogCard from './Featured_BlogCard';
 import axios from "../../api/axiosConfig.js"
+import NetworkError from '../Network Error Page/NetworkError.jsx';
 
 export default function FeaturedBlogs() {
 
@@ -53,7 +54,7 @@ export default function FeaturedBlogs() {
   if (error) {
     return (
       <>
-        <h3>Error Occured...</h3>
+        <NetworkError/>
       </>
     )
   }

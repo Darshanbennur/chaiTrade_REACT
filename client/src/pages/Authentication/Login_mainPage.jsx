@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../../components/Footer.jsx";
+import NetworkError from "../../pages/Network Error Page/NetworkError.jsx"
 
 import { trefoil } from 'ldrs'
 trefoil.register()
@@ -201,7 +202,7 @@ export default function Login_mainPage() {
     if(error){
         return(
             <>
-                <h3>Error occured</h3>
+                <NetworkError/>
             </>
         )
     }
