@@ -103,7 +103,7 @@ const getAllMentorBlogs = async (req, res, next) => {
                 data: allBlogs,
                 custom: 'All mentor blogs are fetched successfully!!'
             });
-    } 
+    }
     catch (err) {
         console.log('getAllMentorBlogs error:', err);
         res.status(500)
@@ -187,6 +187,48 @@ const postMentorApplication = (req, res, next) => {
         })
 }
 
+const getMentorBlogDatesAndLikes = async (req, res, next) => {
+    console.log("Entered")
+    const arrayID = req.body.arrayID;
+    const userArrayInstance = await ArrayUSer.findOne({ _id: new mongoose.Types.ObjectId(arrayID) });
+
+    if (!userArrayInstance) {
+        return res.status(404)
+            .json({
+                custom: 'User Array Instance not found'
+            });
+    }
+
+    const arrayOfBlogs = userArrayInstance.MentorBlogID || [];
+    const allBlogs = [];
+
+    for (const blogId of arrayOfBlogs) {
+        const mentor = await Mentor.findOne({ _id: new mongoose.Types.ObjectId(blogId) });
+
+        if (mentor) {
+            allBlogs.push(mentor);
+        }
+    }
+
+    const blogDateWithLikes = []
+    for (let index = 0; index < allBlogs.length; index++) {
+        const blogDate = new Date(allBlogs[index].time);
+        const month = blogDate.toLocaleString('en-us', { month: 'short' });
+
+        const body = {
+            date: `${month}`,
+            likes: allBlogs[index].likedBy.length
+        }
+        blogDateWithLikes.push(body)
+    }
+
+    res.status(200).json({
+        data: blogDateWithLikes,
+        custom: "Fetched all blog timing and likes"
+    })
+}
 
 
-module.exports = { postFeaturedSectionBlog, getAllFeaturedBlogs, getAllMentorBlogs, LikeThisPost, postMentorApplication };
+
+
+module.exports = { postFeaturedSectionBlog, getAllFeaturedBlogs, getAllMentorBlogs, LikeThisPost, postMentorApplication, getMentorBlogDatesAndLikes };
