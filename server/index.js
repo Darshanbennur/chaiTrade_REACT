@@ -16,6 +16,7 @@ const mentorRoute = require('./routes/mentor');
 const newsRoute = require('./routes/news');
 const blogRoute = require('./routes/blog');
 const chartRoute = require('./routes/chart');
+const educationalRoutes = require('./routes/EducationalResources')
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -48,6 +49,8 @@ app.use('/api/news', newsRoute);
 app.use('/api/mentor', mentorRoute);
 app.use('/api/blog', blogRoute);
 app.use('/api/chart', chartRoute);
+app.use('/api/educationalRoutes', educationalRoutes);
+
 
 app.listen(PORT, () => {
     console.log('Server started at port:', PORT);
