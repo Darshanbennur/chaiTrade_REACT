@@ -128,16 +128,15 @@ export default function MentorApplicationForm() {
       };
     });
 
-    let value = event.target.value;
-    if (value > 100) {
-      value = 100;
-    }
-    setUserData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [event.target.name]: value,
-      };
-    });
+    let value = parseInt(event.target.value, 10); // Parse the value as an integer
+  // Ensure the value is within the range of 0 to 100
+  value = Math.min(Math.max(value, 0), 100);
+  setUserData((prevFormData) => {
+    return {
+      ...prevFormData,
+      [event.target.name]: value,
+    };
+  });
   }
 
   function handleMentorApplicationSubmit(event) {
