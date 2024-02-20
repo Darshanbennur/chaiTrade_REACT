@@ -18,10 +18,11 @@ defaults.plugins.title.color = "black";
 export const MentorDashboard = () => {
   const [allBlogsWithDateAndLikes, setAllBlogsWithDateAndLikes] = useState([]);
 
-  const userArrayID = useSelector(
-    (state) => state.userData.currentUser.arrayID
-  );
-  // console.log( "The user array would be : ", userArrayID);
+  const userArrayID = useSelector((state) => state.userData.currentUser.arrayID);
+  const dayTrading = useSelector((state) => state.userData.currentUser.mentorExperience.dayTrading) ?? 0;
+  const swingTrading = useSelector((state) => state.userData.currentUser.mentorExperience.swingTrading) ?? 0;
+  const optionsTrading = useSelector((state) => state.userData.currentUser.mentorExperience.optionsTrading) ?? 0;
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -32,7 +33,7 @@ export const MentorDashboard = () => {
           "/mentor/getMentorBlogDatesAndLikes",
           body
         );
-        // console.log("the result would be : ", result.data.data)
+
         setAllBlogsWithDateAndLikes(result.data.data);
       } catch (err) {
         console.log("error : ", err);
@@ -42,18 +43,18 @@ export const MentorDashboard = () => {
   }, []);
 
   const mentorExpertiseData = [
-    { label: "Day Trading", value: 20 },
-    { label: "Swing Trading", value: 15 },
-    { label: "Options Trading", value: 10 },
+    { label: "Day Trading", value: dayTrading },
+    { label: "Swing Trading", value: swingTrading },
+    { label: "Options Trading", value: optionsTrading },
   ];
 
   const blogData = allBlogsWithDateAndLikes.reduce((acc, curr) => {
-    const month = curr.date; // Extracting the month from the date
+    const month = curr.date;
     const existingMonthIndex = acc.findIndex((item) => item.month === month);
 
     if (existingMonthIndex !== -1) {
-      acc[existingMonthIndex].blogs++; // Incrementing the number of blogs
-      acc[existingMonthIndex].likes += curr.likes; // Adding likes
+      acc[existingMonthIndex].blogs++;
+      acc[existingMonthIndex].likes += curr.likes;
     } else {
       acc.push({ month: month, blogs: 1, likes: curr.likes });
     }
