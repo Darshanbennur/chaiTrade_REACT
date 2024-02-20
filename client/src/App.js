@@ -30,6 +30,7 @@ import ContactUs from "./pages/ContactUs/ContactUs.js";
 import SimulatorMain from "./pages/Simulator/SimulatorMain.jsx";
 import Error from "./pages/ErrorPage/Error.jsx";
 import NetworkError from "./pages/Network Error Page/NetworkError.jsx";
+import MentorDashboard from "./pages/Mentor Dashboard/MentorDashboard.jsx";
 
 const Container = styled.div`
   padding: 0;
@@ -81,6 +82,7 @@ function App() {
               <Route path="/blogs" element={<BlogPage />}></Route>
               <Route path="/mentorApplication" element={<MentorApplicationMain />}></Route>
               <Route path="/mentorPanel" element={<MentorPanel />}></Route>
+              <Route path="/mentorDashboard" element={<MentorDashboard/>}></Route>
               <Route path="/featured" element={<Featured_main />}></Route>
               <Route path="/myMentorBlogs" element={<MentorBlogMain />}></Route>
               <Route path="/transactions" element={<TransactionPage />}></Route>
