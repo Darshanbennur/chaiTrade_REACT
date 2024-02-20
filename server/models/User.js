@@ -17,7 +17,12 @@ const User = new mongoose.Schema({
     isPremium: { type: Boolean, required: false },
     costInHand: { type: Number, required: false },
     costInvested: { type: Number, required: false },
-    wallet: { type: Number, required: false }
+    wallet: { type: Number, required: false },
+    mentorExperience : {
+        dayTrading: { type: Number, required: false },
+        swingTrading: { type: Number, required: false },
+        optionsTrading: { type: Number, required: false },
+    }
 });
 
 module.exports = mongoose.model('User', User);
