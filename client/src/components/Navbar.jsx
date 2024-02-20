@@ -28,7 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const userNotLoggedIn = ['Charts', 'News', 'Featured🔐', 'Simulator🔐'];
 const userLoggedIn = ['Charts', 'News', 'Blogs', 'Featured🔐', 'Transactions', 'Simulator'];
 const userPremiumEnabled = ['Charts', 'News', 'Blogs', 'Featured', 'Transactions', 'Simulator'];
-const userMentorAccess = ['Charts', 'News', 'Blogs', 'Featured', 'MentorPanel', 'MyBlogs', 'Transactions', 'Simulator'];
+const userMentorAccess = ['Charts', 'News', 'Blogs', 'Featured', 'MentorPanel', 'MyBlogs', 'Mentor Dashboard' ,'Transactions', 'Simulator'];
 
 const settingsNotLoggedIn = ["Authenticate"]
 const settingsLoggedIn = ['Profile'];
@@ -37,11 +37,11 @@ const settingsLoggedIn = ['Profile'];
 const routeUserNotLoggedIn = ['/charts', '/news', '/login', '/login'];
 const routeUserLoggedIn = ['/charts', '/news', '/blogs', '/pricing', '/transactions', '/simulator'];
 const routeUserPremiumEnabled = ['/charts', '/news', '/blogs', '/featured', '/transactions', '/simulator'];
-const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/mentorPanel', '/myMentorBlogs', '/transactions', '/simulator'];
+const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/mentorPanel', '/myMentorBlogs', '/mentorDashboard' , '/transactions', '/simulator'];
 
 //Route when User is a Mentor but not a Premium User
-const userMentorAccessNotPremium = ['Charts', 'News', 'Blogs', 'Featured🔐', 'MentorPanel', 'MyBlogs', 'Transactions', 'Simulator'];
-const routeUserMentorAccessNotPremium = ['/charts', '/news', '/blogs', '/pricing', '/mentorPanel', '/myMentorBlogs', '/transactions', '/simulator'];
+const userMentorAccessNotPremium = ['Charts', 'News', 'Blogs', 'Featured🔐', 'MentorPanel', 'MyBlogs', 'Mentor Dashboard', 'Transactions', 'Simulator'];
+const routeUserMentorAccessNotPremium = ['/charts', '/news', '/blogs', '/pricing', '/mentorPanel', '/myMentorBlogs', '/mentorDashboard',  '/transactions', '/simulator'];
 
 // const route
 const routeSettingNotLoggedIn = ['/login'];

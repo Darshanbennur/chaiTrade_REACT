@@ -1,121 +1,121 @@
 .backgroundpic {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    object-fit: cover;
-  }
-  
-  .mentorCard {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    height: 50px;
-  }
-  
-  .profilePic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  
-  .mentorName {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: inline-block;
-  }
-  
-  .mentorEmail {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .dataCard.categoryCard {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    margin-bottom: 20px;
-    height: 400px;
-  }
-  
-  .dataCard.categoryCard {
-    width: 40%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-  }
-  
-  .lineGraphsContainer {
-    margin: 0 auto;
-  }
-  
-  .lineGraphCard {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 70%;
-    height: 400px;
-    margin: 0 auto;
-    margin-bottom: 30px;
-  }
-  
-  .educational-resources {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 20px;
-  }
-  
-  .educational-resources h2 {
-    font-size: 23px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .educational-resources ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .educational-resources li {
-    margin-bottom: 20px;
-    border: 3px solid #ccc;
-    border-radius: 8px;
-    padding: 15px; 
-  }
-  
-  .educational-resources h3 {
-    font-size: 16px;
-    margin-bottom: 5px;
-    margin-top: -5px;
-  }
-  
-  .educational-resources p {
-    margin-bottom: 10px;
-  }
-  
-  .educational-resources a {
-    color: #064FF0;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .educational-resources a:hover {
-    text-decoration: underline;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover;
+}
+
+.mentorCard {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  height: 50px;
+}
+
+.profilePic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.mentorName {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.mentorEmail {
+  font-size: 14px;
+  color: #666;
+}
+
+.dataCard.categoryCard {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-bottom: 20px;
+  height: 400px;
+}
+
+.dataCard.categoryCard {
+  width: 40%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.lineGraphsContainer {
+  margin: 0 auto;
+}
+
+.lineGraphCard {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  height: 400px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.educational-resources {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.educational-resources h2 {
+  font-size: 23px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.educational-resources ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.educational-resources li {
+  margin-bottom: 20px;
+  border: 3px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.educational-resources h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  margin-top: -5px;
+}
+
+.educational-resources p {
+  margin-bottom: 10px;
+}
+
+.educational-resources a {
+  color: #064FF0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.educational-resources a:hover {
+  text-decoration: underline;
+}
