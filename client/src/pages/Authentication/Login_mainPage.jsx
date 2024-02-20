@@ -182,7 +182,6 @@ export default function Login_mainPage() {
                 });
             }
         } catch (e) {
-            setError(true);
             console.error("Error during login:", e);
             toast.error("🔐 Invalid Credentials!!", {
                 position: "top-right",
