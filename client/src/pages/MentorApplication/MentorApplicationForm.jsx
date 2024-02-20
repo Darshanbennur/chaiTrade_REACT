@@ -118,6 +118,9 @@ export default function MentorApplicationForm() {
     tradingStrategy: "",
     reasonMentor: "",
     certificationPath: "",
+    dayTrading: 0,
+    swingTrading: 0,
+    optionsTrading: 0,
   });
 
   function handleChanges(event) {
@@ -127,16 +130,17 @@ export default function MentorApplicationForm() {
         [event.target.name]: event.target.value.slice(0, 200),
       };
     });
+  }
 
-    let value = parseInt(event.target.value, 10); // Parse the value as an integer
-  // Ensure the value is within the range of 0 to 100
-  value = Math.min(Math.max(value, 0), 100);
-  setUserData((prevFormData) => {
-    return {
-      ...prevFormData,
-      [event.target.name]: value,
-    };
-  });
+  function handleChangesForExperience(event) {
+    let value = parseInt(event.target.value, 10);
+    value = Math.min(Math.max(value, 0), 100);
+    setUserData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: value,
+      };
+    });
   }
 
   function handleMentorApplicationSubmit(event) {
@@ -191,6 +195,9 @@ export default function MentorApplicationForm() {
           tradingStrategy: "",
           reasonMentor: "",
           certificationPath: "",
+          dayTrading: 0,
+          swingTrading: 0,
+          optionsTrading: 0,
         });
       } catch (error) {
         toast.error("🥲 Error in posting the application", {
@@ -318,7 +325,7 @@ export default function MentorApplicationForm() {
                 name="dayTrading"
                 value={userData.dayTrading}
                 style={inputStyle}
-                onChange={handleChanges}
+                onChange={handleChangesForExperience}
               />
             </div>
 
@@ -332,7 +339,7 @@ export default function MentorApplicationForm() {
                 name="swingTrading"
                 value={userData.swingTrading}
                 style={inputStyle}
-                onChange={handleChanges}
+                onChange={handleChangesForExperience}
               />
             </div>
 
@@ -346,7 +353,7 @@ export default function MentorApplicationForm() {
                 name="optionsTrading"
                 value={userData.optionsTrading}
                 style={inputStyle}
-                onChange={handleChanges}
+                onChange={handleChangesForExperience}
               />
             </div>
 

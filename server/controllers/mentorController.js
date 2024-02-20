@@ -169,7 +169,10 @@ const postMentorApplication = (req, res, next) => {
         tradingExperience: req.body.tradingExperience,
         tradingStrategy: req.body.tradingStrategy,
         reasonMentor: req.body.reasonMentor,
-        certificationPath: req.body.certificationPath
+        certificationPath: req.body.certificationPath,
+        dayTrading: req.body.dayTrading,
+        swingTrading: req.body.swingTrading,
+        optionsTrading: req.body.optionsTrading
     })
     application
         .save()

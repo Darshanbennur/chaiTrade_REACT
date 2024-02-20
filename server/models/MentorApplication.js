@@ -9,7 +9,10 @@ const MentorApplication = new mongoose.Schema({
     tradingExperience: {type : String, required : true},
     tradingStrategy: {type : String, required : true},
     reasonMentor: {type : String, required : true},
-    certificationPath : {type : String, required : true}
+    certificationPath : {type : String, required : true},
+    dayTrading: { type: Number, required: false },
+    swingTrading: { type: Number, required: false },
+    optionsTrading: { type: Number, required: false },
 });
 
 module.exports = mongoose.model('MentorApplication',MentorApplication);
