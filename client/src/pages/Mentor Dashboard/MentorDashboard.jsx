@@ -80,6 +80,8 @@ export const MentorDashboard = () => {
     textAlign: "center",
     WebkitTextStroke: isHovered ? "2px #88b9a9" : "none",
     fontWeight: "normal",
+    marginTop: "150px",
+    marginBottom: "150px",
   };
 
   return (
