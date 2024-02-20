@@ -3,7 +3,7 @@ import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Doughnut, Line } from "react-chartjs-2";
 import EducationalResources from "./EducationalResources.jsx";
 import BackgroundImage from "../../images/charts.jpg";
-import axios from '../../api/axiosConfig.js'
+import axios from "../../api/axiosConfig.js";
 import "./MentorDashboard.css";
 import { useSelector } from "react-redux";
 
@@ -16,25 +16,30 @@ defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "black";
 
 export const MentorDashboard = () => {
+  const [allBlogsWithDateAndLikes, setAllBlogsWithDateAndLikes] = useState([]);
 
-    const [allBlogsWithDateAndLikes, setAllBlogsWithDateAndLikes] = useState([])
-    const userArrayID = useSelector((state) => state.userData.currentUser.arrayID)
-    // console.log( "The user array would be : ", userArrayID);
-    useEffect(() => {
-        const getData = async() => {
-            try{
-                const body = {
-                    arrayID : userArrayID
-                }
-                const result = await axios.post('/mentor/getMentorBlogDatesAndLikes', body)
-                // console.log("the result would be : ", result.data.data)
-                setAllBlogsWithDateAndLikes(result.data.data)
-            } catch (err) {
-                console.log("error : ", err)
-            }
-        }
-        getData();
-    }, [])
+  const userArrayID = useSelector(
+    (state) => state.userData.currentUser.arrayID
+  );
+  // console.log( "The user array would be : ", userArrayID);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const body = {
+          arrayID: userArrayID,
+        };
+        const result = await axios.post(
+          "/mentor/getMentorBlogDatesAndLikes",
+          body
+        );
+        // console.log("the result would be : ", result.data.data)
+        setAllBlogsWithDateAndLikes(result.data.data);
+      } catch (err) {
+        console.log("error : ", err);
+      }
+    };
+    getData();
+  }, []);
 
   const mentorExpertiseData = [
     { label: "Day Trading", value: 20 },
@@ -45,14 +50,14 @@ export const MentorDashboard = () => {
   const blogData = allBlogsWithDateAndLikes.reduce((acc, curr) => {
     const month = curr.date; // Extracting the month from the date
     const existingMonthIndex = acc.findIndex((item) => item.month === month);
-  
+
     if (existingMonthIndex !== -1) {
       acc[existingMonthIndex].blogs++; // Incrementing the number of blogs
       acc[existingMonthIndex].likes += curr.likes; // Adding likes
     } else {
       acc.push({ month: month, blogs: 1, likes: curr.likes });
     }
-  
+
     return acc;
   }, []);
 
