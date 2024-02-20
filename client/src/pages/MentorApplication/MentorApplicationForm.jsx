@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from "../../api/axiosConfig.js"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "../../api/axiosConfig.js";
 
 export default function MentorApplicationForm() {
   const mentorCardStyle = {
@@ -107,7 +107,7 @@ export default function MentorApplicationForm() {
     marginBottom: "20px",
   };
 
-  const reduxUserData = useSelector((state) => state.userData)
+  const reduxUserData = useSelector((state) => state.userData);
 
   const [userData, setUserData] = useState({
     userID: reduxUserData.currentUser._id,
@@ -117,22 +117,37 @@ export default function MentorApplicationForm() {
     tradingExperience: "",
     tradingStrategy: "",
     reasonMentor: "",
-    certificationPath: ""
-  })
+    certificationPath: "",
+  });
 
   function handleChanges(event) {
-    setUserData(prevFormData => {
+    setUserData((prevFormData) => {
       return {
         ...prevFormData,
-        [event.target.name]: event.target.value.slice(0, 200)
-      }
-    })
+        [event.target.name]: event.target.value.slice(0, 200),
+      };
+    });
+
+    let value = event.target.value;
+    if (value > 100) {
+      value = 100;
+    }
+    setUserData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: value,
+      };
+    });
   }
 
   function handleMentorApplicationSubmit(event) {
     event.preventDefault();
     const regexPattern = /^(https?:\/\/)/i;
-    if (!userData.tradingExperience || !userData.tradingStrategy || !userData.certificationPath) {
+    if (
+      !userData.tradingExperience ||
+      !userData.tradingStrategy ||
+      !userData.certificationPath
+    ) {
       toast.error("🥲 Fields can't be empty", {
         position: "top-right",
         autoClose: 5000,
@@ -144,7 +159,7 @@ export default function MentorApplicationForm() {
         theme: "light",
       });
     }
-    if(!regexPattern.test(userData.certificationPath)){
+    if (!regexPattern.test(userData.certificationPath)) {
       toast.error("🥲 Doesn't resemble as a link", {
         position: "top-right",
         autoClose: 5000,
@@ -155,10 +170,9 @@ export default function MentorApplicationForm() {
         progress: undefined,
         theme: "light",
       });
-    }
-    else {
+    } else {
       try {
-        axios.post('/mentor/postMentorApplication', userData)
+        axios.post("/mentor/postMentorApplication", userData);
         toast.success("🥳 Application sent!!", {
           position: "top-right",
           autoClose: 5000,
@@ -177,10 +191,9 @@ export default function MentorApplicationForm() {
           tradingExperience: "",
           tradingStrategy: "",
           reasonMentor: "",
-          certificationPath: ""
-        })
-      }
-      catch (error) {
+          certificationPath: "",
+        });
+      } catch (error) {
         toast.error("🥲 Error in posting the application", {
           position: "top-right",
           autoClose: 5000,
@@ -190,10 +203,8 @@ export default function MentorApplicationForm() {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
+        });
       }
-
-
     }
   }
 
@@ -252,9 +263,9 @@ export default function MentorApplicationForm() {
             </select>
 
             <div className="mentor_strategyblock" style={strategyBlockStyle}>
-
               <label htmlFor="strategy" style={labelStyle} required>
-                <span style={requiredAsteriskStyle}>*</span>Mention any one trading strategy
+                <span style={requiredAsteriskStyle}>*</span>Mention any one
+                trading strategy
               </label>
 
               <textarea
@@ -276,10 +287,9 @@ export default function MentorApplicationForm() {
             </div>
 
             <div className="mentor_description" style={descriptionStyle}>
-
               <label htmlFor="why" style={labelStyle} required>
-                <span style={requiredAsteriskStyle}>*</span>Why do you want to be
-                a mentor?
+                <span style={requiredAsteriskStyle}>*</span>Why do you want to
+                be a mentor?
               </label>
 
               <textarea
@@ -299,8 +309,51 @@ export default function MentorApplicationForm() {
               </span>
             </div>
 
+            <div className="mentor_strategyblock" style={strategyBlockStyle}>
+              <label htmlFor="dayTrading" style={labelStyle} required>
+                <span style={requiredAsteriskStyle}>*</span>Day Trading
+              </label>
+              <input
+                type="number"
+                id="dayTrading"
+                name="dayTrading"
+                value={userData.dayTrading}
+                style={inputStyle}
+                onChange={handleChanges}
+              />
+            </div>
+
+            <div className="mentor_strategyblock" style={strategyBlockStyle}>
+              <label htmlFor="swingTrading" style={labelStyle} required>
+                <span style={requiredAsteriskStyle}>*</span>Swing Trading
+              </label>
+              <input
+                type="number"
+                id="swingTrading"
+                name="swingTrading"
+                value={userData.swingTrading}
+                style={inputStyle}
+                onChange={handleChanges}
+              />
+            </div>
+
+            <div className="mentor_strategyblock" style={strategyBlockStyle}>
+              <label htmlFor="optionsTrading" style={labelStyle} required>
+                <span style={requiredAsteriskStyle}>*</span>Options Trading
+              </label>
+              <input
+                type="number"
+                id="optionsTrading"
+                name="optionsTrading"
+                value={userData.optionsTrading}
+                style={inputStyle}
+                onChange={handleChanges}
+              />
+            </div>
+
             <label htmlFor="certificate" style={labelStyle} required>
-              <span style={requiredAsteriskStyle}>*</span>Certificate / Qualification (Upload a Drive Link : )
+              <span style={requiredAsteriskStyle}>*</span>Certificate /
+              Qualification (Upload a Drive Link : )
             </label>
 
             <input

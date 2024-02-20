@@ -48,7 +48,7 @@ export default function MentorApplicationMain() {
         Apply to be a Mentor
       </h1>
       <MentorApplicationForm />
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 }
