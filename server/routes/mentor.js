@@ -14,6 +14,6 @@ router.post('/likePost', LikeThisPost);
 router.post('/getMentorBlogDatesAndLikes', getMentorBlogDatesAndLikes)
 
 //POST Routes : for applying for a mentor as a user
-router.post('/postMentorApplication', postMentorApplication)
+// router.post('/postMentorApplication', postMentorApplication)
 
 module.exports = router

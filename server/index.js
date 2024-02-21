@@ -1,9 +1,13 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
+const morgan = require('morgan')
+const multer = require('multer')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
+const fs = require('fs')
+const MentorApplication = require('./models/MentorApplication.js')
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -37,6 +41,26 @@ app.use(cors({
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const directory = './uploads';
+        fs.mkdir(directory, { recursive: true }, (err) => {
+            if (err) return cb(err, null);
+            cb(null, directory);
+        });
+    },
+    filename: async (req, file, cb) => {
+        const newFileName = new Date().getTime().toString(16) + file.originalname;
+        req.newFileName = newFileName;
+        cb(null, newFileName);
+    }
+});
+
+
+const upload = multer({ storage: storage });
+
 app.get('/', (req, res) => {
     res.json('Welcome to Chai Trade API');
 });
@@ -50,6 +74,39 @@ app.use('/api/mentor', mentorRoute);
 app.use('/api/blog', blogRoute);
 app.use('/api/chart', chartRoute);
 app.use('/api/educationalRoutes', educationalRoutes);
+
+app.post('/api/postMentorApplication', upload.single('certificationPath') ,(req, res) => {
+    console.log("body: ", req.body)
+    console.log("file will be : ", req.file)
+    const application = new MentorApplication({
+        _id: new mongoose.Types.ObjectId(),
+        userID: req.body.userID,
+        userName: req.body.userName,
+        userEmail: req.body.email,
+        country: req.body.country,
+        tradingExperience: req.body.tradingExperience,
+        tradingStrategy: req.body.tradingStrategy,
+        reasonMentor: req.body.reasonMentor,
+        certificationPath: req.file.path,
+        dayTrading: req.body.dayTrading,
+        swingTrading: req.body.swingTrading,
+        optionsTrading: req.body.optionsTrading
+    })
+    application
+        .save()
+        .then(result => {
+            res.status(200).json({
+                custom: "The Mentor Application was submitted Successfully"
+            })
+            console.log("The Mentor Application was submitted Successfully")
+        })
+        .catch(err => {
+            res.status(403).json({
+                custom: "Mentor Application Process Denied"
+            })
+            console.log("Mentor Application Process Denied")
+        })
+})
 
 
 app.listen(PORT, () => {

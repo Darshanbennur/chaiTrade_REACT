@@ -117,7 +117,6 @@ export default function MentorApplicationForm() {
     tradingExperience: "",
     tradingStrategy: "",
     reasonMentor: "",
-    certificationPath: "",
     dayTrading: 0,
     swingTrading: 0,
     optionsTrading: 0,
@@ -143,13 +142,22 @@ export default function MentorApplicationForm() {
     });
   }
 
-  function handleMentorApplicationSubmit(event) {
+  const [file, setFile] = useState(null)
+
+  function handleFileSubmit(event) {
+    setFile(event.target.files[0])
+  }
+
+  async function handleMentorApplicationSubmit(event) {
     event.preventDefault();
-    const regexPattern = /^(https?:\/\/)/i;
+    const formData = new FormData();
+    formData.append('certificationPath', file);
+    for (const key in userData) {
+      formData.append(key, userData[key]);
+    }
     if (
       !userData.tradingExperience ||
-      !userData.tradingStrategy ||
-      !userData.certificationPath
+      !userData.tradingStrategy
     ) {
       toast.error("🥲 Fields can't be empty", {
         position: "top-right",
@@ -162,20 +170,12 @@ export default function MentorApplicationForm() {
         theme: "light",
       });
     }
-    if (!regexPattern.test(userData.certificationPath)) {
-      toast.error("🥲 Doesn't resemble as a link", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
+    else {
       try {
-        axios.post("/mentor/postMentorApplication", userData);
+        const response = await fetch('http://localhost:4000/api/postMentorApplication', {
+          method: 'POST',
+          body: formData
+        })
         toast.success("🥳 Application sent!!", {
           position: "top-right",
           autoClose: 5000,
@@ -194,7 +194,6 @@ export default function MentorApplicationForm() {
           tradingExperience: "",
           tradingStrategy: "",
           reasonMentor: "",
-          certificationPath: "",
           dayTrading: 0,
           swingTrading: 0,
           optionsTrading: 0,
@@ -212,13 +211,14 @@ export default function MentorApplicationForm() {
         });
       }
     }
+
   }
 
   return (
     <>
       <div style={FullbodyStyle}>
         <div className="mentor_card" style={mentorCardStyle}>
-          <form id="mentorApplication" onSubmit={handleMentorApplicationSubmit}>
+          <form encType="multipart/form-data" id="mentorApplication" onSubmit={handleMentorApplicationSubmit}>
             <label style={labelStyle} required>
               <span style={requiredAsteriskStyle}>*</span>Country
             </label>
@@ -359,16 +359,16 @@ export default function MentorApplicationForm() {
 
             <label htmlFor="certificate" style={labelStyle} required>
               <span style={requiredAsteriskStyle}>*</span>Certificate /
-              Qualification (Upload a Drive Link : )
+              Qualification
             </label>
 
             <input
-              type="text"
+              type="file"
               id="certificate"
               name="certificationPath"
-              value={userData.certificationPath}
+              // value={userData.certificationPath}
               style={inputStyle}
-              onChange={handleChanges}
+              onChange={handleFileSubmit}
             />
 
             <input type="submit" value="Submit" style={submitButtonStyle} />
