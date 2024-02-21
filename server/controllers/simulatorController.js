@@ -3,6 +3,7 @@ const StockBuy = require('../models/Stock_buying.js');
 const ArrayUser = require('../models/UserArrays.js');
 const Chart = require('../models/Chart.js');
 const mongoose = require('mongoose');
+const Stock_buying = require('../models/Stock_buying.js');
 
 const BuyTheStock = (req, res, next) => {
     const stockId = req.body.priceID; //Here I will get the id of the Stock
@@ -98,7 +99,7 @@ const BuyTheStock = (req, res, next) => {
 
 const SellTheStock = async (req, res, next) => {
     const userID = req.body._id;
-    
+
     const transactionID = req.body.transactionID; // To be fetched from all the transaction in Stock Buying
     // Will be used to make the inPosession as False when needed!!
 
@@ -134,8 +135,8 @@ const SellTheStock = async (req, res, next) => {
         })
     const stockSell = new StockBuy({
         inPossesion: false,
-        sellingPrice : +(currentValue),
-        sellingDate : new Date().toDateString()
+        sellingPrice: +(currentValue),
+        sellingDate: new Date().toDateString()
     })
     console.log("transactionID")
     console.log(transactionID)
@@ -209,4 +210,44 @@ const getAlltheBoughtStocks = async (req, res, next) => {
         })
 }
 
-module.exports = { BuyTheStock, SellTheStock, getAlltheBoughtStocks };
+const getAllTradesWithDatesAndPnL = async (req, res, next) => {
+    const arrayID = req.body.arrayID;
+    const userArrayInstance = await ArrayUser.findOne({ _id: new mongoose.Types.ObjectId(arrayID) });
+
+    if (!userArrayInstance) {
+        return res.status(404)
+            .json({
+                custom: 'User Array Instance not found'
+            });
+    }
+
+    const arrayOfShareHoldings = userArrayInstance.ShareHoldingID || [];
+    const allShareHoldingsSold = [];
+
+    for (const shareHoldingID of arrayOfShareHoldings) {
+        const shareHeld = await Stock_buying.findOne({ _id: new mongoose.Types.ObjectId(shareHoldingID) });
+
+        if (!shareHeld.inPossesion) {
+            allShareHoldingsSold.push(shareHeld);
+        }
+    }
+
+    const shareHoldingProfitAndLossAndDate = []
+    for (let index = 0; index < allShareHoldingsSold.length; index++) {
+        const purchaseDate = new Date(allShareHoldingsSold[index].purchaseDate);
+        const month = purchaseDate.toLocaleString('en-us', { month: 'short' });
+        const PnL = +( allShareHoldingsSold[index].sellingPrice - allShareHoldingsSold[index].purchasePrice )
+        const body = {
+            date: `${month}`,
+            pnl: PnL
+        }
+        shareHoldingProfitAndLossAndDate.push(body)
+    }
+
+    res.status(200).json({
+        data: shareHoldingProfitAndLossAndDate,
+        custom: "Fetched all trades timing and PnL"
+    })
+}
+
+module.exports = { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL };
