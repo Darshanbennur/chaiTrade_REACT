@@ -16,4 +16,10 @@ router.post('/getMentorBlogDatesAndLikes', getMentorBlogDatesAndLikes)
 //POST Routes : for applying for a mentor as a user
 // router.post('/postMentorApplication', postMentorApplication)
 
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
+
 module.exports = router

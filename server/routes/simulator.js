@@ -9,4 +9,9 @@ router.post('/getAllBoughtStocks', getAlltheBoughtStocks);
 
 router.post('/getAllTradesWithDatesAndPnL', getAllTradesWithDatesAndPnL)
 
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
 module.exports = router

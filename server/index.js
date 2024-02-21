@@ -65,6 +65,13 @@ app.get('/', (req, res) => {
     res.json('Welcome to Chai Trade API');
 });
 
+const logRoute = (req, res, next) => {
+    console.log(`Accessed route: ${req.method} ${req.url}`);
+    next();
+};
+
+app.use(logRoute);
+
 app.use('/api/user', userRoutes);
 app.use('/api/simulator', simulatorRoute);
 app.use('/api/util', utilRoutes);
@@ -75,9 +82,7 @@ app.use('/api/blog', blogRoute);
 app.use('/api/chart', chartRoute);
 app.use('/api/educationalRoutes', educationalRoutes);
 
-app.post('/api/postMentorApplication', upload.single('certificationPath') ,(req, res) => {
-    console.log("body: ", req.body)
-    console.log("file will be : ", req.file)
+app.post('/api/postMentorApplication', upload.single('certificationPath'), (req, res) => {
     const application = new MentorApplication({
         _id: new mongoose.Types.ObjectId(),
         userID: req.body.userID,
