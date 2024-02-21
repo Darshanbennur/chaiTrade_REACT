@@ -26,22 +26,22 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const userNotLoggedIn = ['Charts', 'News', 'Featured🔐', 'Simulator🔐'];
-const userLoggedIn = ['Charts', 'News', 'Blogs', 'Featured🔐', 'Transactions', 'Simulator'];
-const userPremiumEnabled = ['Charts', 'News', 'Blogs', 'Featured', 'Transactions', 'Simulator'];
-const userMentorAccess = ['Charts', 'News', 'Blogs', 'Featured', 'MentorPanel', 'MyBlogs', 'Mentor Dashboard' ,'Transactions', 'Simulator'];
+const userLoggedIn = ['Charts', 'News', 'Blogs', 'Featured🔐', 'Transactions', 'Simulator', 'Dashboard'];
+const userPremiumEnabled = ['Charts', 'News', 'Blogs', 'Featured', 'Transactions', 'Simulator', 'Dashboard'];
+const userMentorAccess = ['Charts', 'News', 'Blogs', 'Featured', 'MentorPanel', 'MyBlogs', 'Mentor Dashboard' ,'Transactions', 'Simulator', 'Dashboard'];
 
 const settingsNotLoggedIn = ["Authenticate"]
 const settingsLoggedIn = ['Profile'];
 
 //Routes for every set : 
 const routeUserNotLoggedIn = ['/charts', '/news', '/login', '/login'];
-const routeUserLoggedIn = ['/charts', '/news', '/blogs', '/pricing', '/transactions', '/simulator'];
-const routeUserPremiumEnabled = ['/charts', '/news', '/blogs', '/featured', '/transactions', '/simulator'];
-const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/mentorPanel', '/myMentorBlogs', '/mentorDashboard' , '/transactions', '/simulator'];
+const routeUserLoggedIn = ['/charts', '/news', '/blogs', '/pricing', '/transactions', '/simulator', '/userDashboard'];
+const routeUserPremiumEnabled = ['/charts', '/news', '/blogs', '/featured', '/transactions', '/simulator', '/userDashboard'];
+const routeUserMentorAccess = ['/charts', '/news', '/blogs', '/featured', '/mentorPanel', '/myMentorBlogs', '/mentorDashboard' , '/transactions', '/simulator', '/userDashboard'];
 
 //Route when User is a Mentor but not a Premium User
-const userMentorAccessNotPremium = ['Charts', 'News', 'Blogs', 'Featured🔐', 'MentorPanel', 'MyBlogs', 'Mentor Dashboard', 'Transactions', 'Simulator'];
-const routeUserMentorAccessNotPremium = ['/charts', '/news', '/blogs', '/pricing', '/mentorPanel', '/myMentorBlogs', '/mentorDashboard',  '/transactions', '/simulator'];
+const userMentorAccessNotPremium = ['Charts', 'News', 'Blogs', 'Featured🔐', 'MentorPanel', 'MyBlogs', 'Mentor Dashboard', 'Transactions', 'Simulator', 'Dashboard'];
+const routeUserMentorAccessNotPremium = ['/charts', '/news', '/blogs', '/pricing', '/mentorPanel', '/myMentorBlogs', '/mentorDashboard',  '/transactions', '/simulator', '/userDashboard'];
 
 // const route
 const routeSettingNotLoggedIn = ['/login'];
