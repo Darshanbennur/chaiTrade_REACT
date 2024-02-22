@@ -4,9 +4,11 @@ import PolarAreaChart from "./PolarAreaChart";
 import axios from "../../api/axiosConfig.js";
 import "./Dashboardcard.css";
 import { useSelector } from "react-redux";
+import Footer from '../../components/Footer.jsx'
 
 export default function UserDashboard() {
   const [allPnL, setAllPnL] = useState([]);
+  const [allTradedStocks, setAllTradedStocks] = useState([]);
   const reduxUserDataArrayID = useSelector(
     (state) => state.userData.currentUser.arrayID
   );
@@ -20,10 +22,18 @@ export default function UserDashboard() {
         "/simulator/getAllTradesWithDatesAndPnL",
         body
       );
-      console.log("the results will be: ", result.data.data);
       setAllPnL(result.data.data);
     };
+    const getAllTradedStocks = async () => {
+      const body = {
+        arrayID: reduxUserDataArrayID,
+      }
+      const result = await axios.post('/simulator/getAllTradedStocks', body)
+      console.log("all the traded stocks are: ", result.data.data)
+      setAllTradedStocks(result.data.data)
+    }
     getAllPnL();
+    getAllTradedStocks();
   }, []);
 
   const groupedPnL = allPnL.reduce((acc, entry) => {
@@ -39,12 +49,12 @@ export default function UserDashboard() {
     return acc;
   }, {});
 
-  // Create the stocks array from the grouped data
+
   const sortedMonths = Object.keys(groupedPnL).sort(
     (a, b) => new Date(a + " 01, 2000") - new Date(b + " 01, 2000")
   );
 
-  // Create the stocks array from the grouped data
+
   const stocks = [
     {
       type: "bar",
@@ -73,7 +83,7 @@ export default function UserDashboard() {
     textAlign: "center",
     WebkitTextStroke: isHovered ? "2px #88b9a9" : "none",
     fontWeight: "normal",
-    marginTop: "150px",
+    marginTop: "80px",
     marginBottom: "50px",
   };
   const handleHover = () => {
@@ -86,15 +96,25 @@ export default function UserDashboard() {
 
   // const polarAreaLabels = ['Apple', 'Google', 'Meta', 'Tata', 'Infosys', 'Alphapet'];
   // const polarAreaData = [12, 19, 8, 15, 13, 7];
+  const counts = {};
+  allTradedStocks.forEach(stock => {
+    counts[stock] = (counts[stock] || 0) + 1;
+  });
+
+  const polarAreaLabels = Object.keys(counts);
+  const polarAreaData = Object.values(counts);
 
   return (
-    <div className="dashboard">
-      <h1 style={contentH1Style} onMouseOver={handleHover} onMouseOut={handleMouseOut}>
-        Welcome to User Dashboard
-      </h1>
-      <StockDashboard stocks={stocks} />
+    <div>
+      <div className="dashboard">
+        <h1 style={contentH1Style} onMouseOver={handleHover} onMouseOut={handleMouseOut}>
+          Welcome to User Dashboard
+        </h1>
+        <StockDashboard stocks={stocks} />
 
-      {/* <PolarAreaChart labels={polarAreaLabels} data={polarAreaData} /> */}
+        <PolarAreaChart labels={polarAreaLabels} data={polarAreaData} />
+      </div>
+      <Footer />
     </div>
   );
 }

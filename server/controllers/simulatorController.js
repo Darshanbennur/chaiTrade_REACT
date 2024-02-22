@@ -250,4 +250,33 @@ const getAllTradesWithDatesAndPnL = async (req, res, next) => {
     })
 }
 
-module.exports = { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL };
+const getAllTradedStocks = async(req, res, next) => {
+    const arrayID = req.body.arrayID;
+    const userArrayInstance = await ArrayUser.findOne({ _id: new mongoose.Types.ObjectId(arrayID) });
+
+    if (!userArrayInstance) {
+        return res.status(404)
+            .json({
+                custom: 'User Array Instance not found'
+            });
+    }
+    
+    const arrayOfShareHoldings = userArrayInstance.ShareHoldingID || [];
+    const allShareHoldingName = [];
+
+    for (const shareHoldingID of arrayOfShareHoldings) {
+        const shareHeld = await Stock_buying.findOne({ _id: new mongoose.Types.ObjectId(shareHoldingID) });
+
+        if (shareHeld.stockName) {
+            allShareHoldingName.push(shareHeld.stockName);
+        }
+    }
+
+    res.status(200).json({
+        data: allShareHoldingName,
+        custom: "All traded share names are fetched successfully!!",
+    })
+
+}
+
+module.exports = { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL, getAllTradedStocks };

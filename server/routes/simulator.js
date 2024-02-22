@@ -1,5 +1,5 @@
 const express = require('express')
-const { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL } = require('../controllers/simulatorController.js')
+const { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL, getAllTradedStocks } = require('../controllers/simulatorController.js')
 const router = express.Router();
 
 //POST Routes : 
@@ -8,6 +8,7 @@ router.post('/sellStock', SellTheStock);
 router.post('/getAllBoughtStocks', getAlltheBoughtStocks);
 
 router.post('/getAllTradesWithDatesAndPnL', getAllTradesWithDatesAndPnL)
+router.post('/getAllTradedStocks', getAllTradedStocks)
 
 router.use((err, req, res, next) => {
     console.error(err.stack);
