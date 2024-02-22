@@ -33,8 +33,8 @@ function StockCard({ data }) {
   }, [data]);
 
   return (
-    <div className="card">
-      <div className="card-content">
+    <div className="userdashboard-card">
+      <div className="userdashboard-card-content">
         <canvas ref={chartRef} className="canvas-container"></canvas>
       </div>
     </div>
