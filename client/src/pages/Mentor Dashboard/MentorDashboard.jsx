@@ -62,6 +62,15 @@ export const MentorDashboard = () => {
     return acc;
   }, []);
 
+  blogData.sort((a, b) => {
+    const monthsOrder = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    return monthsOrder.indexOf(a.month) - monthsOrder.indexOf(b.month);
+  });
+
   const [isHovered, setIsHovered] = useState(false);
 
   const handleHover = () => {
