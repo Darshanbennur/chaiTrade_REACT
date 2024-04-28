@@ -52,6 +52,7 @@ export default function Charts_main() {
       setError(false);
 
       try {
+        await axios.get('/chart/updateCharts');
         const response = await axios.get('/chart/getChartData');
         setCompanyStock(response.data.companyStock);
         setCommodityStock(response.data.commodityStock);
@@ -64,8 +65,14 @@ export default function Charts_main() {
       }
     };
 
+    // Fetch data initially
     fetchData();
+    
+    const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
   }, []);
+
+
 
   if (error) {
     return (

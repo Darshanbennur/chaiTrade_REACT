@@ -19,14 +19,22 @@ export default function SimulatorCharts() {
     const [cryptoStock, setCryptoStock] = useState([]);
 
     useEffect(() => {
-        console.log("Inside UseEffect!!")
-        axios.get('/chart/getChartData').then((res) => {
-            setCompanyStock(res.data.companyStock);
-            setCommodityStock(res.data.commodityStock);
-            setForexStock(res.data.forexStock);
-            setCryptoStock(res.data.cryptoStock);
-        })
-    }, [])
+        const fetchChartData = () => {
+            axios.get('/chart/updateCharts')
+                .then(() => axios.get('/chart/getChartData'))
+                .then((res) => {
+                    setCompanyStock(res.data.companyStock);
+                    setCommodityStock(res.data.commodityStock);
+                    setForexStock(res.data.forexStock);
+                    setCryptoStock(res.data.cryptoStock);
+                }).catch(error => {
+                    console.error('Error fetching chart data:', error);
+                });
+        };
+        fetchChartData();
+        const interval = setInterval(fetchChartData, 10000);
+        return () => clearInterval(interval);
+    }, []);
 
     const reduxUserData = useSelector((state) => state.userData)
     function handleStockBuying(event) {
@@ -113,7 +121,7 @@ export default function SimulatorCharts() {
     return (
         <>
             <div style={{ marginTop: "10rem" }} className="charts-body">
-                <h2 style={{marginTop : "-6rem"}} class="justcharts-heading">Simulator</h2>
+                <h2 style={{ marginTop: "-6rem" }} class="justcharts-heading">Simulator</h2>
                 <div className='charts-container'>
                     <div className='charts-column'>
                         <div className='charts-card charts-card1'>
@@ -133,12 +141,14 @@ export default function SimulatorCharts() {
                                     <div className="charts-info1">
                                         {item.chart_ltp}
                                     </div>
-                                    <div className="charts-info2">
+                                    
+                                    <div className="charts-info2" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_change}
                                     </div>
-                                    <div className="charts-info3">
+                                    <div className="charts-info3" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_percentage}
                                     </div>
+
 
                                     <form onSubmit={handleStockBuying}>
                                         <input style={{ display: "none" }} name='priceOfStock' value={item.chart_ltp} />
@@ -175,12 +185,14 @@ export default function SimulatorCharts() {
                                     <div className="charts-info1">
                                         {item.chart_ltp}
                                     </div>
-                                    <div className="charts-info2">
+
+                                    <div className="charts-info2" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_change}
                                     </div>
-                                    <div className="charts-info3">
+                                    <div className="charts-info3" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_percentage}
                                     </div>
+
                                     <form onSubmit={handleStockBuying}>
                                         <input style={{ display: "none" }} name='priceOfStock' value={item.chart_ltp} />
                                         <input style={{ display: "none" }} name='buyingStocknametag' value={item._id} />
@@ -217,12 +229,14 @@ export default function SimulatorCharts() {
                                     <div className="charts-info1">
                                         {item.chart_ltp}
                                     </div>
-                                    <div className="charts-info2">
+
+                                    <div className="charts-info2" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_change}
                                     </div>
-                                    <div className="charts-info3">
+                                    <div className="charts-info3" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_percentage}
                                     </div>
+
                                     <form onSubmit={handleStockBuying}>
                                         <input style={{ display: "none" }} name='priceOfStock' value={item.chart_ltp} />
                                         <input style={{ display: "none" }} name='buyingStocknametag' value={item._id} />
@@ -259,12 +273,14 @@ export default function SimulatorCharts() {
                                     <div className="charts-info1">
                                         {item.chart_ltp}
                                     </div>
-                                    <div className="charts-info2">
+
+                                    <div className="charts-info2" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_change}
                                     </div>
-                                    <div className="charts-info3">
+                                    <div className="charts-info3" style={{ color: item.chart_change < 0 ? 'red' : item.chart_change > 0 ? 'green' : 'grey' }}>
                                         {item.chart_percentage}
                                     </div>
+
                                     <form onSubmit={handleStockBuying}>
                                         <input style={{ display: "none" }} name='priceOfStock' value={item.chart_ltp} />
                                         <input style={{ display: "none" }} name='buyingStocknametag' value={item._id} />

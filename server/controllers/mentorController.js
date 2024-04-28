@@ -1,5 +1,5 @@
-const Mentor = require('../models/mentor');
-const ArrayUSer = require('../models/UserArrays');
+const Mentor = require('../models/Mentor.js');
+const ArrayUSer = require('../models/UserArrays.js');
 const MentorApplication = require('../models/MentorApplication.js');
 const mongoose = require('mongoose');
 

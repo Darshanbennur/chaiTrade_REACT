@@ -44,17 +44,22 @@ const StockInfo = ({ stocks, subtitle, cardClass }) => (
   <div className={`charts-card ${cardClass}`} style={chartsCardStyle}>
     <div className="charts-sub" style={chartsSubStyle}>{subtitle}</div>
     <div style={chartsInfo1Style}>
-      <div style={{marginLeft : "10px"}}>Name</div>
-      <div style={{marginLeft : "7rem"}}>LTP</div>
-      <div style={{marginLeft : "6.2rem"}}>Change</div>
-      <div style={{marginLeft : "4.5rem"}}>%Change</div>
+      <div style={{ marginLeft: "10px" }}>Name</div>
+      <div style={{ marginLeft: "7rem" }}>LTP</div>
+      <div style={{ marginLeft: "6.2rem" }}>Change</div>
+      <div style={{ marginLeft: "4.5rem" }}>%Change</div>
     </div>
     {stocks.map((stock, index) => (
       <div className="charts-info" key={index} style={chartsInfoStyle}>
         <div className="charts-info-name">{stock.chart_name}</div>
         <div className="charts-info1">{stock.chart_ltp}</div>
-        <div className="charts-info2">{stock.chart_change}</div>
-        <div className="charts-info3">{stock.chart_percentage}</div>
+        <div className="charts-info2" style={{ color: stock.chart_change < 0 ? 'red' : stock.chart_change > 0 ? 'green' : 'grey' }}>
+          {stock.chart_change}
+        </div>
+        <div className="charts-info3" style={{ color: stock.chart_change < 0 ? 'red' : stock.chart_change > 0 ? 'green' : 'grey' }}>
+          {stock.chart_percentage}
+        </div>
+
       </div>
     ))}
   </div>

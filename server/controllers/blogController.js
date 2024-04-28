@@ -1,4 +1,4 @@
-const Blog = require('../models/blog');
+const Blog = require('../models/Blog.js');
 const mongoose = require('mongoose');
 
 const postBlog = async (req, res, next) => {

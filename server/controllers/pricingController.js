@@ -1,6 +1,6 @@
-const User = require('../models/User');
+const User = require('../models/User.js');
 const Transaction = require('../models/Transaction.js');
-const ArrayUSer = require('../models/UserArrays');
+const ArrayUSer = require('../models/UserArrays.js');
 const ContactUs = require('../models/ContactUs.js');
 const mongoose = require('mongoose');
 
