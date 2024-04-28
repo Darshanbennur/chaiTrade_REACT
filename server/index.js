@@ -8,19 +8,12 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs')
 const MentorApplication = require('./models/MentorApplication.js')
+// const redis = require('redis');
+
+// const redisClient = redis.createClient();
 
 const dotenv = require('dotenv');
 dotenv.config();
-
-const userRoutes = require('./routes/user');
-const simulatorRoute = require('./routes/simulator');
-const utilRoutes = require('./routes/util');
-const marketTermRoute = require('./routes/marketTerm');
-const mentorRoute = require('./routes/mentor');
-const newsRoute = require('./routes/news');
-const blogRoute = require('./routes/blog');
-const chartRoute = require('./routes/chart');
-const educationalRoutes = require('./routes/EducationalResources')
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -42,6 +35,16 @@ app.use(cors({
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+
+const userRoutes = require('./routes/user');
+const simulatorRoute = require('./routes/simulator');
+const utilRoutes = require('./routes/util');
+const marketTermRoute = require('./routes/marketTerm');
+const mentorRoute = require('./routes/mentor');
+const newsRoute = require('./routes/news');
+const blogRoute = require('./routes/blog');
+const chartRoute = require('./routes/chart');
+const educationalRoutes = require('./routes/EducationalResources')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

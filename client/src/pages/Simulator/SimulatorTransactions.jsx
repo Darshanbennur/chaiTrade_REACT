@@ -312,7 +312,7 @@ export default function SimulatorTransactions() {
                                     <div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                                             <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
-                                            <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                            {/* <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div> */}
                                         </div>
                                         <hr style={hrStyle} />
                                         <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
@@ -370,7 +370,7 @@ export default function SimulatorTransactions() {
                                     <div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                                             <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
-                                            <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                            {/* <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div> */}
                                         </div>
                                         <hr style={hrStyle} />
                                         <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
@@ -428,7 +428,7 @@ export default function SimulatorTransactions() {
                                     <div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                                             <div style={{ fontWeight: "bold" }}>{stockDetails[index].chart_name}</div>
-                                            <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div>
+                                            {/* <div>Current Price: $<span style={{ fontWeight: "bold" }}>{stockDetails[index].chart_ltp}</span></div> */}
                                         </div>
                                         <hr style={hrStyle} />
                                         <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
