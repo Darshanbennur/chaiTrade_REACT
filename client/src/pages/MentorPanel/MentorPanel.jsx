@@ -64,6 +64,7 @@ const Panel_textareaStyle = {
     border: '1px solid #ccc',
     padding: '12px',
     width: '590px',
+    resize: 'none',
 };
 
 const Panel_submitButtonStyle = {

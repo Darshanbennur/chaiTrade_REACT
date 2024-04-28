@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import StockDashboard from "./StockDashboard";
-import PolarAreaChart from "./PolarAreaChart";
+import StockDashboard from "./StockDashboard.js";
+import PolarAreaChart from "./PolarAreaChart.js";
 import axios from "../../api/axiosConfig.js";
 import "./Dashboardcard.css";
 import { useSelector } from "react-redux";
-import Footer from '../../components/Footer.jsx'
+import Footer from "../../components/Footer.jsx";
+import logo from '../../images/logo.png';
+import ReportGenerator from "./ReportGenerator.js"; // Import the new component
 
 export default function UserDashboard() {
   const [allPnL, setAllPnL] = useState([]);
   const [allTradedStocks, setAllTradedStocks] = useState([]);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const reduxUserDataArrayID = useSelector(
     (state) => state.userData.currentUser.arrayID
   );
@@ -27,11 +31,11 @@ export default function UserDashboard() {
     const getAllTradedStocks = async () => {
       const body = {
         arrayID: reduxUserDataArrayID,
-      }
-      const result = await axios.post('/simulator/getAllTradedStocks', body)
-      console.log("all the traded stocks are: ", result.data.data)
-      setAllTradedStocks(result.data.data)
-    }
+      };
+      const result = await axios.post("/simulator/getAllTradedStocks", body);
+      console.log("all the traded stocks are: ", result.data.data);
+      setAllTradedStocks(result.data.data);
+    };
     getAllPnL();
     getAllTradedStocks();
   }, []);
@@ -49,11 +53,9 @@ export default function UserDashboard() {
     return acc;
   }, {});
 
-
   const sortedMonths = Object.keys(groupedPnL).sort(
     (a, b) => new Date(a + " 01, 2000") - new Date(b + " 01, 2000")
   );
-
 
   const stocks = [
     {
@@ -94,8 +96,6 @@ export default function UserDashboard() {
     setIsHovered(false);
   };
 
-  // const polarAreaLabels = ['Apple', 'Google', 'Meta', 'Tata', 'Infosys', 'Alphapet'];
-  // const polarAreaData = [12, 19, 8, 15, 13, 7];
   const counts = {};
   allTradedStocks.forEach(stock => {
     counts[stock] = (counts[stock] || 0) + 1;
@@ -104,15 +104,29 @@ export default function UserDashboard() {
   const polarAreaLabels = Object.keys(counts);
   const polarAreaData = Object.values(counts);
 
+  const handleFromDateChange = (event) => {
+    setFromDate(event.target.value);
+  };
+
+  const handleToDateChange = (event) => {
+    setToDate(event.target.value);
+  };
+
   return (
     <div>
+      <img id="logo" src={logo} alt="Logo" style={{ display: "none" }} />
       <div className="dashboard">
         <h1 style={contentH1Style} onMouseOver={handleHover} onMouseOut={handleMouseOut}>
           Welcome to User Dashboard
         </h1>
         <StockDashboard stocks={stocks} />
-
         <PolarAreaChart labels={polarAreaLabels} data={polarAreaData} />
+        <ReportGenerator
+          fromDate={fromDate}
+          toDate={toDate}
+          handleFromDateChange={handleFromDateChange}
+          handleToDateChange={handleToDateChange}
+        />
       </div>
       <Footer />
     </div>
