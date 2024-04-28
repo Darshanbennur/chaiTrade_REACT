@@ -250,6 +250,58 @@ const getAllTradesWithDatesAndPnL = async (req, res, next) => {
     })
 }
 
+const getTradedStocksInBetweenDates = async (req, res, next) => {
+    const { arrayID, fromDate, toDate } = req.body;
+    const userArrayInstance = await ArrayUser.findOne({ _id: new mongoose.Types.ObjectId(arrayID) });
+    console.log("data will be : ", arrayID, fromDate, toDate);
+    if (!userArrayInstance) {
+        return res.status(404)
+            .json({
+                custom: 'User Array Instance not found'
+            });
+    }
+
+    const arrayOfShareHoldings = userArrayInstance.ShareHoldingID || [];
+    const allShareHoldingsSold = [];
+
+    for (const shareHoldingID of arrayOfShareHoldings) {
+        const shareHeld = await Stock_buying.findOne({ _id: new mongoose.Types.ObjectId(shareHoldingID) });
+        allShareHoldingsSold.push(shareHeld);
+    }
+
+    const shareHoldingProfitAndLossAndDate = [];
+    const fromDateObj = new Date(fromDate);
+    const toDateObj = new Date(toDate);
+
+    for (let index = 0; index < allShareHoldingsSold.length; index++) {
+        const purchaseDate = new Date(allShareHoldingsSold[index].purchaseDate);
+        
+        if (purchaseDate >= fromDateObj && purchaseDate <= toDateObj) {
+            // Assuming you have some logic to calculate profit and loss
+            let profitLoss = 0
+            if(allShareHoldingsSold[index].sellingPrice){
+                profitLoss = +( allShareHoldingsSold[index].sellingPrice - allShareHoldingsSold[index].purchasePrice )
+            }
+            
+            const body = {
+                purchaseDate: allShareHoldingsSold[index].purchaseDate,
+                stockName: allShareHoldingsSold[index].stockName,
+                purchasePrice: allShareHoldingsSold[index].purchasePrice,
+                sellingDate: allShareHoldingsSold[index].sellingDate || "-",
+                sellingPrice: allShareHoldingsSold[index].sellingPrice || "-",
+                profitLoss: profitLoss,
+            };
+
+            shareHoldingProfitAndLossAndDate.push(body);
+        }
+    }
+
+    res.status(200).json({
+        data: shareHoldingProfitAndLossAndDate,
+        custom: "Fetched all trades timing and PnL"
+    });
+};
+
 const getAllTradedStocks = async(req, res, next) => {
     const arrayID = req.body.arrayID;
     const userArrayInstance = await ArrayUser.findOne({ _id: new mongoose.Types.ObjectId(arrayID) });
@@ -279,4 +331,4 @@ const getAllTradedStocks = async(req, res, next) => {
 
 }
 
-module.exports = { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL, getAllTradedStocks };
+module.exports = { BuyTheStock, SellTheStock, getAlltheBoughtStocks, getAllTradesWithDatesAndPnL, getAllTradedStocks, getTradedStocksInBetweenDates };

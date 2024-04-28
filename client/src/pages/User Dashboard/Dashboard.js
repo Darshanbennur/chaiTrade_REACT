@@ -9,10 +9,12 @@ import logo from '../../images/logo.png';
 import ReportGenerator from "./ReportGenerator.js"; // Import the new component
 
 export default function UserDashboard() {
+
   const [allPnL, setAllPnL] = useState([]);
   const [allTradedStocks, setAllTradedStocks] = useState([]);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+
   const reduxUserDataArrayID = useSelector(
     (state) => state.userData.currentUser.arrayID
   );
@@ -126,6 +128,7 @@ export default function UserDashboard() {
           toDate={toDate}
           handleFromDateChange={handleFromDateChange}
           handleToDateChange={handleToDateChange}
+          reduxUserDataArrayID={reduxUserDataArrayID}
         />
       </div>
       <Footer />

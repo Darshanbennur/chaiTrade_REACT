@@ -88,8 +88,4 @@ const updateCharts = async (req, res, next) => {
     }
 };
 
-module.exports = { updateCharts };
-
-
-
 module.exports = { getAllCharts, updateCharts }
