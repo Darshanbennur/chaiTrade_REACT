@@ -14,8 +14,6 @@ const postBlog = async (req, res, next) => {
         });
 
         const result = await blog.save();
-        console.log("Blog Got Posted:", result);
-
         res.status(200)
             .json({
                 custom: "Blog Posted!!"
@@ -33,12 +31,8 @@ const postBlog = async (req, res, next) => {
 const getAllBlogs = async (req, res, next) => {
     try {
         const result = await Blog.find()
-            .select('authorName title content authorAvatar')
-            .exec();
-
         res.status(200).json({
-            data: result,
-            custom: "Fetched all blogs!!"
+            data: result
         });
     } catch (err) {
         console.log("Error while Fetching Blogs:", err);

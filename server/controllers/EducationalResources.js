@@ -2,10 +2,9 @@ const EducationalResources = require('../models/EducationResources.js')
 
 const getAllResources = async(req, res, next) => {
     try{
-        const result = await EducationalResources.find().exec()
+        const result = await EducationalResources.find()
         res.status(200).json({
-            data: result,
-            custom: "Fetched all data successfully!!"
+            data: result
         })
     } catch(err){
         res.status(403).json({
