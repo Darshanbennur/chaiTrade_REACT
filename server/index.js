@@ -16,7 +16,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DB_URI, {
@@ -116,7 +115,4 @@ app.post('/api/postMentorApplication', upload.single('certificationPath'), (req,
         })
 })
 
-
-app.listen(PORT, () => {
-    console.log('Server started at port:', PORT);
-});
+module.exports = { app };
