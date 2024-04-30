@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import styled from 'styled-components';
 import axios from "./api/axiosConfig.js";
 import { setUserDetails, setLoggedIn, setPremium, setMentor } from "./redux/userSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import store from "./redux/store.js"
 import { persistStore } from 'redux-persist';
 
@@ -40,27 +40,39 @@ const Container = styled.div`
 
 function App() {
 
+  const reduxUserData = useSelector((state) => state.userData);
+  const userID = reduxUserData.currentUser._id;
   const dispatch = useDispatch();
-  
+
   async function getUser() {
-    try {
-      const user = await axios.get('/user/checkCookie');
-      if (user.data.custom === "true") {
-        dispatch(setUserDetails(user.data.userData));
-        dispatch(setLoggedIn(true));
-        if (user.data.userData.isMentor === true) {
-          dispatch(setMentor(true));
+    console.log("USER ID will be : ", userID)
+    if (userID) {
+      try {
+        const body = {
+          userID: userID
         }
-        if (user.data.userData.isPremium === true) {
-          dispatch(setPremium(true));
+        const user = await axios.post('/user/checkCookie', body);
+        if (user.data.custom === "true") {
+          dispatch(setUserDetails(user.data.userData));
+          dispatch(setLoggedIn(true));
+          if (user.data.userData.isMentor === true) {
+            dispatch(setMentor(true));
+          }
+          if (user.data.userData.isPremium === true) {
+            dispatch(setPremium(true));
+          }
+        } else {
+          console.log("Logged Out!!");
+          persistStore(store).purge();
         }
-      } else {
-        console.log("Logged Out!!");
-        persistStore(store).purge();
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        window.location.href = "/networkError"
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      window.location.href = "/networkError"
+    } 
+    else {
+      console.log("Logged Out!!");
+      persistStore(store).purge();
     }
   }
 
@@ -79,12 +91,12 @@ function App() {
               <Route path="" element={<Home />}></Route>
               <Route path="/login" element={<Login_mainPage />}></Route>
               <Route path="/charts" element={<Charts_main />}></Route>
-              <Route path="/userDashboard" element={<UserDashboard/>}></Route>
+              <Route path="/userDashboard" element={<UserDashboard />}></Route>
               <Route path="/news" element={<NewsSection />}></Route>
               <Route path="/blogs" element={<BlogPage />}></Route>
               <Route path="/mentorApplication" element={<MentorApplicationMain />}></Route>
               <Route path="/mentorPanel" element={<MentorPanel />}></Route>
-              <Route path="/mentorDashboard" element={<MentorDashboard/>}></Route>
+              <Route path="/mentorDashboard" element={<MentorDashboard />}></Route>
               <Route path="/featured" element={<Featured_main />}></Route>
               <Route path="/myMentorBlogs" element={<MentorBlogMain />}></Route>
               <Route path="/transactions" element={<TransactionPage />}></Route>
