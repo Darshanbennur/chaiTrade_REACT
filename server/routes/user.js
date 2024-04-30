@@ -4,7 +4,7 @@ const { userRegister, userLogin, verifyCookie, logoutUser,
 const router = express.Router();
 
 //GET Routes : 
-router.get('/checkCookie', verifyCookie);
+router.post('/checkCookie', verifyCookie);
 router.get('/logout', logoutUser);
 
 //POST Routes : 
